@@ -251,6 +251,28 @@ footer{gap:12px;padding-block:32px 56px}
 .cvnote{font-size:12.5px;color:var(--muted);margin:-4px 0 10px}
 .howto .cvrow .pill{margin-inline:2px}
 @media (max-width:520px){.case .where{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}}
+.howto2{margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:grid;gap:20px}
+.howto2 .hk{font-size:20px}
+.crit{display:grid;gap:18px}
+.ci{display:grid;gap:6px;align-content:start}
+.ci p{font-size:14px;color:var(--ink)}
+.hsrc{display:grid;gap:6px;padding-top:16px;border-top:1px solid var(--line)}
+.hsrc .hl{font:500 10.5px/1.2 var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.hsrc p{font-size:13.5px;color:var(--muted);max-width:90ch}
+.hmore{border-top:1px solid var(--line);padding-top:14px}
+.hmore summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--accent);list-style:none;display:flex;align-items:center;gap:8px}
+.hmore summary::-webkit-details-marker{display:none}
+.hmore summary::before{content:"+";display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;border:1px solid var(--line);font:500 14px/1 var(--f-data)}
+.hmore[open] summary::before{content:"−"}
+.hmb{display:grid;gap:12px;padding-top:14px;font-size:13.5px;color:var(--muted)}
+.hmb b{color:var(--ink)}
+.cvlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.cvlist li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+@media (min-width:1024px){
+  .howto2{padding:28px 32px;gap:24px;margin-top:32px}
+  .crit{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+  .ci p{font-size:14.5px}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -260,14 +282,28 @@ footer{gap:12px;padding-block:32px 56px}
   <div class="eyebrow">Elecciones generales · 29 de noviembre de 2026</div>
   <h1 style="margin-top:10px">Promesas a prueba</h1>
   <p class="lead">Qué propone cada partido en doce temas y qué ha pasado cuando medidas parecidas se aplicaron en otros países o en España. Cada medida se evalúa con los mismos tres criterios, sea del partido que sea. No es una recomendación de voto.</p>
-  <div class="howto">
-    <div class="row"><b>Cómo leer cada medida</b></div>
-    <div class="row"><span class="pill t-unk">Evidencia</span> cuánta experiencia comparable hay: alta, media, escasa o sin precedentes.</div>
-    <div class="row"><span class="pill t-unk">Resultado probable</span> si lograría en España lo que promete: favorable, con contrapartidas, incierto o desfavorable.</div>
-    <div class="row"><span class="pill t-unk">Viabilidad</span> coste, competencias, mayorías y capacidad para ejecutarla en una legislatura.</div>
-    <div class="row cvrow"><b>Etiquetas de cada precedente.</b> Valoran si la política logró el objetivo que buscaba allí donde se aplicó: <span class="pill cv t-good">✓ Funcionó</span> lo logró; <span class="pill cv t-mid">± Con contrapartidas</span> lo logró con costes importantes; <span class="pill cv t-mid">↗ Parcial</span> dio los primeros pasos pero no alcanzó el objetivo final; <span class="pill cv t-bad">✕ No funcionó</span> no lo logró o empeoró las cosas; <span class="pill cv t-unk">Sin evaluar</span> no hay resultados medidos.</div>
-    <div class="row">Al desplegar cada medida verás además cómo tendría que funcionar paso a paso, qué eslabón suele fallar, qué se promete exactamente, el mejor argumento a favor y en contra, y con qué dato comprobar si funcionó.</div>
-    <div class="row">Fuentes: programas del PP (10 nov.), Vox (12 nov.), PSOE (15 nov.) y Frente Amplio (16 nov.). Podemos no ha publicado programa; se usan sus cinco medidas de campaña y declaraciones recogidas en prensa.</div>
+  <div class="howto2">
+    <h2 class="hk">Cómo leer cada medida</h2>
+    <div class="crit">
+      <div class="ci"><span class="pill t-unk">Evidencia</span><p>Cuánta experiencia comparable hay: alta, media, escasa o sin precedentes.</p></div>
+      <div class="ci"><span class="pill t-unk">Resultado probable</span><p>Si lograría en España lo que promete: favorable, con contrapartidas, incierto o desfavorable.</p></div>
+      <div class="ci"><span class="pill t-unk">Viabilidad</span><p>Coste, competencias, mayorías y capacidad para ejecutarla en una legislatura.</p></div>
+    </div>
+    <div class="hsrc"><span class="hl">Fuentes</span><p>Programas del <a href="https://www.pp.es/wp-content/uploads/2026/11/PROGRAMA-ELECTORAL-PP-2026-RECONSTRUCCION-NACIONAL.pdf" target="_blank" rel="noopener">PP</a> (10 nov.), <a href="https://www.voxespana.es/wp-content/uploads/2026/11/Programa-completo-A5-1.pdf" target="_blank" rel="noopener">Vox</a> (12 nov.), <a href="https://www.psoe.es/media-content/2026/11/PROGRAMAPSOE29N26.pdf" target="_blank" rel="noopener">PSOE</a> (15 nov.) y <a href="https://www.democrata.es/elecciones-generales-espana/herramientas/assets/programas-2026/programa-frente-amplio-29n-2026.pdf" target="_blank" rel="noopener">Frente Amplio</a> (16 nov.). Podemos no ha publicado programa; se usan sus cinco <a href="https://github.com/jynus/programas-electorales-29n-generales-2026" target="_blank" rel="noopener">medidas de campaña</a> y declaraciones recogidas en prensa. Los datos de cada tema enlazan a su fuente oficial.</p></div>
+    <details class="hmore">
+      <summary>Más sobre cómo leer la web</summary>
+      <div class="hmb">
+        <p>Al desplegar cada medida verás cómo tendría que funcionar paso a paso, qué eslabón suele fallar, qué se promete exactamente, el mejor argumento a favor y en contra, y con qué dato comprobar si funcionó.</p>
+        <p><b>Etiquetas de cada precedente.</b> Valoran si la política logró el objetivo que buscaba allí donde se aplicó, no si la medida es buena o mala.</p>
+        <ul class="cvlist">
+          <li><span class="pill cv t-good">✓ Funcionó</span> Lo logró.</li>
+          <li><span class="pill cv t-mid">± Con contrapartidas</span> Lo logró, pero con costes importantes.</li>
+          <li><span class="pill cv t-mid">↗ Parcial</span> Dio los primeros pasos, pero no alcanzó el objetivo final.</li>
+          <li><span class="pill cv t-bad">✕ No funcionó</span> No lo logró o empeoró las cosas.</li>
+          <li><span class="pill cv t-unk">Sin evaluar</span> No hay resultados medidos.</li>
+        </ul>
+      </div>
+    </details>
   </div>
 </header>
 
