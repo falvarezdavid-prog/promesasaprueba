@@ -11,7 +11,7 @@
 /* Layout: una columna de lectura (máx. 760px), barra de temas fija arriba, cada tema = ficha de contexto + matriz por partido + medidas con evidencia */
 :root{
   --bg:#F3F5F7; --surface:#FFFFFF; --ink:#16212C; --muted:#5A6774; --line:#DBE1E7;
-  --accent:#1E5A86; --accent-soft:#E3EDF5; --s2:#B5651D; --band:#E8ECF0;
+  --accent:#8A5A0B; --accent-soft:#F6EBD7; --s2:#4A5A6A; --band:#ECEEF1; --q-bg:#1F2933; --q-ink:#F3F5F7; --q-k:#E3B460; --q-line:#3A4652; --sunk:#F6F7F9;
   --good:#2E7D4F; --mid:#B7791F; --unk:#7A8591; --bad:#B4483C;
   --good-soft:#E3F2E8; --mid-soft:#FBF0DC; --unk-soft:#ECEFF2; --bad-soft:#F8E4E1;
   --f-display:"Newsreader",Georgia,"Times New Roman",serif;
@@ -20,12 +20,12 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0F161D; --surface:#17212B; --ink:#E6ECF1; --muted:#9AA8B5; --line:#2A3743;
-  --accent:#7DB4E0; --accent-soft:#1C2E3F; --s2:#E8A76A; --band:#1C2732;
+  --accent:#E3B460; --accent-soft:#33291A; --s2:#9FB0C2; --band:#1C2732; --q-bg:#22303D; --q-ink:#EEF2F5; --q-k:#E3B460; --q-line:#3A4A5A; --sunk:#131B23;
   --good:#6CC08E; --mid:#E0B160; --unk:#9AA6B2; --bad:#E5877B;
   --good-soft:#18301F; --mid-soft:#33281A; --unk-soft:#212B35; --bad-soft:#3A201D; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0F161D; --surface:#17212B; --ink:#E6ECF1; --muted:#9AA8B5; --line:#2A3743;
-  --accent:#7DB4E0; --accent-soft:#1C2E3F; --s2:#E8A76A; --band:#1C2732;
+  --accent:#E3B460; --accent-soft:#33291A; --s2:#9FB0C2; --band:#1C2732; --q-bg:#22303D; --q-ink:#EEF2F5; --q-k:#E3B460; --q-line:#3A4A5A; --sunk:#131B23;
   --good:#6CC08E; --mid:#E0B160; --unk:#9AA6B2; --bad:#E5877B;
   --good-soft:#18301F; --mid-soft:#33281A; --unk-soft:#212B35; --bad-soft:#3A201D; color-scheme:dark}
 *{box-sizing:border-box}
@@ -273,6 +273,110 @@ footer{gap:12px;padding-block:32px 56px}
   .crit{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
   .ci p{font-size:14.5px}
 }
+
+/* ===== Propuesta v3: jerarquía y paleta neutra ===== */
+.homelink{color:inherit;text-decoration:none}
+.homelink:hover{color:var(--accent)}
+.quick{background:var(--q-bg);color:var(--q-ink);border:0;border-radius:16px;padding:24px 26px;gap:16px;box-shadow:0 8px 24px rgba(15,22,29,.12)}
+.quick .eyebrow{color:var(--q-k);font-size:12px}
+.quick dt{color:var(--q-k)}
+.quick dd{color:var(--q-ink);font-size:16px;line-height:1.55}
+.quick dl>div{padding-top:12px;border-top:1px solid var(--q-line)}
+section.sec{gap:18px}
+.sh{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:12px;padding-top:18px;border-top:2px solid var(--ink)}
+.sh .sn{font:500 13px/1 var(--f-data);color:var(--muted);letter-spacing:.06em}
+.sh .si{width:40px;height:40px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.sh .st{font-size:26px;line-height:1.1}
+.sh .ss{font-size:13.5px;color:var(--muted);margin-top:4px}
+.matrix{background:var(--sunk);border:1px solid var(--line);border-radius:14px;padding:12px;gap:10px}
+.prow{box-shadow:none}
+.measure{border-radius:14px;box-shadow:0 1px 2px rgba(15,22,29,.06),0 6px 18px rgba(15,22,29,.06)}
+.measure summary{padding:22px 22px 20px;gap:14px}
+.mhead h3{font-size:22px;line-height:1.2}
+.more{display:flex;align-items:center;gap:8px;flex:0 0 auto;font-size:13px;font-weight:600;color:var(--accent)}
+.more .mt::before{content:"Ver análisis"}
+.measure[open] .more .mt::before{content:"Ocultar"}
+.chev{width:30px;height:30px;border-color:var(--accent);color:var(--accent)}
+.meters{gap:10px}
+.meter{background:var(--sunk);border-radius:10px;padding:10px 12px;gap:6px}
+.meter .pill{font-size:13.5px;padding:4px 10px}
+.mbody{background:var(--sunk);border-top:1px solid var(--line);font-size:14px}
+.mbody h4{font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+.mbody .spain,.mbody .arg{background:var(--surface)}
+.chain li::before{background:var(--surface)}
+.chip.for{background:var(--band);color:var(--ink)}
+nav.topics a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+@media (max-width:520px){
+  .quick{padding:20px}
+  .sh .st{font-size:22px}
+  .sh .si{width:34px;height:34px}
+  .mhead h3{font-size:19px}
+  .more .mt{display:none}
+  .meter{padding:8px}
+  .matrix{padding:8px}
+}
+@media (min-width:1024px){
+  .quick{padding:30px 32px}
+  .quick dl>div{padding-top:14px}
+  .sh .st{font-size:30px}
+  nav.topics a[aria-current="page"]{background:var(--ink);color:var(--bg)}
+}
+
+/* ===== v3b: cuerpo de cada medida ===== */
+.mbody{background:var(--sunk);padding:24px;display:grid;gap:16px;border-top:1px solid var(--line)}
+.grp{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px 26px 26px;display:grid;gap:26px;min-width:0}
+.gh{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.gh .gn{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font:500 13px/1 var(--f-data);flex:0 0 auto}
+.mbody .gh .gt{margin:0;font:650 21px/1.2 var(--f-display);color:var(--ink);letter-spacing:0;text-transform:none}
+.sub{display:grid;gap:12px;min-width:0}
+.mbody .sub h4{margin:0;font:600 16px/1.3 var(--f-body);color:var(--ink);letter-spacing:0;text-transform:none}
+.mbody p{font-size:15px;line-height:1.6;max-width:70ch}
+.lead2{font-size:16.5px!important;color:var(--ink)}
+.chain li{font-size:15px;padding:6px 0 16px 38px}
+.chain li em{font-size:12.5px}
+.cvnote{font-size:13.5px!important;color:var(--muted);margin:0!important}
+.cases{display:grid;gap:0;border-top:1px solid var(--line)}
+.case{display:grid;grid-template-columns:150px minmax(0,1fr);gap:8px 20px;padding:16px 0;border-bottom:1px solid var(--line)}
+.case .where{display:grid;gap:8px;align-content:start}
+.case .place{font:500 13px/1.35 var(--f-data);color:var(--ink)}
+.case p{margin:0}
+.verdict{background:var(--accent-soft);border-radius:12px;padding:20px 22px}
+.mbody .verdict h4{color:var(--accent)}
+.verdict p{color:var(--ink)}
+.args{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.mbody .arg{background:var(--sunk);border:0;border-radius:10px;padding:18px 20px;gap:8px}
+.arg .k{font:600 12px/1.2 var(--f-body)!important;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.indic{display:grid;gap:6px;border:1px dashed var(--line);border-radius:10px;padding:16px 18px}
+.indic p{font-weight:600;color:var(--ink)}
+.indic .now{font-weight:400;color:var(--muted);font-size:14px!important}
+.sources{display:grid;gap:6px;padding:4px 4px 0;font-size:13px;color:var(--muted)}
+.sources .k{font:500 11px/1.2 var(--f-data);letter-spacing:.08em;text-transform:uppercase}
+.sources ul{margin:0;padding-left:18px;display:grid;gap:4px}
+@media (max-width:620px){
+  .mbody{padding:12px;gap:12px}
+  .grp{padding:18px 16px 20px;gap:22px}
+  .mbody .gh .gt{font-size:19px}
+  .case{grid-template-columns:minmax(0,1fr);gap:8px}
+  .case .where{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+  .args{grid-template-columns:minmax(0,1fr)}
+  .verdict{padding:16px}
+}
+
+/* ===== v3c: credibilidad ===== */
+section.credp{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:26px;gap:26px;box-shadow:0 1px 2px rgba(15,22,29,.06),0 6px 18px rgba(15,22,29,.06)}
+.credh{border-bottom:1px solid var(--line);padding-bottom:16px;align-items:center}
+.credh h3{font-size:28px}
+.credh .src{font-size:14px;color:var(--muted)}
+.credsec{gap:14px}
+.credsec h4{font:600 16px/1.3 var(--f-body)!important;color:var(--ink)!important;letter-spacing:0!important;text-transform:none!important;margin:0}
+.credp ul.plain{font-size:15px;gap:6px}
+.credp .claims{gap:12px}
+.credp .claim{background:var(--sunk);border:0;border-radius:12px;padding:18px 20px;gap:10px}
+.credp .claim .q{font-size:16px;color:var(--ink)}
+.credp .claim .r{font-size:15px;line-height:1.6}
+.credp dl.mets{background:var(--surface);border-radius:10px;padding:0 16px;border:1px solid var(--line)}
+.credp dl.mets>div:last-child{border-bottom:0}
+@media (max-width:620px){section.credp{padding:18px 16px;gap:22px}.credh h3{font-size:24px}.credp .claim{padding:16px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -280,7 +384,7 @@ footer{gap:12px;padding-block:32px 56px}
 
 <header class="top wrap">
   <div class="eyebrow">Elecciones generales · 29 de noviembre de 2026</div>
-  <h1 style="margin-top:10px">Promesas a prueba</h1>
+  <h1 style="margin-top:10px"><a href="./" class="homelink" id="homelink">Promesas a prueba</a></h1>
   <p class="lead">Qué propone cada partido en doce temas y qué ha pasado cuando medidas parecidas se aplicaron en otros países o en España. Cada medida se evalúa con los mismos tres criterios, sea del partido que sea. No es una recomendación de voto.</p>
   <div class="howto2">
     <h2 class="hk">Cómo leer cada medida</h2>
@@ -898,16 +1002,18 @@ const nav=document.getElementById("nav"),main=document.getElementById("main");
 nav.innerHTML=`<a class="navcred" href="#credibilidad" data-id="credibilidad">${ICONS.credibilidad}Credibilidad</a>`+T.map(t=>`<a href="#${t.id}" data-id="${t.id}">${ICONS[t.id]}${t.name}</a>`).join("");
 const esc=s=>s;
 function pill(kind,k){const [l,c]=LV[kind][k];return `<span class="pill t-${c}">${l}</span>`}
-function deep(m,part){const d=Object.assign({},X[m.t]||{},m.ch?m:{});if(!d.ch)return "";
-  if(part==="top"){return `<div><h4>Cómo tendría que funcionar</h4><ol class="chain">${d.ch.map((c,i)=>`<li class="${i===d.wk?'weak':''}"><span>${c}</span>${i===d.wk?'<em>Eslabón que suele fallar</em>':''}</li>`).join("")}</ol></div><div class="promise"><span class="k">Qué se promete</span><span>${d.pr}</span></div>`;}
-  return `<div><h4>El mejor argumento de cada lado</h4><div class="args"><div class="arg"><span class="k">A favor</span><p>${d.pro}</p></div><div class="arg"><span class="k">En contra</span><p>${d.con}</p></div></div></div>${(IND2[m.t]||(d.ind&&d.ind[0]))?`<div class="indic"><span class="k">Cómo saber si funciona</span><p><b>${IND2[m.t]||d.ind[0]}</b>${d.ind&&d.ind[1]?`<br><span class="now">${d.ind[1]}</span>`:''}</p></div>`:''}`;}
+function deep(m,part){const d=Object.assign({},X[m.t]||{},m.ch?m:{});
+  if(part==="promise")return d.pr?`<div class="sub"><h4>Qué se promete</h4><p class="lead2">${d.pr}</p></div>`:"";
+  if(part==="chain")return d.ch?`<div class="sub"><h4>Cómo tendría que funcionar</h4><ol class="chain">${d.ch.map((c,i)=>`<li class="${i===d.wk?'weak':''}"><span>${c}</span>${i===d.wk?'<em>Eslabón que suele fallar</em>':''}</li>`).join("")}</ol></div>`:"";
+  if(part==="args")return d.pro?`<div class="sub"><h4>El mejor argumento de cada lado</h4><div class="args"><div class="arg"><span class="k">A favor</span><p>${d.pro}</p></div><div class="arg"><span class="k">En contra</span><p>${d.con}</p></div></div></div>`:"";
+  if(part==="indic"){const t=IND2[m.t]||(d.ind&&d.ind[0]);return t?`<div class="sub"><h4>Cómo saber si funciona</h4><div class="indic"><p>${t}</p>${d.ind&&d.ind[1]?`<p class="now">Dato de partida: ${d.ind[1].replace(/^Hoy:\s*/,"")}</p>`:''}</div></div>`:"";}
+  return "";}
 function caseBlock(m){
-  const row=(c,ci)=>{const v=CVL[(CV[m.t]||"")[ci]];return `<div class="case"><span class="where">${c[0]}${v?`<span class="pill cv t-${v[1]}">${v[0]}</span>`:""}</span><span>${c[1]}</span></div>`};
+  const row=(c,ci)=>{const v=CVL[(CV[m.t]||"")[ci]];return `<div class="case"><div class="where"><span class="place">${c[0]}</span>${v?`<span class="pill cv t-${v[1]}">${v[0]}</span>`:""}</div><p>${c[1]}</p></div>`};
   const kinds=CK[m.t]||"";const ap=[],op=[];
-  m.cases.forEach((c,ci)=>((kinds[ci]==="o")?op:ap).push(row(c,ci)));
-  let h="";
-  h+=`<div><h4>Dónde se ha probado</h4>${ap.length?`<p class="cvnote">Cada etiqueta dice si esa política logró su propio objetivo donde se aplicó, no si la medida es buena o mala.</p><div class="cases">${ap.join("")}</div>`:`<p class="cvnote">No hay precedentes comparables donde se aplicara esta medida.</p>`}</div>`;
-  if(op.length)h+=`<div><h4>Dónde se hizo lo contrario</h4><p class="cvnote">Sirven de contraste: si lo contrario salió mal, refuerza la medida; si salió bien, la debilita.</p><div class="cases">${op.join("")}</div></div>`;
+  (m.cases||[]).forEach((c,ci)=>((kinds[ci]==="o")?op:ap).push(row(c,ci)));
+  let h=`<div class="sub"><h4>Dónde se ha probado</h4>${ap.length?`<p class="cvnote">La etiqueta dice si esa política logró su propio objetivo donde se aplicó, no si la medida es buena o mala.</p><div class="cases">${ap.join("")}</div>`:`<p class="cvnote">No hay precedentes comparables donde se aplicara esta medida.</p>`}</div>`;
+  if(op.length)h+=`<div class="sub"><h4>Dónde se hizo lo contrario</h4><p class="cvnote">Sirven de contraste: si lo contrario salió mal, refuerza la medida; si salió bien, la debilita.</p><div class="cases">${op.join("")}</div></div>`;
   return h;
 }
 function render(id){
@@ -917,12 +1023,12 @@ function render(id){
   let h=`<div class="hero"><div class="ill" style="color:var(--accent)">${ICONS[t.id]}</div><div><div class="eyebrow">Tema</div><h2>${t.name}</h2><p class="ex">${t.ex}</p></div></div>`;
   const q=QUICK[t.id];if(q)h+=`<section class="quick"><div class="eyebrow">En 30 segundos</div><dl><div><dt>El problema</dt><dd>${q[0]}</dd></div><div><dt>Qué cambia entre partidos</dt><dd>${q[1]}</dd></div><div><dt>Qué dice la evidencia</dt><dd>${q[2]}</dd></div></dl></section>`;
   const cc=CONCEPT[t.id];
-  h+=`<section class="block"><div class="eyebrow">España hoy</div>${cc?`<div class="concept"><div class="ck">Concepto clave</div><p class="ct">${cc[0]}</p><p class="cx">${cc[1]}</p></div>`:''}<div class="stats">${t.stats.map(s=>`<div class="stat"><span class="n">${s[0]}</span><span class="l">${s[1]}</span></div>`).join("")}</div>`;
+  h+=`<section class="block sec"><header class="sh"><span class="sn">01</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><div><h2 class="st">España hoy</h2><p class="ss">El problema, en cifras</p></div></header>${cc?`<div class="concept"><div class="ck">Concepto clave</div><p class="ct">${cc[0]}</p><p class="cx">${cc[1]}</p></div>`:''}<div class="stats">${t.stats.map(s=>`<div class="stat"><span class="n">${s[0]}</span><span class="l">${s[1]}</span></div>`).join("")}</div>`;
   if(t.chart)h+=`<figure class="chart" style="margin:0">${t.chart.svg()}<figcaption class="cap">${t.chart.cap}</figcaption></figure>`;
   if(LONG[t.id])h+=lineChart(LONG[t.id]);
   h+=`</section>`;
-  h+=`<section class="block"><div class="eyebrow">Qué propone cada partido</div><div class="matrix">${ORDER.map(k=>{const p=t.pos[k]||[];return `<div class="prow"><div><div class="pn">${PARTIES[k].n}</div><div class="src">${PARTIES[k].src}</div></div>${p.length?`<ul>${p.map(x=>`<li>${x}</li>`).join("")}</ul>`:`<p class="none">No ha publicado propuestas sobre este tema.</p>`}</div>`}).join("")}</div></section>`;
-  h+=`<section class="block"><div class="eyebrow">Las medidas, a prueba · toca para ver el análisis</div>${t.m.map((m,i)=>`<details class="measure"${i===0?" open":""}><summary><div class="mhead"><h3>${m.t}</h3><span class="chev" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l4 4 4-4"/></svg></span></div><div class="who">${m.for.map(k=>`<span class="chip for">${PARTIES[k].n}</span>`).join("")}${m.against.map(k=>`<span class="chip against" title="En contra">${PARTIES[k].n}</span>`).join("")}</div><div class="meters"><div class="meter"><span class="k">Evidencia</span>${pill("ev",m.ev)}</div><div class="meter"><span class="k">Resultado probable</span>${pill("out",m.out)}</div><div class="meter"><span class="k">Viabilidad</span>${pill("via",m.via)}</div></div></summary><div class="mbody">${deep(m,"top")}${caseBlock(m)}<div><h4>Qué cabe esperar en España</h4><p class="spain">${m.spain}</p></div>${deep(m,"bottom")}${m.src.length?`<div class="sources">Fuentes: <ul>${m.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a></li>`).join("")}</ul></div>`:""}</div></details>`).join("")}<p class="note">En las etiquetas de partido, el tachado indica que ese partido se opone a la medida o propone lo contrario. Los estudios citados por autor y año son referencias académicas publicadas.</p></section>`;
+  h+=`<section class="block sec"><header class="sh"><span class="sn">02</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg></span><div><h2 class="st">Qué propone cada partido</h2><p class="ss">Lo que dice cada programa, sin valorarlo</p></div></header><div class="matrix">${ORDER.map(k=>{const p=t.pos[k]||[];return `<div class="prow"><div><div class="pn">${PARTIES[k].n}</div><div class="src">${PARTIES[k].src}</div></div>${p.length?`<ul>${p.map(x=>`<li>${x}</li>`).join("")}</ul>`:`<p class="none">No ha publicado propuestas sobre este tema.</p>`}</div>`}).join("")}</div></section>`;
+  h+=`<section class="block sec"><header class="sh"><span class="sn">03</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l6 6"/></svg></span><div><h2 class="st">Las medidas, a prueba</h2><p class="ss">Qué ha pasado donde se ha probado. Toca cada medida para ver el análisis</p></div></header>${t.m.map((m,i)=>`<details class="measure"${i===0?" open":""}><summary><div class="mhead"><h3>${m.t}</h3><span class="more"><span class="mt"></span><span class="chev" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l4 4 4-4"/></svg></span></span></div><div class="who">${m.for.map(k=>`<span class="chip for">${PARTIES[k].n}</span>`).join("")}${m.against.map(k=>`<span class="chip against" title="En contra">${PARTIES[k].n}</span>`).join("")}</div><div class="meters"><div class="meter"><span class="k">Evidencia</span>${pill("ev",m.ev)}</div><div class="meter"><span class="k">Resultado probable</span>${pill("out",m.out)}</div><div class="meter"><span class="k">Viabilidad</span>${pill("via",m.via)}</div></div></summary><div class="mbody"><section class="grp"><div class="gh"><span class="gn">1</span><h4 class="gt">La lógica de la medida</h4></div>${deep(m,"promise")}${deep(m,"chain")}</section><section class="grp"><div class="gh"><span class="gn">2</span><h4 class="gt">Qué dice la evidencia</h4></div>${caseBlock(m)}<div class="sub verdict"><h4>Qué cabe esperar en España</h4><p>${m.spain}</p></div></section><section class="grp"><div class="gh"><span class="gn">3</span><h4 class="gt">Debate y seguimiento</h4></div>${deep(m,"args")}${deep(m,"indic")}</section>${m.src.length?`<div class="sources"><span class="k">Fuentes</span><ul>${m.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a></li>`).join("")}</ul></div>`:""}</div></details>`).join("")}<p class="note">En las etiquetas de partido, el tachado indica que ese partido se opone a la medida o propone lo contrario. Los estudios citados por autor y año son referencias académicas publicadas.</p></section>`;
   main.innerHTML=h;
 }
 /* ===== Sección Credibilidad ===== */
@@ -1017,9 +1123,10 @@ const CRED=[
 function renderCred(){
   nav.querySelectorAll("a").forEach(a=>a.setAttribute("aria-current",a.dataset.id==="credibilidad"?"page":"false"));
   let h=`<div class="hero"><div class="ill" style="color:var(--accent)">${ICONS.credibilidad}</div><div><div class="eyebrow">Sección aparte</div><h2>Credibilidad</h2><p class="ex">Qué han hecho y dicho los partidos y sus candidatos, comprobado con datos oficiales y resoluciones judiciales. No influye en la evaluación de las propuestas.</p></div></div>`;
-  h+=`<section class="block"><div class="eyebrow">Cómo está hecha</div><div class="concept"><div class="ck">Reglas</div><p class="cx">Solo cuentan datos oficiales (INE, ministerios, Eurostat, CNMC, Tribunal de Cuentas) y resoluciones judiciales. Las condenas firmes, los juicios, las investigaciones y los archivos se muestran por separado, y en lo que no es firme rige la presunción de inocencia. No hay nota final: quien más años ha gobernado ha tenido más ocasiones de equivocarse, así que cada ficha empieza por su exposición al poder.</p></div>
+  h+=`<section class="block sec"><header class="sh"><span class="sn">01</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></span><div><h2 class="st">Cómo está hecha</h2><p class="ss">Reglas comunes para todos los partidos</p></div></header><div class="concept"><div class="ck">Reglas</div><p class="cx">Solo cuentan datos oficiales (INE, ministerios, Eurostat, CNMC, Tribunal de Cuentas) y resoluciones judiciales. Las condenas firmes, los juicios, las investigaciones y los archivos se muestran por separado, y en lo que no es firme rige la presunción de inocencia. No hay nota final: quien más años ha gobernado ha tenido más ocasiones de equivocarse, así que cada ficha empieza por su exposición al poder.</p></div>
   <div class="stats"><div class="stat"><span class="n">Listo</span><span class="l">Exposición al poder, afirmaciones falsas o imprecisas, afirmaciones que dependen de cómo se midan, y causas judiciales o de cuentas</span></div><div class="stat"><span class="n">En preparación</span><span class="l">Coherencia entre programa de 2023 y votaciones en el Congreso, y promesas cumplidas donde gobernaron</span></div></div></section>`;
-  h+=`<section class="block"><div class="eyebrow">Datos falsos o imprecisos por hora hablada en campaña</div><figure class="chart" style="margin:0">${bars(CRED_RATE.map(r=>[r[0],r[1],r[1].toFixed(1).replace(".",","),0]),{max:2.3})}<figcaption class="cap">Recuento del verificador independiente Argos sobre 155 afirmaciones de entrevistas, mítines y vídeos hasta el 17 de noviembre. Dividir por horas evita penalizar a quien habla más. Es un único verificador y una muestra parcial: úsalo como señal, no como veredicto. <a href="https://argos29n.com/" target="_blank" rel="noopener">Ver todas</a></figcaption></figure></section>`;
+  h+=`<section class="block sec"><header class="sh"><span class="sn">02</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><div><h2 class="st">Datos falsos o imprecisos</h2><p class="ss">Por hora hablada en campaña</p></div></header><figure class="chart" style="margin:0">${bars(CRED_RATE.map(r=>[r[0],r[1],r[1].toFixed(1).replace(".",","),0]),{max:2.3})}<figcaption class="cap">Recuento del verificador independiente Argos sobre 155 afirmaciones de entrevistas, mítines y vídeos hasta el 17 de noviembre. Dividir por horas evita penalizar a quien habla más. Es un único verificador y una muestra parcial: úsalo como señal, no como veredicto. <a href="https://argos29n.com/" target="_blank" rel="noopener">Ver todas</a></figcaption></figure></section>`;
+  h+=`<section class="block sec"><header class="sh"><span class="sn">03</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg></span><div><h2 class="st">Ficha por partido</h2><p class="ss">Exposición al poder, afirmaciones comprobadas y tribunales</p></div></header></section>`;
   h+=CRED.map(p=>`<section class="block credp"><div class="credh"><h3>${PARTIES[p.k].n}</h3><span class="src">Candidato: ${p.leader}</span></div>
    <div class="credsec"><h4>Exposición al poder</h4><ul class="plain">${p.exp.map(e=>`<li>${e}</li>`).join("")}</ul></div>
    <div class="credsec"><h4>Afirmaciones de campaña comprobadas</h4><div class="claims">${p.claims.map(c=>`<div class="claim"><div class="ch"><span class="pill t-${VER[c.v][1]}">${VER[c.v][0]}</span><span class="when">${c.d}</span></div><p class="q">${c.q}</p><p class="r"><b>Dato oficial:</b> ${c.r}</p><p class="cs"><a href="${c.s[1]}" target="_blank" rel="noopener">${c.s[0]}</a> · <a href="${c.via}" target="_blank" rel="noopener">verificación</a></p></div>`).join("")}</div></div>
@@ -1032,6 +1139,7 @@ function renderCred(){
 
 function route(){const id=(location.hash||"").slice(1);if(id==="credibilidad"){renderCred();return}render(T.some(t=>t.id===id)?id:"vivienda")}
 function goTop(){try{const n=document.querySelector("nav.topics");const side=window.matchMedia("(min-width:1024px)").matches;const y=main.getBoundingClientRect().top+window.scrollY-(side?16:n.getBoundingClientRect().height+8);window.scrollTo({top:Math.max(0,y),behavior:"auto"})}catch(e){}}
+document.getElementById("homelink").addEventListener("click",e=>{e.preventDefault();try{history.replaceState(null,"",location.pathname+location.search)}catch(err){}route();try{window.scrollTo({top:0})}catch(err){}});
 window.addEventListener("hashchange",()=>{route();requestAnimationFrame(goTop)});
 nav.addEventListener("click",e=>{const a=e.target.closest("a");if(a&&a.getAttribute("href")===location.hash){e.preventDefault();goTop()}});
 route();
