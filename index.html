@@ -380,6 +380,93 @@ section.credp{background:var(--surface);border:1px solid var(--line);border-radi
 .cost{display:grid;gap:4px;padding:12px 14px;border-radius:10px;border:1px dashed var(--line)}
 .cost .ck{font:500 10.5px/1.2 var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .cost .cv{font-size:14.5px;line-height:1.5;color:var(--ink)}
+
+/* ===== v4: medidas como tarjetas únicas, sin desplegables ===== */
+.parties{display:grid;gap:12px}
+.party{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;display:grid;gap:12px;align-content:start}
+.party header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px}
+.party h3{font-size:22px}
+.party .src{font:500 10.5px/1.3 var(--f-data);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.party ul{margin:0;padding-left:18px;display:grid;gap:8px;font-size:15px;line-height:1.5}
+.party .none{font-size:14.5px;color:var(--muted);font-style:italic}
+.mlegend{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:13.5px;color:var(--muted)}
+.mlegend>span{display:inline-flex;align-items:center;gap:6px}
+.mlegend .ml3{flex-basis:100%}
+.mindex{display:grid;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px}
+.mindex button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:32px minmax(0,1fr);gap:10px;align-items:baseline;padding:10px 12px;border-radius:8px;font-size:15px;line-height:1.35;color:var(--ink)}
+.mindex button:hover{background:var(--sunk)}
+.mindex button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.mindex .n{font:500 13px/1.35 var(--f-data);color:var(--accent)}
+.mcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:32px 36px 28px;display:grid;gap:26px;overflow:hidden;scroll-margin-top:80px;box-shadow:0 1px 2px rgba(15,22,29,.05),0 8px 24px rgba(15,22,29,.06)}
+.mtop{display:grid;gap:12px}
+.mnum{font:500 12px/1 var(--f-data);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.mtitle{font-size:30px;line-height:1.12}
+.mcard .meters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.mcard .meter{background:none;border-radius:0;padding:14px 16px;gap:8px}
+.mcard .meter+.meter{border-left:1px solid var(--line)}
+.mcard .meter:first-child{padding-left:0}
+.mcard .meter .pill{font-size:14px;padding:4px 10px}
+.costline{margin:-6px 0 0;font-size:15px;line-height:1.55;color:var(--ink)}
+.costline .ck{font-weight:600}
+.spainband{margin:0 -36px;padding:22px 36px;background:var(--accent-soft);display:grid;gap:8px}
+.mcard h4{margin:0;font:600 16px/1.3 var(--f-body);color:var(--ink);letter-spacing:0;text-transform:none}
+.spainband h4{color:var(--accent)}
+.mcard p{margin:0;font-size:15px;line-height:1.65;max-width:72ch}
+.spainband p{font-size:16px;color:var(--ink)}
+.mcard .sub{display:grid;gap:10px;min-width:0}
+.chainline{color:var(--ink)}
+.chainline .arr{color:var(--muted)}
+.chainline .weak{color:var(--mid);font-weight:600}
+.weaknote{font-size:14px!important;color:var(--muted)}
+.weaknote b{color:var(--mid)}
+.chainline .wk{color:var(--mid);font-size:13.5px}
+.mcard .cvnote{font-size:13.5px;color:var(--muted)}
+.mcard .cases{display:grid;border-top:1px solid var(--line)}
+.mcard .case{display:grid;grid-template-columns:150px minmax(0,1fr);gap:8px 20px;padding:14px 0;border-bottom:1px solid var(--line)}
+.mcard .case .where{display:grid;gap:8px;align-content:start}
+.mcard .case .place{font:500 13px/1.35 var(--f-data);color:var(--ink)}
+.args2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+.args2>div{display:grid;gap:6px;align-content:start;padding-right:20px}
+.args2>div+div{padding:0 0 0 20px;border-left:1px solid var(--line)}
+.args2 .k{font:600 12px/1.2 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mcard .sources{display:grid;gap:6px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.mcard .sources .k{font:500 11px/1.2 var(--f-data);letter-spacing:.08em;text-transform:uppercase}
+.mcard .sources ul{margin:0;padding-left:18px;display:grid;gap:4px}
+section.sec>.mcard+.mcard{margin-top:12px}
+@media (min-width:1024px){
+  .parties{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mindex{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:620px){
+  .mcard{padding:22px 18px 20px;gap:22px;border-radius:14px}
+  .mtitle{font-size:23px}
+  .spainband{margin:0 -18px;padding:18px}
+  .mcard .meters{grid-template-columns:minmax(0,1fr)}
+  .mcard .meter{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
+  .mcard .meter+.meter{border-left:0;border-top:1px solid var(--line)}
+  .mcard .meter .pill{font-size:13px}
+  .mcard .case{grid-template-columns:minmax(0,1fr);gap:8px}
+  .mcard .case .where{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+  .args2{grid-template-columns:minmax(0,1fr);gap:16px}
+  .args2>div{padding:0}
+  .args2>div+div{padding:16px 0 0;border-left:0;border-top:1px solid var(--line)}
+  .party{padding:18px}
+}
+
+/* ===== v4b: credibilidad con la frase en primer plano ===== */
+.claims2{display:grid;border-top:1px solid var(--line)}
+.claim2{display:grid;gap:10px;padding:22px 0;border-bottom:1px solid var(--line);min-width:0}
+.claim2:last-child{border-bottom:0;padding-bottom:4px}
+.vline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.pill.vbig{font-size:14px;padding:5px 12px;font-weight:700;letter-spacing:.01em}
+.claim2 .when{font-size:13px;color:var(--muted)}
+.qbig{margin:0;font-family:var(--f-display);font-weight:500;font-size:22px;line-height:1.35;color:var(--ink);max-width:62ch}
+.claim2 .why{margin:0;font-size:15px;line-height:1.6;max-width:72ch;color:var(--ink)}
+.claim2 .cs{margin:0;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.claim2 .jt{margin:0;font:600 18px/1.3 var(--f-body);color:var(--ink)}
+.claim2 dl.mets{border:0;border-top:1px solid var(--line);border-radius:0;padding:0;background:none;margin:4px 0}
+.credp .credsec+.credsec{padding-top:8px}
+@media (max-width:620px){.qbig{font-size:19px}.claim2{padding:18px 0}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -392,19 +479,19 @@ section.credp{background:var(--surface);border:1px solid var(--line);border-radi
   <div class="howto2">
     <h2 class="hk">Cómo leer cada medida</h2>
     <div class="crit">
-      <div class="ci"><span class="pill t-unk">Evidencia</span><p>Cuánta experiencia comparable hay: alta, media, escasa o sin precedentes.</p></div>
-      <div class="ci"><span class="pill t-unk">Resultado probable</span><p>Si lograría en España lo que promete: favorable, con contrapartidas, incierto o desfavorable.</p></div>
+      <div class="ci"><span class="pill t-unk">Experiencia previa</span><p>Cuánta experiencia comparable hay en otros países o en España: mucha, alguna, poca o ninguna.</p></div>
+      <div class="ci"><span class="pill t-unk">Resultado probable</span><p>Si lograría en España lo que promete: funcionaría, funcionaría con costes, no está claro o no funcionaría.</p></div>
       <div class="ci"><span class="pill t-unk">Viabilidad</span><p>Coste, competencias, mayorías y capacidad para ejecutarla en una legislatura.</p></div>
     </div>
     <div class="hsrc"><span class="hl">Fuentes</span><p>Programas del <a href="https://www.pp.es/wp-content/uploads/2026/11/PROGRAMA-ELECTORAL-PP-2026-RECONSTRUCCION-NACIONAL.pdf" target="_blank" rel="noopener">PP</a> (10 nov.), <a href="https://www.voxespana.es/wp-content/uploads/2026/11/Programa-completo-A5-1.pdf" target="_blank" rel="noopener">Vox</a> (12 nov.), <a href="https://www.psoe.es/media-content/2026/11/PROGRAMAPSOE29N26.pdf" target="_blank" rel="noopener">PSOE</a> (15 nov.) y <a href="https://www.democrata.es/elecciones-generales-espana/herramientas/assets/programas-2026/programa-frente-amplio-29n-2026.pdf" target="_blank" rel="noopener">Frente Amplio</a> (16 nov.). Podemos no ha publicado programa; se usan sus cinco <a href="https://github.com/jynus/programas-electorales-29n-generales-2026" target="_blank" rel="noopener">medidas de campaña</a> y declaraciones recogidas en prensa. Los datos de cada tema enlazan a su fuente oficial.</p></div>
     <details class="hmore">
       <summary>Más sobre cómo leer la web</summary>
       <div class="hmb">
-        <p>Al desplegar cada medida verás cómo tendría que funcionar paso a paso, qué eslabón suele fallar, qué se promete exactamente, el mejor argumento a favor y en contra, y con qué dato comprobar si funcionó.</p>
+        <p>Cada medida incluye qué cabe esperar en España, qué se promete exactamente, cómo tendría que funcionar y dónde suele fallar, los precedentes y el mejor argumento a favor y en contra.</p>
         <p><b>Etiquetas de cada precedente.</b> Valoran si la política logró el objetivo que buscaba allí donde se aplicó, no si la medida es buena o mala.</p>
         <ul class="cvlist">
           <li><span class="pill cv t-good">✓ Funcionó</span> Lo logró.</li>
-          <li><span class="pill cv t-mid">± Con contrapartidas</span> Lo logró, pero con costes importantes.</li>
+          <li><span class="pill cv t-mid">± Funcionó con costes</span> Lo logró, pero con costes importantes.</li>
           <li><span class="pill cv t-mid">↗ Parcial</span> Dio los primeros pasos, pero no alcanzó el objetivo final.</li>
           <li><span class="pill cv t-bad">✕ No funcionó</span> No lo logró o empeoró las cosas.</li>
           <li><span class="pill cv t-unk">Sin evaluar</span> No hay resultados medidos.</li>
@@ -432,8 +519,8 @@ section.credp{background:var(--surface);border:1px solid var(--line);border-radi
 <script>
 const PARTIES={PP:{n:"PP",src:"Programa 29N"},PSOE:{n:"PSOE",src:"Programa 29N"},VOX:{n:"Vox",src:"Programa 29N"},FA:{n:"Frente Amplio",src:"Programa 29N"},POD:{n:"Podemos",src:"Sin programa · declaraciones"}};
 const ORDER=["PP","PSOE","VOX","FA","POD"];
-const LV={ev:{alta:["Alta","good"],media:["Media","mid"],escasa:["Escasa","unk"],nueva:["Sin precedentes","bad"]},
- out:{fav:["Favorable","good"],contra:["Con contrapartidas","mid"],inc:["Incierto","unk"],desf:["Desfavorable","bad"]},
+const LV={ev:{alta:["Mucha","good"],media:["Alguna","mid"],escasa:["Poca","unk"],nueva:["Ninguna","bad"]},
+ out:{fav:["Funcionaría","good"],contra:["Funcionaría con costes","mid"],inc:["No está claro","unk"],desf:["No funcionaría","bad"]},
  via:{alta:["Alta","good"],media:["Media","mid"],baja:["Baja","bad"]}};
 
 const ICONS={
@@ -1009,7 +1096,7 @@ const COST={"Topes o rebajas del alquiler por ley": "Casi nulo para el Estado: e
 const CV={"Topes o rebajas del alquiler por ley": "tct", "Derogar la Ley de Vivienda y las zonas tensionadas": "pp", "Construir mucho más: más suelo y menos trámites": "aa", "Gran parque público de alquiler": "at", "Ayudas a la compra: menos IVA, avales o préstamos": "pc", "Restringir compras de fondos, empresas o extranjeros": "cp", "Gravar las viviendas vacías": "aa", "Desalojo exprés de viviendas okupadas": "x", "Prioridad en ayudas por arraigo o nacionalidad": "p", "Impuesto a las grandes fortunas": "ten", "Subir el IRPF a las rentas más altas": "cx", "Impuesto de sociedades: suelo del 20 % o rebaja": "tx", "Rebaja general de impuestos": "cc", "IVA cero o reducido en alimentos y productos básicos": "a", "Impuestos especiales a la banca": "ac", "Herencias: impuesto estatal y tope de 10 M€": "ex", "Subir el salario mínimo": "at", "Reducir la jornada laboral por ley": "tx", "Encarecer o abaratar el despido": "at", "Cuota cero para autónomos y bonificar contrataciones": "pc", "Control de las bajas laborales": "at", "Subir todas las pensiones con el IPC": "n", "Bajar la edad de jubilación (65 o 63 años)": "tn", "Pensión mínima igual al salario mínimo": "t", "Ahorro privado y jubilación activa": "xc", "Blindar las pensiones en la Constitución": "x", "Natalidad e inmigración como solución demográfica": "px", "Regularizar a quienes ya viven aquí": "at", "Expulsiones masivas y «remigración»": "ct", "Cupos por sectores y visados por puntos": "a", "Control rápido en frontera o más garantías": "x", "Prioridad nacional, integración obligatoria e impuesto a remesas": "px", "Usar la sanidad privada para reducir esperas": "ap", "Más gasto público en sanidad": "x", "Más médicos en Atención Primaria": "a", "Tarjeta e historial clínico únicos": "a", "Excluir de la sanidad a inmigrantes irregulares": "c", "Eutanasia y cuidados paliativos": "x", "Alargar la vida de las nucleares": "fx", "Construir nuevas centrales nucleares": "cc", "Acelerar renovables hasta el 100 %": "ax", "Bajar los impuestos de la luz": "t", "Revertir el Pacto Verde europeo": "x", "Empresa pública y cambio del precio de la luz": "tt", "Que los jueces elijan a los jueces del CGPJ": "xc", "Condonar deuda autonómica": "t", "Armonizar impuestos entre comunidades": "ff", "Derogar la Ley de Amnistía": "x", "Referéndum territorial o ilegalizar partidos": "xx", "Bajar el número de alumnos por aula": "ap", "Más dinero para la educación pública": "ax", "Escuela concertada: mantenerla o eliminarla": "ac", "Evaluaciones externas y currículo común": "aa", "Seleccionar y formar mejor al profesorado": "aa", "Escuela infantil de 0 a 3 años gratuita": "ta", "Repartir al alumnado para evitar concentración": "xt", "Penas más largas y más prisión permanente": "ct", "Juicios rápidos para la multirreincidencia": "p", "Bajar la edad penal o endurecer la Ley del Menor": "c", "Más policías": "a", "Ley de Seguridad Ciudadana: sustituirla o mantenerla": "x", "Aumentar el gasto en defensa": "xx", "No aumentar o reducir el gasto militar": "x", "Impulsar la industria nacional de defensa": "a", "Más o menos poder para la Unión Europea": "f", "Mantener antes que construir": "fa", "Grandes planes de obra con capital privado": "cc", "Abonos muy baratos o gratuitos": "pca", "Unir Adif y Renfe y revertir la liberalización": "eet", "Recortar gasto para reducir déficit y deuda": "ac"};
 const CK={"Impuesto a las grandes fortunas": "aoo", "Herencias: impuesto estatal y tope de 10 M€": "oa", "Subir todas las pensiones con el IPC": "o", "Bajar la edad de jubilación (65 o 63 años)": "ao", "Alargar la vida de las nucleares": "oa", "Armonizar impuestos entre comunidades": "oo", "Más o menos poder para la Unión Europea": "o", "Mantener antes que construir": "oa", "Unir Adif y Renfe y revertir la liberalización": "ooa"};
 const IND2={"Topes o rebajas del alquiler por ley": "Funciona si el alquiler medio baja en las zonas reguladas y el número de pisos en alquiler anunciados se mantiene o sube.", "Derogar la Ley de Vivienda y las zonas tensionadas": "Funciona si suben los pisos en alquiler anunciados y el alquiler medio baja o, al menos, sube menos que los salarios.", "Construir mucho más: más suelo y menos trámites": "Funciona si las viviendas terminadas superan con claridad las 100.000 al año y los precios suben menos que los salarios.", "Gran parque público de alquiler": "Funciona si la vivienda social sube desde menos del 3 % del parque hacia la media europea y baja la parte del sueldo que los inquilinos dedican al alquiler.", "Ayudas a la compra: menos IVA, avales o préstamos": "Funciona si baja la edad media de compra de la primera vivienda sin que el precio por metro cuadrado suba más rápido que antes.", "Restringir compras de fondos, empresas o extranjeros": "Funciona si bajan las compras de empresas y no residentes y los precios en las zonas afectadas suben menos que en el resto.", "Gravar las viviendas vacías": "Funciona si bajan las viviendas vacías en los municipios tensionados y sube allí la oferta en alquiler o venta.", "Desalojo exprés de viviendas okupadas": "Funciona si se acorta la duración media de los desalojos y bajan las denuncias por ocupación.", "Prioridad en ayudas por arraigo o nacionalidad": "Funciona si se acorta el tiempo de espera para vivienda protegida de los solicitantes con arraigo, aunque no aumente el número de viviendas.", "Impuesto a las grandes fortunas": "Funciona si la recaudación sube y el número de contribuyentes no baja (señal de que no se marchan ni lo eluden).", "Subir el IRPF a las rentas más altas": "Funciona si la recaudación de los tramos más altos sube lo previsto y las rentas declaradas en esos tramos no caen.", "Impuesto de sociedades: suelo del 20 % o rebaja": "Con el suelo del 20 %, funciona si el tipo efectivo de los grandes grupos sube hacia ese 20 % y la recaudación aumenta; con una rebaja, si sube la inversión sin que caiga la recaudación.", "Rebaja general de impuestos": "Funciona si, tras bajar impuestos, el déficit no aumenta y la deuda sigue bajando sobre el PIB.", "IVA cero o reducido en alimentos y productos básicos": "Funciona si el precio de los alimentos rebajados baja casi lo mismo que el IVA, comparado con el resto de productos.", "Impuestos especiales a la banca": "Funciona si recauda lo previsto sin que suban las comisiones ni se reduzca o encarezca el crédito.", "Herencias: impuesto estatal y tope de 10 M€": "Funciona si sube la recaudación por grandes herencias sin que aumenten los traslados de grandes patrimonios fuera de España.", "Subir el salario mínimo": "Funciona si sube el sueldo de quienes menos cobran y el empleo de los menores de 25 años no cae.", "Reducir la jornada laboral por ley": "Funciona si bajan las horas trabajadas y el empleo en las pymes no cae.", "Encarecer o abaratar el despido": "Funciona si baja la tasa de temporalidad sin que suban los despidos al año ni caiga la contratación.", "Cuota cero para autónomos y bonificar contrataciones": "Funciona si sube el porcentaje de nuevos autónomos que siguen activos a los tres años.", "Control de las bajas laborales": "Funciona si baja la duración media de las bajas y el gasto deja de crecer más que el empleo.", "Subir todas las pensiones con el IPC": "Funciona si las pensiones mantienen su poder adquisitivo y el gasto no supera lo previsto (16,4 % del PIB en 2050, según la AIReF).", "Bajar la edad de jubilación (65 o 63 años)": "Funciona si baja la edad efectiva de jubilación sin que el gasto en pensiones supere lo previsto ni bajen las pensiones futuras.", "Pensión mínima igual al salario mínimo": "Funciona si baja el riesgo de pobreza de los mayores de 65 años.", "Ahorro privado y jubilación activa": "Funciona si suben las personas que siguen trabajando después de la edad ordinaria de jubilación.", "Natalidad e inmigración como solución demográfica": "Funciona si sube el número de hijos por mujer de forma sostenida, no solo uno o dos años.", "Regularizar a quienes ya viven aquí": "Funciona si suben los afiliados extranjeros a la Seguridad Social y no aumentan las llegadas irregulares.", "Expulsiones masivas y «remigración»": "Funciona si sube el porcentaje de órdenes de expulsión que se ejecutan (hoy, alrededor de una de cada cinco en la UE).", "Cupos por sectores y visados por puntos": "Funciona si bajan las vacantes sin cubrir en los sectores con cupo.", "Control rápido en frontera o más garantías": "Funciona si se acorta el plazo para resolver el asilo sin que aumenten las decisiones anuladas por los tribunales.", "Prioridad nacional, integración obligatoria e impuesto a remesas": "Funciona si sube el empleo y el dominio del idioma de los inmigrantes a los cinco años de llegar.", "Usar la sanidad privada para reducir esperas": "Funciona si baja la espera media para operarse (hoy, 122 días).", "Más gasto público en sanidad": "Funciona si baja la espera media para ver al especialista (hoy, 102 días).", "Más médicos en Atención Primaria": "Funciona si bajan los días de espera para ver al médico de familia.", "Eutanasia y cuidados paliativos": "Funciona si sube la cobertura de cuidados paliativos.", "Alargar la vida de las nucleares": "Funciona si el uso de gas para producir electricidad no aumenta.", "Acelerar renovables hasta el 100 %": "Funciona si sube la electricidad renovable sin que aumente la producción que se desperdicia por falta de redes o almacenamiento.", "Bajar los impuestos de la luz": "Funciona si el precio final de la luz para los hogares baja casi lo mismo que la rebaja de impuestos.", "Que los jueces elijan a los jueces del CGPJ": "Funciona si sube la confianza en la independencia judicial (Eurobarómetro).", "Condonar deuda autonómica": "Funciona si baja la deuda de las comunidades sobre su PIB y no vuelve a crecer después.", "Armonizar impuestos entre comunidades": "Funciona si se reducen las diferencias de recaudación por patrimonio y sucesiones entre comunidades.", "Bajar el número de alumnos por aula": "Funciona si bajan los alumnos por aula y suben los resultados en PISA.", "Más dinero para la educación pública": "Funciona si sigue bajando el abandono escolar temprano.", "Escuela concertada: mantenerla o eliminarla": "Funciona si baja la segregación escolar por renta sin que empeoren los resultados.", "Evaluaciones externas y currículo común": "Funciona si suben los resultados en PISA.", "Seleccionar y formar mejor al profesorado": "Funciona si sube la nota de acceso a Magisterio y, con los años, los resultados de los alumnos.", "Escuela infantil de 0 a 3 años gratuita": "Funciona si sube la escolarización de 0 a 2 años en las familias de renta baja.", "Repartir al alumnado para evitar concentración": "Funciona si baja el índice de segregación escolar.", "Penas más largas y más prisión permanente": "Funciona si baja la reincidencia de los condenados por delitos graves.", "Juicios rápidos para la multirreincidencia": "Funciona si bajan los detenidos con más de diez antecedentes.", "Bajar la edad penal o endurecer la Ley del Menor": "Funciona si baja la reincidencia de los menores infractores.", "Más policías": "Funciona si sube el porcentaje de delitos esclarecidos sobre los conocidos.", "Aumentar el gasto en defensa": "Se cumple si el gasto en defensa sube sobre el PIB (hoy, 2,00 %); medir si mejora la defensa es mucho más difícil.", "Mantener antes que construir": "Funciona si bajan las limitaciones temporales de velocidad activas (1.002 en agosto de 2026) y mejora la puntualidad.", "Grandes planes de obra con capital privado": "Funciona si sube la inversión ejecutada sobre la presupuestada sin que el coste final supere el previsto.", "Abonos muy baratos o gratuitos": "Funciona si suben los viajeros de Cercanías y la puntualidad no empeora.", "Unir Adif y Renfe y revertir la liberalización": "Funciona si el precio medio del billete de alta velocidad no sube y mejora la puntualidad.", "Recortar gasto para reducir déficit y deuda": "Funciona si bajan el déficit y la deuda sobre el PIB sin que caigan el crecimiento ni la calidad de la sanidad y la educación."};
-const CVL={a:["✓ Funcionó","good"],t:["± Con contrapartidas","mid"],p:["↗ Parcial","mid"],c:["✕ No funcionó","bad"],x:["Sin evaluar","unk"],f:["▲ Refuerza la medida","good"],e:["▼ Debilita la medida","bad"],n:["No concluyente","unk"]};
+const CVL={a:["✓ Funcionó","good"],t:["± Funcionó con costes","mid"],p:["↗ Parcial","mid"],c:["✕ No funcionó","bad"],x:["Sin evaluar","unk"],f:["▲ Refuerza la medida","good"],e:["▼ Debilita la medida","bad"],n:["No concluyente","unk"]};
 const nav=document.getElementById("nav"),main=document.getElementById("main");
 nav.innerHTML=`<a class="navcred" href="#credibilidad" data-id="credibilidad">${ICONS.credibilidad}Credibilidad</a>`+T.map(t=>`<a href="#${t.id}" data-id="${t.id}">${ICONS[t.id]}${t.name}</a>`).join("");
 const esc=s=>s;
@@ -1028,6 +1115,22 @@ function caseBlock(m){
   if(op.length)h+=`<div class="sub"><h4>Dónde se hizo lo contrario</h4><p class="cvnote">Sirven de contraste: si lo contrario salió mal, refuerza la medida; si salió bien, la debilita.</p><div class="cases">${op.join("")}</div></div>`;
   return h;
 }
+function SH(n,t,sub,ic){return `<header class="sh"><span class="sn">${n}</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ic}</svg></span><div><h2 class="st">${t}</h2><p class="ss">${sub}</p></div></header>`}
+function measureCard(m,i,n){const d=Object.assign({},X[m.t]||{},m.ch?m:{});
+  const chips=`${m.for.map(k=>`<span class="chip for">${PARTIES[k].n}</span>`).join("")}${m.against.map(k=>`<span class="chip against" title="Lo rechaza o propone lo contrario">${PARTIES[k].n}</span>`).join("")}`;
+  const chain=d.ch?`<div class="sub"><h4>Cómo tendría que funcionar</h4><p class="chainline">${d.ch.map((c,j)=>j===d.wk?`<b class="weak">${c}</b><span class="wk"> (suele fallar aquí)</span>`:`<span>${c}</span>`).join('<span class="arr" aria-hidden="true"> → </span>')}</p></div>`:"";
+  const args=d.pro?`<div class="sub"><h4>El mejor argumento de cada lado</h4><div class="args2"><div><span class="k">A favor</span><p>${d.pro}</p></div><div><span class="k">En contra</span><p>${d.con}</p></div></div></div>`:"";
+  return `<article class="mcard" id="medida-${i}">
+<header class="mtop"><span class="mnum">Medida ${i+1} de ${n}</span><h3 class="mtitle">${m.t}</h3><div class="who">${chips}</div></header>
+<div class="meters"><div class="meter"><span class="k">Experiencia previa</span>${pill("ev",m.ev)}</div><div class="meter"><span class="k">Resultado probable</span>${pill("out",m.out)}</div><div class="meter"><span class="k">Viabilidad</span>${pill("via",m.via)}</div></div>
+${COST[m.t]?`<p class="costline"><span class="ck">Coste para las cuentas públicas:</span> ${COST[m.t]}</p>`:""}
+<div class="spainband"><h4>Qué cabe esperar en España</h4><p>${m.spain}</p></div>
+${d.pr?`<div class="sub"><h4>Qué se promete</h4><p>${d.pr}</p></div>`:""}
+${chain}
+${caseBlock(m)}
+${args}
+${m.src.length?`<div class="sources"><span class="k">Fuentes</span><ul>${m.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a></li>`).join("")}</ul></div>`:""}
+</article>`;}
 function render(id){
   const t=T.find(x=>x.id===id)||T[0];
   nav.querySelectorAll("a").forEach(a=>a.setAttribute("aria-current",a.dataset.id===t.id?"page":"false"));
@@ -1036,12 +1139,13 @@ function render(id){
   const q=QUICK[t.id];if(q)h+=`<section class="quick"><div class="eyebrow">En 30 segundos</div><dl><div><dt>El problema</dt><dd>${q[0]}</dd></div><div><dt>Qué cambia entre partidos</dt><dd>${q[1]}</dd></div><div><dt>Qué dice la evidencia</dt><dd>${q[2]}</dd></div></dl></section>`;
   const cc=CONCEPT[t.id];
   h+=`<section class="block sec"><header class="sh"><span class="sn">01</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><div><h2 class="st">España hoy</h2><p class="ss">El problema, en cifras</p></div></header>${cc?`<div class="concept"><div class="ck">Concepto clave</div><p class="ct">${cc[0]}</p><p class="cx">${cc[1]}</p></div>`:''}<div class="stats">${t.stats.map(s=>`<div class="stat"><span class="n">${s[0]}</span><span class="l">${s[1]}</span></div>`).join("")}</div>`;
-  if(t.chart)h+=`<figure class="chart" style="margin:0">${t.chart.svg()}<figcaption class="cap">${t.chart.cap}</figcaption></figure>`;
+  if(t.chart&&!LONG[t.id])h+=`<figure class="chart" style="margin:0">${t.chart.svg()}<figcaption class="cap">${t.chart.cap}</figcaption></figure>`;
   if(LONG[t.id])h+=lineChart(LONG[t.id]);
   h+=`</section>`;
-  h+=`<section class="block sec"><header class="sh"><span class="sn">02</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg></span><div><h2 class="st">Qué propone cada partido</h2><p class="ss">Lo que dice cada programa, sin valorarlo</p></div></header><div class="matrix">${ORDER.map(k=>{const p=t.pos[k]||[];return `<div class="prow"><div><div class="pn">${PARTIES[k].n}</div><div class="src">${PARTIES[k].src}</div></div>${p.length?`<ul>${p.map(x=>`<li>${x}</li>`).join("")}</ul>`:`<p class="none">No ha publicado propuestas sobre este tema.</p>`}</div>`}).join("")}</div></section>`;
-  h+=`<section class="block sec"><header class="sh"><span class="sn">03</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l6 6"/></svg></span><div><h2 class="st">Las medidas, a prueba</h2><p class="ss">Qué ha pasado donde se ha probado. Toca cada medida para ver el análisis</p></div></header>${t.m.map((m,i)=>`<details class="measure"${i===0?" open":""}><summary><div class="mhead"><h3>${m.t}</h3><span class="more"><span class="mt"></span><span class="chev" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l4 4 4-4"/></svg></span></span></div><div class="who">${m.for.map(k=>`<span class="chip for">${PARTIES[k].n}</span>`).join("")}${m.against.map(k=>`<span class="chip against" title="En contra">${PARTIES[k].n}</span>`).join("")}</div><div class="meters"><div class="meter"><span class="k">Evidencia</span>${pill("ev",m.ev)}</div><div class="meter"><span class="k">Resultado probable</span>${pill("out",m.out)}</div><div class="meter"><span class="k">Viabilidad</span>${pill("via",m.via)}</div></div>${COST[m.t]?`<div class="cost"><span class="ck">Coste para las cuentas públicas</span><span class="cv">${COST[m.t]}</span></div>`:""}</summary><div class="mbody"><section class="grp"><div class="gh"><span class="gn">1</span><h4 class="gt">La lógica de la medida</h4></div>${deep(m,"promise")}${deep(m,"chain")}</section><section class="grp"><div class="gh"><span class="gn">2</span><h4 class="gt">Qué dice la evidencia</h4></div>${caseBlock(m)}<div class="sub verdict"><h4>Qué cabe esperar en España</h4><p>${m.spain}</p></div></section><section class="grp"><div class="gh"><span class="gn">3</span><h4 class="gt">Debate y seguimiento</h4></div>${deep(m,"args")}${deep(m,"indic")}</section>${m.src.length?`<div class="sources"><span class="k">Fuentes</span><ul>${m.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a></li>`).join("")}</ul></div>`:""}</div></details>`).join("")}<p class="note">En las etiquetas de partido, el tachado indica que ese partido se opone a la medida o propone lo contrario. Los estudios citados por autor y año son referencias académicas publicadas.</p></section>`;
+  h+=`<section class="block sec">${SH("02","Qué propone cada partido","Lo que dice cada programa, sin valorarlo",'<path d="M5 6h14M5 12h14M5 18h9"/>')}<div class="parties">${ORDER.map(k=>{const p=t.pos[k]||[];return `<article class="party"><header><h3>${PARTIES[k].n}</h3><span class="src">${PARTIES[k].src}</span></header>${p.length?`<ul>${p.map(x=>`<li>${x}</li>`).join("")}</ul>`:`<p class="none">No ha publicado propuestas sobre este tema.</p>`}</article>`}).join("")}</div></section>`;
+  h+=`<section class="block sec">${SH("03","Las medidas, a prueba","Qué ha pasado donde se ha probado y qué cabe esperar aquí",'<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l6 6"/>')}<div class="mlegend"><span><span class="chip for">Partido</span> lo propone</span><span><span class="chip against">Partido</span> lo rechaza o propone lo contrario</span><span class="ml3">Si un partido no aparece, su programa no dice nada sobre esa medida. Podemos no tiene programa: solo se recogen sus declaraciones.</span></div><nav class="mindex" aria-label="Medidas de este tema">${t.m.map((m,i)=>`<button type="button" data-mi="${i}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${m.t}</span></button>`).join("")}</nav>${t.m.map((m,i)=>measureCard(m,i,t.m.length)).join("")}<p class="note">Los estudios citados por autor y año son referencias académicas publicadas.</p></section>`;
   main.innerHTML=h;
+  main.querySelectorAll(".mindex button").forEach(b=>b.addEventListener("click",()=>{const el=document.getElementById("medida-"+b.dataset.mi);if(!el)return;try{const n=document.querySelector("nav.topics");const side=window.matchMedia("(min-width:1024px)").matches;window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-(side?16:n.getBoundingClientRect().height+12),behavior:"smooth"})}catch(e){}}));
 }
 /* ===== Sección Credibilidad ===== */
 const CRED_RATE=[["Pedro Sánchez (PSOE)",2.0],["Alberto Núñez Feijóo (PP)",1.5],["Irene Montero (Podemos)",1.3],["Ada Colau (Frente Amplio)",0.9],["Santiago Abascal (Vox)",0.8]];
@@ -1141,9 +1245,9 @@ function renderCred(){
   h+=`<section class="block sec"><header class="sh"><span class="sn">03</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg></span><div><h2 class="st">Ficha por partido</h2><p class="ss">Exposición al poder, afirmaciones comprobadas y tribunales</p></div></header></section>`;
   h+=CRED.map(p=>`<section class="block credp"><div class="credh"><h3>${PARTIES[p.k].n}</h3><span class="src">Candidato: ${p.leader}</span></div>
    <div class="credsec"><h4>Exposición al poder</h4><ul class="plain">${p.exp.map(e=>`<li>${e}</li>`).join("")}</ul></div>
-   <div class="credsec"><h4>Afirmaciones de campaña comprobadas</h4><div class="claims">${p.claims.map(c=>`<div class="claim"><div class="ch"><span class="pill t-${VER[c.v][1]}">${VER[c.v][0]}</span><span class="when">${c.d}</span></div><p class="q">${c.q}</p><p class="r"><b>Dato oficial:</b> ${c.r}</p><p class="cs"><a href="${c.s[1]}" target="_blank" rel="noopener">${c.s[0]}</a> · <a href="${c.via}" target="_blank" rel="noopener">verificación</a></p></div>`).join("")}</div></div>
-   ${DEP[p.k]?(()=>{const c=DEP[p.k];return `<div class="credsec"><h4>Depende de cómo se mida</h4><div class="claim"><div class="ch"><span class="pill t-unk">Depende de la métrica</span><span class="when">${c.d}</span></div><p class="q">${c.q}</p>${c.vs?`<p class="r" style="color:var(--muted)">${c.vs}</p>`:''}<dl class="mets">${c.m.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join("")}</dl><p class="r"><b>En resumen:</b> ${c.con}</p><p class="cs">${c.s.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`).join(" · ")}</p></div></div>`})():''}
-   <div class="credsec"><h4>Tribunales y cuentas</h4><div class="claims">${p.jud.map(j=>`<div class="claim"><div class="ch"><span class="pill t-${JUD[j.c][1]}">${JUD[j.c][0]}</span></div><p class="q" style="font-style:normal;font-weight:600">${j.t}</p><p class="r">${j.x}</p><p class="cs"><a href="${j.s[1]}" target="_blank" rel="noopener">${j.s[0]}</a></p></div>`).join("")}</div></div>
+   <div class="credsec"><h4>Afirmaciones de campaña comprobadas</h4><div class="claims2">${p.claims.map(c=>`<article class="claim2"><div class="vline"><span class="pill vbig t-${VER[c.v][1]}">${VER[c.v][0]}</span><span class="when">${c.d}</span></div><blockquote class="qbig">${c.q}</blockquote><p class="why"><b>Por qué:</b> ${c.r}</p><p class="cs">Dato oficial: <a href="${c.s[1]}" target="_blank" rel="noopener">${c.s[0]}</a> · <a href="${c.via}" target="_blank" rel="noopener">Ver verificación</a></p></article>`).join("")}</div></div>
+   ${DEP[p.k]?(()=>{const c=DEP[p.k];return `<div class="credsec"><h4>Depende de cómo se mida</h4><article class="claim2"><div class="vline"><span class="pill vbig t-unk">Depende de cómo se mida</span><span class="when">${c.d}</span></div><blockquote class="qbig">${c.q}</blockquote>${c.vs?`<p class="why" style="color:var(--muted)">${c.vs}</p>`:''}<dl class="mets">${c.m.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join("")}</dl><p class="why"><b>En resumen:</b> ${c.con}</p><p class="cs">Datos: ${c.s.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`).join(" · ")}</p></article></div>`})():''}
+   <div class="credsec"><h4>Tribunales y cuentas</h4><div class="claims2">${p.jud.map(j=>`<article class="claim2"><div class="vline"><span class="pill t-${JUD[j.c][1]}">${JUD[j.c][0]}</span></div><h5 class="jt">${j.t}</h5><p class="why">${j.x}</p><p class="cs"><a href="${j.s[1]}" target="_blank" rel="noopener">${j.s[0]}</a></p></article>`).join("")}</div></div>
   </section>`).join("");
   h+=`<p class="note">«Depende de cómo se mida»: una afirmación por candidato, elegida con la misma regla para todos: balance de gestión o diagnóstico sobre uno de los doce temas, con cifras, dicha en campaña y que distintos datos oficiales responden de forma distinta. Se muestran las medidas, no un veredicto. Algunas fuentes enlazadas son medios que recogen el dato oficial; se indica entre paréntesis.</p><p class="note">Selección: hasta tres afirmaciones de datos por candidato, entre las verificadas con fuente oficial, priorizando las que tratan sobre políticas públicas. Abascal tiene dos porque es el candidato con menos datos erróneos por hora. En tribunales se incluyen las causas que afectan al partido, a sus cargos o, aparte, al entorno familiar del candidato, con resolución judicial o informe del Tribunal de Cuentas.</p>`;
   main.innerHTML=h;
