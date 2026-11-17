@@ -1,4 +1,8 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Promesas a prueba 29N</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -7,7 +11,7 @@
 /* Layout: una columna de lectura (máx. 760px), barra de temas fija arriba, cada tema = ficha de contexto + matriz por partido + medidas con evidencia */
 :root{
   --bg:#F3F5F7; --surface:#FFFFFF; --ink:#16212C; --muted:#5A6774; --line:#DBE1E7;
-  --accent:#1E5A86; --accent-soft:#E3EDF5;
+  --accent:#1E5A86; --accent-soft:#E3EDF5; --s2:#B5651D; --band:#E8ECF0;
   --good:#2E7D4F; --mid:#B7791F; --unk:#7A8591; --bad:#B4483C;
   --good-soft:#E3F2E8; --mid-soft:#FBF0DC; --unk-soft:#ECEFF2; --bad-soft:#F8E4E1;
   --f-display:"Newsreader",Georgia,"Times New Roman",serif;
@@ -16,12 +20,12 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0F161D; --surface:#17212B; --ink:#E6ECF1; --muted:#9AA8B5; --line:#2A3743;
-  --accent:#7DB4E0; --accent-soft:#1C2E3F;
+  --accent:#7DB4E0; --accent-soft:#1C2E3F; --s2:#E8A76A; --band:#1C2732;
   --good:#6CC08E; --mid:#E0B160; --unk:#9AA6B2; --bad:#E5877B;
   --good-soft:#18301F; --mid-soft:#33281A; --unk-soft:#212B35; --bad-soft:#3A201D; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0F161D; --surface:#17212B; --ink:#E6ECF1; --muted:#9AA8B5; --line:#2A3743;
-  --accent:#7DB4E0; --accent-soft:#1C2E3F;
+  --accent:#7DB4E0; --accent-soft:#1C2E3F; --s2:#E8A76A; --band:#1C2732;
   --good:#6CC08E; --mid:#E0B160; --unk:#9AA6B2; --bad:#E5877B;
   --good-soft:#18301F; --mid-soft:#33281A; --unk-soft:#212B35; --bad-soft:#3A201D; color-scheme:dark}
 *{box-sizing:border-box}
@@ -137,6 +141,30 @@ ul.plain{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
 .claim .cs{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
 .claim .cs a{color:var(--accent)}
 nav.topics a.navcred{border-style:dashed}
+dl.mets{margin:2px 0;display:grid;border-top:1px solid var(--line)}
+dl.mets>div{display:grid;grid-template-columns:minmax(0,38%) minmax(0,1fr);gap:4px 12px;padding:8px 0;border-bottom:1px solid var(--line)}
+dl.mets dt{font-size:12.5px;font-weight:600;color:var(--muted)}
+dl.mets dd{margin:0;font-size:14px}
+@media (max-width:520px){dl.mets>div{grid-template-columns:1fr}}
+.quick{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
+.quick dl{margin:0;display:grid;gap:8px}
+.quick dt{font:500 10.5px/1.2 var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.quick dd{margin:2px 0 0;font-size:15px;max-width:68ch}
+.lcf{display:grid;gap:6px;margin-top:6px}
+.lct{font-weight:600;font-size:14.5px}
+.lc{width:100%;max-width:600px;height:auto;display:block}
+.lc .gb1{fill:var(--band)} .lc .gb2{fill:transparent}
+.lc .gl{font:500 12px var(--f-data);fill:var(--muted)}
+.lc .gr{stroke:var(--line);stroke-width:1}
+.lc .ax{font:500 12.5px var(--f-data);fill:var(--muted)}
+.lc .ln{fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.lc .ln.s0{stroke:var(--accent)} .lc .ln.s1{stroke:var(--s2)}
+.lc .dt.s0{fill:var(--accent)} .lc .dt.s1{fill:var(--s2)}
+.lc .vl{font:600 13px var(--f-data);paint-order:stroke;stroke:var(--surface);stroke-width:4px}
+.lc .vl.s0{fill:var(--accent)} .lc .vl.s1{fill:var(--s2)}
+.lcl{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted)}
+.lcl .k{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.lcl .k.s0{background:var(--accent)} .lcl .k.s1{background:var(--s2)}
 .note{font-size:13px;color:var(--muted);max-width:68ch}
 footer{padding-block:24px 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;display:grid;gap:8px}
 @media (max-width:520px){
@@ -148,6 +176,8 @@ footer{padding-block:24px 40px;border-top:1px solid var(--line);color:var(--mute
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+</head>
+<body>
 
 <header class="top wrap">
   <div class="eyebrow">Elecciones generales · 29 de noviembre de 2026</div>
@@ -563,7 +593,7 @@ const X={
 /* ===== Temas nuevos ===== */
 const NEW_TOPICS=[
 {id:"educacion",name:"Educación",ex:"Ratios por aula, escuela concertada, profesorado, 0–3 años, evaluación y abandono escolar.",
- stats:[["13,2 %","de abandono escolar temprano, el segundo más alto de la UE"],["4,48 %","del PIB en gasto público educativo (2024)"],["5.534 € – 8.946 €","gasto por alumno en Madrid y en País Vasco"]],
+ stats:[["12,8 %","de abandono escolar temprano en 2025, la mitad que en 2008 pero por encima de la UE"],["4,48 %","del PIB en gasto público educativo (2024)"],["5.534 € – 8.946 €","gasto por alumno en Madrid y en País Vasco"]],
  chart:{cap:"Gasto público por alumno en 2023, en euros. La educación la gestionan las comunidades, así que el Gobierno central decide solo una parte.",svg:()=>bars([["País Vasco",8946,"8.946 €",0],["Media de España",6851,"6.851 €",1],["Madrid",5534,"5.534 €",0]],{max:9500})},
  pos:{PP:["Sustituir la LOMLOE por un nuevo marco educativo","Refuerzo en el mismo curso para quien no lea o calcule bien","Nota mínima para Magisterio y carrera docente","Conciertos de al menos seis años y elección de centro","0–3 años gratuito, financiado a medias con las comunidades","Mejor resultado de PISA de la historia en cuatro años"],
   PSOE:["Universalizar el 0–3 con escuelas públicas","Más becas y límite de alumnos por aula","Un orientador por cada 250 alumnos","Plan de educación inclusiva"],
@@ -685,6 +715,61 @@ const NEW_TOPICS=[
 ];
 
 T.push(...NEW_TOPICS);
+/* ===== Series largas y resúmenes de 30 segundos ===== */
+const GOV=[["Aznar",1996,2004.3],["Zapatero",2004.3,2011.97],["Rajoy",2011.97,2018.42],["Sánchez",2018.42,2030]];
+function lineChart(o){
+  const W=440,H=250,R=12,T=30,B=28,x0=o.x[0],x1=o.x[1],L=14+Math.max(...o.ticks.map(v=>o.fmt(v).length))*8.2;
+  const X=v=>L+(v-x0)/(x1-x0)*(W-L-R),Y=v=>T+(1-(v-o.y[0])/(o.y[1]-o.y[0]))*(H-T-B);
+  let s=`<svg class="lc" viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.aria}">`;
+  GOV.forEach((g,i)=>{const a=Math.max(g[1],x0),b=Math.min(g[2],x1);if(b<=a)return;
+    s+=`<rect x="${X(a)}" y="${T}" width="${X(b)-X(a)}" height="${H-T-B}" class="${i%2?'gb1':'gb2'}"/>`;
+    if(X(b)-X(a)>40)s+=`<text x="${(X(a)+X(b))/2}" y="${T-10}" class="gl" text-anchor="middle">${g[0]}</text>`;});
+  o.ticks.forEach(v=>{s+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" class="gr"/><text x="${L-8}" y="${Y(v)+5}" class="ax" text-anchor="end">${o.fmt(v)}</text>`});
+  for(let yv=Math.ceil(x0/5)*5;yv<=x1;yv+=5)s+=`<text x="${X(yv)}" y="${H-8}" class="ax" text-anchor="${X(yv)>W-24?"end":"middle"}">${yv}</text>`;
+  o.series.forEach((se,si)=>{
+    const pts=se.d;let path="";let prev=null;
+    pts.forEach(p=>{if(p[1]==null){prev=null;return}path+=(prev&&p[0]-prev[0]===1?"L":"M")+X(p[0]).toFixed(1)+" "+Y(p[1]).toFixed(1);prev=p});
+    s+=`<path d="${path}" class="ln s${si}"/>`;
+    pts.forEach((p,i)=>{if(p[1]==null)return;const iso=!(pts[i-1]&&pts[i-1][0]===p[0]-1&&pts[i-1][1]!=null)&&!(pts[i+1]&&pts[i+1][0]===p[0]+1&&pts[i+1][1]!=null);if(iso)s+=`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="4" class="dt s${si}"/>`});
+    (se.lab||[]).forEach(yr=>{const p=pts.find(q=>q[0]===yr);if(!p)return;const xx=X(p[0]);const anc=xx>W-50?"end":xx<L+30?"start":"middle";
+      s+=`<circle cx="${xx}" cy="${Y(p[1])}" r="4" class="dt s${si}"/><text x="${xx}" y="${Y(p[1])-10}" class="vl s${si}" text-anchor="${anc}">${o.fmt(p[1])}</text>`});
+  });
+  s+=`</svg>`;
+  const lg=o.series.length>1?`<div class="lcl">${o.series.map((se,si)=>`<span><i class="k s${si}"></i>${se.n}</span>`).join("")}</div>`:"";
+  return `<figure class="chart lcf" style="margin:0"><div class="lct">${o.title}</div>${lg}${s}<figcaption class="cap">Las franjas marcan quién gobernaba; los efectos de una política suelen tardar años en notarse. ${o.cap}</figcaption></figure>`;
+}
+const LONG={
+vivienda:{title:"Viviendas iniciadas y terminadas al año",aria:"Línea de viviendas iniciadas y terminadas de 2003 a 2024",x:[2003,2024],y:[0,880000],ticks:[0,200000,400000,600000,800000],fmt:v=>v>=1000?Math.round(v/1000)+" mil":String(v),
+ series:[{n:"Iniciadas",d:[[2003,622633],[2004,693707],[2005,717463],[2006,762540],[2007,617350],[2008,328490],[2009,159286],[2010,123616],[2011,86238],[2012,51735],[2013,35721],[2014,38018],[2015,49985],[2016,65955],[2017,81472],[2018,103380],[2019,108568],[2020,87907],[2021,114293],[2022,110018],[2023,110344],[2024,136187]],lab:[2006,2024]},
+ {n:"Terminadas",d:[[2003,503724],[2004,563923],[2005,591604],[2006,658510],[2007,647179],[2008,632218],[2009,424459],[2010,276883],[2011,179351],[2012,133415],[2013,60289],[2014,50428],[2015,49472],[2016,44630],[2017,54274],[2018,64044],[2019,78810],[2020,87504],[2021,94728],[2022,89545],[2023,89320],[2024,100980]],lab:[2016]}],
+ cap:"Libres y protegidas. En 2024 se iniciaron 136.187 viviendas, el máximo desde 2008, pero una quinta parte que en 2006. Fuente: Ministerio de Vivienda, Observatorio de Vivienda y Suelo, boletín anual 2024 (tabla 1.2). <a href=\"https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/vivienda-agenda-urbana/Documents/2025/040725-ObservatoriodeviviendaysueloBoletnanual24.pdf\" target=\"_blank\" rel=\"noopener\">Ver datos</a>"},
+empleo:{title:"Tasa de paro, media anual (%)",aria:"Línea de la tasa de paro de 2005 a 2025",x:[2005,2025],y:[0,30],ticks:[0,10,20,30],fmt:v=>(Math.round(v*10)/10).toString().replace(".",",")+" %",
+ series:[{n:"Paro",d:[[2005,9.1],[2006,8.5],[2007,8.2],[2008,11.3],[2009,17.9],[2010,19.9],[2011,21.4],[2012,24.8],[2013,26.1],[2014,24.4],[2015,22.1],[2016,19.6],[2017,17.2],[2018,15.3],[2019,14.1],[2020,15.5],[2021,14.9],[2022,13.0],[2023,12.2],[2024,11.3],[2025,10.5]],lab:[2007,2013,2025]}],
+ cap:"Media de los cuatro trimestres de la EPA. Sigue por encima del mínimo de 2007 y es aún de las más altas de la UE. Fuente: INE, EPA (2005–2015 según el Ministerio de Trabajo; 2016–2025 calculado con los datos trimestrales del INE). <a href=\"https://ine.es/prensa/epa_tabla.htm\" target=\"_blank\" rel=\"noopener\">Ver datos</a>"},
+inmigracion:{title:"Población nacida en el extranjero y con nacionalidad extranjera (% del total)",aria:"Líneas del porcentaje de población nacida fuera y extranjera de 2015 a 2026",x:[2015,2026],y:[0,25],ticks:[0,5,10,15,20,25],fmt:v=>(Math.round(v*10)/10).toString().replace(".",",")+" %",
+ series:[{n:"Nacida en el extranjero",d:[[2015,12.7],[2016,12.7],[2017,12.9],[2018,13.3],[2019,14.0],[2020,14.8],[2021,15.3],[2022,15.7],[2023,17.1],[2024,18.2],[2025,19.3],[2026,20.2]],lab:[2015,2026]},
+ {n:"Nacionalidad extranjera",d:[[2015,9.59],[2016,9.52],[2017,9.50],[2018,9.81],[2019,10.3],[2020,11.1],[2021,11.4],[2022,11.6],[2023,12.7],[2024,13.4],[2025,14.1],[2026,14.6]],lab:[2015,2026]}],
+ cap:"A 1 de enero; 2026, provisional. La diferencia entre las dos líneas son sobre todo personas nacidas fuera que ya tienen la nacionalidad española. Las llegadas irregulares son una parte pequeña: en 2024 fueron unas 64.000, frente a 1,14 millones de extranjeros que se instalaron en España ese año (≈6 %); la mayoría llega por vías legales. Fuente: INE, Estadística continua de población y Estadística de migraciones (recopilado por DatosClaros); llegadas irregulares, Ministerio del Interior. <a href=\"https://www.datosclaros.es/cuantos-inmigrantes-han-llegado/\" target=\"_blank\" rel=\"noopener\">Ver datos</a>"},
+educacion:{title:"Abandono temprano de la educación (%)",aria:"Línea del abandono escolar temprano en España y la UE",x:[2008,2025],y:[0,36],ticks:[0,10,20,30],fmt:v=>(Math.round(v*10)/10).toString().replace(".",",")+" %",
+ series:[{n:"España",d:[[2008,31.7],[2009,null],[2013,null],[2014,21.9],[2015,20.0],[2016,19.0],[2017,18.3],[2018,17.9],[2019,17.3],[2020,16.0],[2021,13.3],[2022,13.9],[2023,13.7],[2024,13.0],[2025,12.8]],lab:[2008,2014,2025]},
+ {n:"Media de la UE",d:[[2014,11.1],[2015,11.0],[2016,10.6],[2017,10.5],[2018,10.5],[2019,10.1],[2020,10.0],[2021,9.8],[2022,9.6],[2023,9.5],[2024,9.3]],lab:[2024]}],
+ cap:"Jóvenes de 18 a 24 años que no estudian y solo tienen la ESO o menos. No se muestran 2009–2013 por no disponer de la serie oficial completa. Se ha reducido a menos de la mitad, pero sigue por encima de la UE. Fuente: Ministerio de Educación con datos de la EPA del INE y Eurostat; 2008 y 2025, Funcas. <a href=\"https://www.funcas.es/wp-content/uploads/2026/02/Informe-sobre-el-abandono-educativo-temprano-en-Espana.pdf\" target=\"_blank\" rel=\"noopener\">Ver datos</a>"}
+};
+const QUICK={
+vivienda:["Faltará cerca de un millón de viviendas en 2028, y se terminan unas 100.000 al año.","PP y Vox apuestan por liberalizar suelo y ayudar a comprar; PSOE, Frente Amplio y Podemos, por topes al alquiler y vivienda pública.","Construir más y crear un parque público de alquiler son las medidas con mejor evidencia; los topes contienen precios pero suelen reducir la oferta."],
+impuestos:["La deuda pública supera el 100 % del PIB y la AIReF prevé un 123 % en 2050 si nada cambia.","PP y Vox bajan impuestos; PSOE, Frente Amplio y Podemos los suben a rentas altas, grandes fortunas y banca.","Los impuestos a grandes fortunas recaudan poco (623 M€ en 2023), y una rebaja general financiada solo con recortes es la medida que peor cuadra las cuentas."],
+empleo:["El salario mínimo es de 1.221 € al mes en 14 pagas; la mitad de los trabajadores gana menos de 24.497 € al año.","PSOE, Frente Amplio y Podemos suben el salario mínimo y reducen la jornada; PP y Vox rebajan cotizaciones a autónomos y nuevas contrataciones.","Las subidas moderadas del salario mínimo apenas afectan al empleo; el riesgo crece cuanto más se acerca al salario mediano."],
+pensiones:["Hoy se gasta el 13 % del PIB en pensiones, y en 2050 habrá unos 17 millones de pensiones.","Todos los partidos suben las pensiones con el IPC; Frente Amplio y Podemos además bajan la edad de jubilación, y el PP fomenta la jubilación activa.","Subir con el IPC protege a los pensionistas pero eleva el gasto; bajar la edad de jubilación va en contra de lo que hacen otros países y es lo menos viable."],
+inmigracion:["Uno de cada cinco residentes nació en el extranjero; las llegadas irregulares son una parte pequeña de la inmigración.","Frente Amplio y PSOE regularizan y amplían vías legales; el PP propone cupos y devoluciones rápidas; Vox, expulsiones y «remigración».","Regularizar a quien ya vive aquí y los cupos laborales tienen mejores resultados; las expulsiones masivas son lo menos viable."],
+sanidad:["Hay 853.740 personas esperando una operación, con una espera media de 122 días.","PSOE, Frente Amplio y Podemos piden más gasto y gestión pública; el PP, más médicos de familia; Vox, usar la sanidad privada.","Más médicos en Atención Primaria y una historia clínica única tienen mejor evidencia; más gasto no garantiza menos espera."],
+energia:["Una quinta parte de la electricidad es nuclear, y Almaraz cerraría en 2030.","PP y Vox alargan la vida de las nucleares; PSOE y Frente Amplio aceleran las renovables y mantienen el cierre.","Alargar las centrales existentes es viable; construir nuevas es caro y lento, y el 100 % renovable exige almacenamiento y redes."],
+territorio:["El sistema de financiación autonómica caducó en 2014, y el PSOE propone asumir 83.000 M€ de deuda de las comunidades.","El PP quiere que cada comunidad responda de su deuda; PSOE y Frente Amplio, condonar parte y dar más fondos; Vox, recentralizar.","Aquí pesan más los valores sobre el modelo de Estado que la evidencia; condonar deuda alivia a corto plazo, pero puede premiar a quien más se endeudó."],
+educacion:["El abandono escolar temprano ha bajado a menos de la mitad desde 2008, pero sigue por encima de la media europea.","PSOE, Frente Amplio y Podemos piden más gasto, menos alumnos por aula y, en el caso del FA, el fin de los conciertos; PP y Vox, evaluaciones externas y libre elección de centro.","Mejorar la selección del profesorado y la escuela gratuita de 0 a 3 años tienen mejor evidencia; bajar ratios mejora poco para lo que cuesta."],
+seguridad:["La criminalidad convencional está en la parte baja de la serie, pero uno de cada cinco delitos ya es por internet.","PP y Vox endurecen penas y la Ley del Menor; PSOE y Frente Amplio reforman o derogan la Ley de Seguridad Ciudadana.","Más policías y juicios rápidos tienen mejor evidencia; las penas más largas disuaden poco."],
+defensa:["España gasta el 2 % del PIB en defensa; la OTAN pide un 5 % para 2035.","PP y Vox quieren gastar más; el PSOE rechaza el 5 %; Frente Amplio y Podemos quieren reducir el gasto.","La evidencia ayuda poco aquí: la decisión depende sobre todo de cómo se valore el riesgo para la seguridad europea."],
+transporte:["Hay más de mil limitaciones temporales de velocidad en la red ferroviaria, y el accidente de Adamuz causó 46 muertos.","PP, PSOE y Vox priorizan el mantenimiento; Frente Amplio, abonos muy baratos y unir Adif y Renfe.","Mantener antes que construir es la medida con mejor evidencia; los abonos baratos atraen viajeros, pero cuestan dinero cada año."]
+};
+
 const nav=document.getElementById("nav"),main=document.getElementById("main");
 nav.innerHTML=`<a class="navcred" href="#credibilidad" data-id="credibilidad">${ICONS.credibilidad}Credibilidad</a>`+T.map(t=>`<a href="#${t.id}" data-id="${t.id}">${ICONS[t.id]}${t.name}</a>`).join("");
 const esc=s=>s;
@@ -697,9 +782,11 @@ function render(id){
   nav.querySelectorAll("a").forEach(a=>a.setAttribute("aria-current",a.dataset.id===t.id?"page":"false"));
   const cur=nav.querySelector(`[data-id="${t.id}"]`);try{cur&&cur.scrollIntoView&&cur.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}
   let h=`<div class="hero"><div class="ill" style="color:var(--accent)">${ICONS[t.id]}</div><div><div class="eyebrow">Tema</div><h2>${t.name}</h2><p class="ex">${t.ex}</p></div></div>`;
+  const q=QUICK[t.id];if(q)h+=`<section class="quick"><div class="eyebrow">En 30 segundos</div><dl><div><dt>El problema</dt><dd>${q[0]}</dd></div><div><dt>Qué cambia entre partidos</dt><dd>${q[1]}</dd></div><div><dt>Qué dice la evidencia</dt><dd>${q[2]}</dd></div></dl></section>`;
   const cc=CONCEPT[t.id];
   h+=`<section class="block"><div class="eyebrow">España hoy</div>${cc?`<div class="concept"><div class="ck">Concepto clave</div><p class="ct">${cc[0]}</p><p class="cx">${cc[1]}</p></div>`:''}<div class="stats">${t.stats.map(s=>`<div class="stat"><span class="n">${s[0]}</span><span class="l">${s[1]}</span></div>`).join("")}</div>`;
   if(t.chart)h+=`<figure class="chart" style="margin:0">${t.chart.svg()}<figcaption class="cap">${t.chart.cap}</figcaption></figure>`;
+  if(LONG[t.id])h+=lineChart(LONG[t.id]);
   h+=`</section>`;
   h+=`<section class="block"><div class="eyebrow">Qué propone cada partido</div><div class="matrix">${ORDER.map(k=>{const p=t.pos[k]||[];return `<div class="prow"><div><div class="pn">${PARTIES[k].n}</div><div class="src">${PARTIES[k].src}</div></div>${p.length?`<ul>${p.map(x=>`<li>${x}</li>`).join("")}</ul>`:`<p class="none">No ha publicado propuestas sobre este tema.</p>`}</div>`}).join("")}</div></section>`;
   h+=`<section class="block"><div class="eyebrow">Las medidas, a prueba · toca para ver el análisis</div>${t.m.map((m,i)=>`<details class="measure"${i===0?" open":""}><summary><div class="mhead"><h3>${m.t}</h3><span class="chev" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l4 4 4-4"/></svg></span></div><div class="who">${m.for.map(k=>`<span class="chip for">${PARTIES[k].n}</span>`).join("")}${m.against.map(k=>`<span class="chip against" title="En contra">${PARTIES[k].n}</span>`).join("")}</div><div class="meters"><div class="meter"><span class="k">Evidencia</span>${pill("ev",m.ev)}</div><div class="meter"><span class="k">Resultado probable</span>${pill("out",m.out)}</div><div class="meter"><span class="k">Viabilidad</span>${pill("via",m.via)}</div></div></summary><div class="mbody">${deep(m,"top")}<div><h4>Dónde se ha probado</h4><div class="cases">${m.cases.map(c=>`<div class="case"><span class="where">${c[0]}</span><span>${c[1]}</span></div>`).join("")}</div></div><div><h4>Qué cabe esperar en España</h4><p class="spain">${m.spain}</p></div>${deep(m,"bottom")}${m.src.length?`<div class="sources">Fuentes: <ul>${m.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a></li>`).join("")}</ul></div>`:""}</div></details>`).join("")}<p class="note">En las etiquetas de partido, el tachado indica que ese partido se opone a la medida o propone lo contrario. Los estudios citados por autor y año son referencias académicas publicadas.</p></section>`;
@@ -708,6 +795,43 @@ function render(id){
 /* ===== Sección Credibilidad ===== */
 const CRED_RATE=[["Pedro Sánchez (PSOE)",2.0],["Alberto Núñez Feijóo (PP)",1.5],["Irene Montero (Podemos)",1.3],["Ada Colau (Frente Amplio)",0.9],["Santiago Abascal (Vox)",0.8]];
 const VER={F:["Falso","bad"],I:["Impreciso","mid"],C:["Falta contexto","unk"]};
+const DEP={
+PSOE:{d:"Principios de nov. 2026 · mitin en Valencia (paráfrasis)",q:"Atribuye los problemas del tren a los recortes de legislaturas anteriores y defiende que su Gobierno ha aumentado el mantenimiento.",
+ m:[["Gasto total en mantenimiento","720 M€ en 2017 → 1.120 M€ en 2025: +56 %. Descontando la inflación (IPC del INE, ≈25 %), ≈+24 %."],
+    ["Por km, red convencional","36.000 → 58.000 €/km: ≈+29 % descontada la inflación."],
+    ["Por km, alta velocidad","83.000 → 110.000 €/km: ≈+6 % descontada la inflación. Casi plano."],
+    ["Por viajero, alta velocidad","Los viajeros se duplicaron (22 M en 2019 → 44 M en 2025): el gasto real por viajero bajó en torno a un 40 %."],
+    ["Inversión ferroviaria total","8.772 M€ en 2009, mínimo de 1.652 M€ en 2016 y 4.891 M€ en 2024: sigue por debajo de 2009 incluso en euros corrientes."]],
+ con:"Es cierto que hubo recortes (de 2009 a 2016) y que el mantenimiento ha subido, también por kilómetro. Pero en alta velocidad, descontada la inflación, apenas ha cambiado por kilómetro y ha bajado por viajero.",
+ s:[["Adif, comunicado del 23/1/2026 (vía Infobae)","https://www.infobae.com/espana/2026/01/24/el-gasto-en-mantenimiento-de-la-red-ferroviaria-aumenta-un-60-en-ocho-anos-y-los-accidentes-graves-caen-un-10/"],["Ministerio de Transportes y Eurostat (vía El Debate)","https://www.eldebate.com/economia/20261029/deterioro-inversion-ferroviaria-trenes-viajeros-menos-dinero-vias_474787.html"],["Paráfrasis del mitin (Mundiario)","https://www.mundiario.com/politica/mensaje-que-pedro-sanchez-quiere-instalar-campana-accidente-ferroviario/20261107042637451441.html"]]},
+PP:{d:"13 nov. 2026 · The Wild Project",q:"«Es el gobierno que más impuestos y más cuotas ha cobrado a los trabajadores.»",
+ m:[["Recaudación en euros","325.356 M€ en 2025 (+10,4 %): récord. Pero en euros casi siempre se bate récord porque la economía y los precios crecen (PIB nominal +5,8 %)."],
+    ["Por qué subió en 2025","Tres cuartas partes del aumento vienen del crecimiento de las bases (más empleo, salarios y consumo); una cuarta parte (7.820 M€), de cambios normativos."],
+    ["Presión fiscal (% del PIB)","38,1 % en 2025, +0,9 puntos en un año. Sigue por debajo de la media de la UE (40,7 %)."]],
+ con:"Es literalmente cierto en euros, que es la medida menos informativa. En proporción a la economía la presión ha subido, pero sigue por debajo de la media europea.",
+ s:[["Agencia Tributaria: ingresos tributarios 2025","https://sede.agenciatributaria.gob.es/Sede/normativa-criterios-interpretativos/analisis/2026/junio/29/ingresos-tributarios-ano-2025.html"],["Eurostat, presión fiscal 2025 (vía Mundiario)","https://www.mundiario.com/economia/espana-dispara-presion-fiscal-todavia-alcanza-media-europea/20261110110619451927.html"],["Cita (El Español)","https://www.elespanol.com/sociedad/20261113/feijoo-anos-pedro-sanchez-gobierno-impuestos-cobrado-historia-espana/1003744457625_0.html"]]},
+VOX:{d:"12 nov. 2026 · mitin en Huesca",q:"«Todos nos hemos hecho más pobres» durante el Gobierno de Pedro Sánchez.",
+ vs:"Sánchez afirma lo contrario: el poder adquisitivo «ha aumentado el triple que en Francia y en Alemania» (declaración institucional, 5 oct. 2026). Los mismos datos sirven para las dos frases.",
+ m:[["Renta disponible real por habitante, desde 2022 (OCDE)","España +8,4 %, Francia +2,6 %, Alemania +0,9 % (primer trimestre de 2022 a cuarto de 2025). Con este punto de partida, la frase de Sánchez se sostiene."],
+    ["La misma medida, desde 2019 (Eurostat)","España +6 %, Francia +6 %, Alemania +4 %, UE +7 % (2019–2024). Con este punto de partida, España crece como Francia y algo menos que la UE."],
+    ["PIB por habitante frente a la UE (Eurostat, en paridad de poder de compra)","92,6 % de la media en 2017 y 91,6 % en 2025: España no se acerca a la media europea."]],
+ con:"Con las medias oficiales, la renta real por habitante ha subido: «todos más pobres» no se sostiene. «El triple» solo se cumple si se empieza a contar en 2022, tras la pandemia. Ninguna media dice cómo le ha ido a cada hogar, por ejemplo a quien paga un alquiler.",
+ s:[["OCDE (vía Capital)","https://capital.es/economia/se-ha-triplicado-el-poder-adquisitivo-de-los-espanoles-lo-que-realmente-dicen-sanchez-y-los-datos/223330/"],["Eurostat 2019–2024 (vía Euronews)","https://es.euronews.com/2026/02/06/ingresos-reales-por-persona-en-europa-donde-subieron-mas-tras-la-pandemia"],["Eurostat, convergencia (vía El Español)","https://www.elespanol.com/invertia/economia/macroeconomia/20260729/poder-adquisitivo-espanoles-solo-mejora-euros-sanchez-brecha-ue-aumenta-punto/1003744337085_0.html"],["Cita (Aragón Digital)","https://www.aragondigital.es/articulo/politica/abascal-huesca-todos-nos-hemos-hecho-mas-pobres-gobierno-pedro-sanchez/202611122118441021587.html"]]},
+FA:{d:"Nov. 2026 · Onda Cero",q:"Con el tope del alquiler en Cataluña, «se comienzan a contener y bajar un poco los precios».",
+ m:[["Alquiler medio de los contratos nuevos en Cataluña (Incasòl)","878 €, +2,7 % en un año, por debajo de la inflación (3,1 %, Idescat): una ligera bajada real."],
+    ["Municipios regulados frente a no regulados","+0,7 % desde principios de 2024 en los regulados, frente a +13,8 % en los no regulados."],
+    ["Precio por m² en Barcelona","17,1 €/m², máximo histórico. Desde marzo de 2024 el alquiler total ha bajado un 4,4 %, pero por m² ha subido un 2,3 %: se alquilan pisos más pequeños."],
+    ["Contratos nuevos (Incasòl)","Unos 26.500 entre abril y junio de 2026, la cifra más baja desde 2010."]],
+ con:"En precio total, la contención es real. Por m² los precios siguen subiendo, y se firman menos contratos que nunca desde 2010.",
+ s:[["Verificat, con datos de Incasòl, Idescat y el Ayuntamiento","https://www.verificat.cat/es/tope-alquiler-precios-oferta-catalunya/"]]},
+POD:{d:"16 nov. 2026 · Elche",q:"En España hay «prácticamente cuatro millones» de viviendas vacías.",
+ m:[["Cifra oficial","3.837.328 viviendas vacías, el 14,4 % del parque (Censo de 2021 del INE, datos a 1 de enero de 2021)."],
+    ["Qué cuenta como vacía","Sin contrato de luz o con un consumo anual inferior al de 15 días de uso. Incluye viviendas en mal estado, en venta, en herencia o en pueblos sin demanda."],
+    ["Dónde están","Los municipios de menos de 10.000 habitantes, con el 20 % de la población, tienen el 45 % de las vacías. Las ciudades de más de 250.000 habitantes, con el 24 % de la población, solo el 10,5 %."]],
+ con:"La cifra está bien citada, aunque tiene cinco años. Pero la mayoría de esas viviendas no está donde falta vivienda, así que no equivale a viviendas disponibles para alquilar.",
+ s:[["INE: Censo de Población y Viviendas 2021","https://ine.es/prensa/censo_2021_jun.pdf"],["Cita (Infobae / Europa Press)","https://www.infobae.com/espana/agencias/2026/11/16/irene-montero-defiende-intervenir-el-mercado-de-la-vivienda-para-bajar-precios-nos-habilita-la-constitucion/"]]}
+};
+
 const JUD={firme:["Condena firme","bad"],juicio:["En juicio","mid"],invest:["En investigación","unk"],archivo:["Archivado","good"],tcu:["Tribunal de Cuentas","mid"],entorno:["Entorno del líder","unk"]};
 const CRED=[
 {k:"PP",leader:"Alberto Núñez Feijóo",
@@ -748,7 +872,7 @@ const CRED=[
  jud:[
   {c:"archivo",t:"Querellas contra Colau como alcaldesa",x:"Archivadas las causas por la supermanzana del Eixample (recurso desestimado por el Supremo en 2024), por presuntas presiones contra desahucios (2024) y por subvenciones a entidades afines (archivada de nuevo en febrero de 2025).",s:["Ara: la justicia confirma que no delinquió (30/09/2024)","https://es.ara.cat/sociedad/barcelona/justicia-confirma-gobierno-colau-no-delinquio-detener-desahucios_1_5156072.html"]}]},
 {k:"POD",leader:"Irene Montero",
- exp:["Gobierno central en coalición con el PSOE de 2020 a 2023 (vicepresidencia y varios ministerios)","Montero fue ministra de Igualdad de 2020 a 2023","No forma parte del Gobierno desde 2023"],
+ exp:["Gobierno central en coalición con el PSOE de 2020 a 2023 (vicepresidencia y varios ministerios)","Montero fue ministra de Igualdad de 2020 a 2023","No forma parte del Gobierno desde 2023","El 29N: lista propia en la mayoría de provincias; en Cataluña sus candidatos van en las listas de ERC, y en la Comunidad Valenciana, Baleares y Canarias comparte lista con el Frente Amplio"],
  claims:[
   {v:"F",d:"14 nov. 2026 · mitin en Las Palmas",q:"En Adeje y Yaiza las viviendas turísticas son el 30 % y el 60 % del total.",r:"Son el 14,1 % y el 21,7 % (mayo de 2026).",s:["INE: viviendas turísticas por municipio","https://www.ine.es/jaxiT3/Tabla.htm?t=39366"],via:"https://argos29n.com/momento/montero-adeje-yaiza"},
   {v:"F",d:"15 nov. 2026 · Canal Sur",q:"Iryo y Ouigo pagan «un canon de unos 800 millones».",r:"Los 783 millones de cánones de 2024 los pagaron todos los operadores, Renfe incluida; Iryo y Ouigo pagan entre 190 y 250 millones.",s:["CNMC: balance de la liberalización ferroviaria","https://www.cnmc.es/sites/default/files/6148400.pdf"],via:"https://argos29n.com/momento/montero-canon-iryo-ouigo"},
@@ -761,20 +885,24 @@ function renderCred(){
   nav.querySelectorAll("a").forEach(a=>a.setAttribute("aria-current",a.dataset.id==="credibilidad"?"page":"false"));
   let h=`<div class="hero"><div class="ill" style="color:var(--accent)">${ICONS.credibilidad}</div><div><div class="eyebrow">Sección aparte</div><h2>Credibilidad</h2><p class="ex">Qué han hecho y dicho los partidos y sus candidatos, comprobado con datos oficiales y resoluciones judiciales. No influye en la evaluación de las propuestas.</p></div></div>`;
   h+=`<section class="block"><div class="eyebrow">Cómo está hecha</div><div class="concept"><div class="ck">Reglas</div><p class="cx">Solo cuentan datos oficiales (INE, ministerios, Eurostat, CNMC, Tribunal de Cuentas) y resoluciones judiciales. Las condenas firmes, los juicios, las investigaciones y los archivos se muestran por separado, y en lo que no es firme rige la presunción de inocencia. No hay nota final: quien más años ha gobernado ha tenido más ocasiones de equivocarse, así que cada ficha empieza por su exposición al poder.</p></div>
-  <div class="stats"><div class="stat"><span class="n">Listo</span><span class="l">Exposición al poder, afirmaciones de campaña verificadas y causas judiciales o de cuentas</span></div><div class="stat"><span class="n">En preparación</span><span class="l">Coherencia entre programa de 2023 y votaciones en el Congreso, y promesas cumplidas donde gobernaron</span></div></div></section>`;
+  <div class="stats"><div class="stat"><span class="n">Listo</span><span class="l">Exposición al poder, afirmaciones falsas o imprecisas, afirmaciones que dependen de cómo se midan, y causas judiciales o de cuentas</span></div><div class="stat"><span class="n">En preparación</span><span class="l">Coherencia entre programa de 2023 y votaciones en el Congreso, y promesas cumplidas donde gobernaron</span></div></div></section>`;
   h+=`<section class="block"><div class="eyebrow">Datos falsos o imprecisos por hora hablada en campaña</div><figure class="chart" style="margin:0">${bars(CRED_RATE.map(r=>[r[0],r[1],r[1].toFixed(1).replace(".",","),0]),{max:2.3})}<figcaption class="cap">Recuento del verificador independiente Argos sobre 155 afirmaciones de entrevistas, mítines y vídeos hasta el 17 de noviembre. Dividir por horas evita penalizar a quien habla más. Es un único verificador y una muestra parcial: úsalo como señal, no como veredicto. <a href="https://argos29n.com/" target="_blank" rel="noopener">Ver todas</a></figcaption></figure></section>`;
   h+=CRED.map(p=>`<section class="block credp"><div class="credh"><h3>${PARTIES[p.k].n}</h3><span class="src">Candidato: ${p.leader}</span></div>
    <div class="credsec"><h4>Exposición al poder</h4><ul class="plain">${p.exp.map(e=>`<li>${e}</li>`).join("")}</ul></div>
    <div class="credsec"><h4>Afirmaciones de campaña comprobadas</h4><div class="claims">${p.claims.map(c=>`<div class="claim"><div class="ch"><span class="pill t-${VER[c.v][1]}">${VER[c.v][0]}</span><span class="when">${c.d}</span></div><p class="q">${c.q}</p><p class="r"><b>Dato oficial:</b> ${c.r}</p><p class="cs"><a href="${c.s[1]}" target="_blank" rel="noopener">${c.s[0]}</a> · <a href="${c.via}" target="_blank" rel="noopener">verificación</a></p></div>`).join("")}</div></div>
+   ${DEP[p.k]?(()=>{const c=DEP[p.k];return `<div class="credsec"><h4>Depende de cómo se mida</h4><div class="claim"><div class="ch"><span class="pill t-unk">Depende de la métrica</span><span class="when">${c.d}</span></div><p class="q">${c.q}</p>${c.vs?`<p class="r" style="color:var(--muted)">${c.vs}</p>`:''}<dl class="mets">${c.m.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join("")}</dl><p class="r"><b>En resumen:</b> ${c.con}</p><p class="cs">${c.s.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`).join(" · ")}</p></div></div>`})():''}
    <div class="credsec"><h4>Tribunales y cuentas</h4><div class="claims">${p.jud.map(j=>`<div class="claim"><div class="ch"><span class="pill t-${JUD[j.c][1]}">${JUD[j.c][0]}</span></div><p class="q" style="font-style:normal;font-weight:600">${j.t}</p><p class="r">${j.x}</p><p class="cs"><a href="${j.s[1]}" target="_blank" rel="noopener">${j.s[0]}</a></p></div>`).join("")}</div></div>
   </section>`).join("");
-  h+=`<p class="note">Selección: hasta tres afirmaciones de datos por candidato, entre las verificadas con fuente oficial, priorizando las que tratan sobre políticas públicas. Abascal tiene dos porque es el candidato con menos datos erróneos por hora. En tribunales se incluyen las causas que afectan al partido, a sus cargos o, aparte, al entorno familiar del candidato, con resolución judicial o informe del Tribunal de Cuentas.</p>`;
+  h+=`<p class="note">«Depende de cómo se mida»: una afirmación por candidato, elegida con la misma regla para todos: balance de gestión o diagnóstico sobre uno de los doce temas, con cifras, dicha en campaña y que distintos datos oficiales responden de forma distinta. Se muestran las medidas, no un veredicto. Algunas fuentes enlazadas son medios que recogen el dato oficial; se indica entre paréntesis.</p><p class="note">Selección: hasta tres afirmaciones de datos por candidato, entre las verificadas con fuente oficial, priorizando las que tratan sobre políticas públicas. Abascal tiene dos porque es el candidato con menos datos erróneos por hora. En tribunales se incluyen las causas que afectan al partido, a sus cargos o, aparte, al entorno familiar del candidato, con resolución judicial o informe del Tribunal de Cuentas.</p>`;
   main.innerHTML=h;
 }
 
 function route(){const id=(location.hash||"").slice(1);if(id==="credibilidad"){renderCred();return}render(T.some(t=>t.id===id)?id:"vivienda")}
-window.addEventListener("hashchange",()=>{route();try{window.scrollTo(0,document.querySelector("nav.topics").offsetTop)}catch(e){}});
+function goTop(){try{const n=document.querySelector("nav.topics");const y=main.getBoundingClientRect().top+window.scrollY-n.getBoundingClientRect().height-8;window.scrollTo({top:Math.max(0,y),behavior:"auto"})}catch(e){}}
+window.addEventListener("hashchange",()=>{route();requestAnimationFrame(goTop)});
+nav.addEventListener("click",e=>{const a=e.target.closest("a");if(a&&a.getAttribute("href")===location.hash){e.preventDefault();goTop()}});
 route();
 </script>
 
-</body></html>
+</body>
+</html>
