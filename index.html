@@ -474,6 +474,16 @@ section.sec>.mcard+.mcard{margin-top:12px}
 .credp details.credsec[open]>summary .chev{transform:rotate(180deg)}
 .credp details.credsec>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .credp details.credsec>.claims2{margin-top:6px}
+.credp .claims2{border-top:0}
+section.credp[hidden],.howto2[hidden]{display:none!important}
+.credp .claims2>.claim2:first-child{padding-top:8px}
+.ptabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;margin:0 -2px;scrollbar-width:none}
+.ptabs::-webkit-scrollbar{display:none}
+.ptabs button{flex:none;font:600 15px/1 var(--f-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 16px;cursor:pointer}
+.ptabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ptabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pnext{display:flex;justify-content:flex-end;margin-top:4px}
+.pnext button{font:600 14px/1 var(--f-body);color:var(--accent);background:none;border:0;padding:10px 0;cursor:pointer}
 .credp .sumt{display:flex;flex-direction:column;gap:8px}
 .credp .jsum{display:flex;flex-wrap:wrap;gap:6px}
 .credp .jsum .pill{font-size:12px}
@@ -1149,6 +1159,7 @@ ${args}
 ${m.src.length?`<div class="sources"><span class="k">Fuentes</span><ul>${m.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a></li>`).join("")}</ul></div>`:""}
 </article>`;}
 function render(id){
+  {const how=document.querySelector(".howto2");if(how)how.hidden=false;}
   const t=T.find(x=>x.id===id)||T[0];
   nav.querySelectorAll("a").forEach(a=>a.setAttribute("aria-current",a.dataset.id===t.id?"page":"false"));
   const cur=nav.querySelector(`[data-id="${t.id}"]`);try{cur&&cur.scrollIntoView&&cur.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}
@@ -1394,19 +1405,26 @@ const CRED=[
   {a:"orgold",c:"archivo",t:"Caso Neurona",x:"El juzgado de instrucción n.º 42 de Madrid excluyó a Podemos en septiembre de 2023 y sobreseyó provisionalmente la causa en diciembre: no se acreditó desvío de fondos electorales.",s:["El Debate (12/12/2023)","https://www.eldebate.com/espana/20231212/juez-cierra-caso-neurona-concluir-podemos-no-apropio-fondos-electorales_159948_amp.html"]}]}
 ];
 
+let credParty="PP";
 function renderCred(){
+  const how=document.querySelector(".howto2");if(how)how.hidden=true;
   nav.querySelectorAll("a").forEach(a=>a.setAttribute("aria-current",a.dataset.id==="credibilidad"?"page":"false"));
   let h=`<div class="hero"><div class="ill" style="color:var(--accent)">${ICONS.credibilidad}</div><div><div class="eyebrow">Sección aparte</div><h2>Credibilidad</h2><p class="ex">Qué han hecho y dicho los partidos y sus candidatos, comprobado con datos oficiales y resoluciones judiciales. No influye en la evaluación de las propuestas.</p></div></div>`;
   h+=`<section class="block sec"><header class="sh"><span class="sn">01</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></span><div><h2 class="st">Cómo está hecha</h2><p class="ss">Reglas comunes para todos los partidos</p></div></header><div class="concept"><div class="ck">Reglas</div><p class="cx">Solo cuentan datos oficiales (INE, ministerios, Eurostat, CNMC, Tribunal de Cuentas) y resoluciones judiciales. Las condenas firmes, los juicios, las investigaciones y los archivos se muestran por separado, y en lo que no es firme rige la presunción de inocencia. No hay nota final: quien más años ha gobernado ha tenido más ocasiones de equivocarse, así que cada ficha empieza por su exposición al poder.</p></div></section>`;
   h+=`<section class="block sec"><header class="sh"><span class="sn">02</span><span class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg></span><div><h2 class="st">Ficha por partido</h2><p class="ss">Exposición al poder, su relato en datos, dijo y votó y casos en los tribunales</p></div></header></section>`;
-  h+=CRED.map(p=>`<section class="block credp"><div class="credh"><h3>${PARTIES[p.k].n}</h3><span class="src">Candidato: ${p.leader}</span></div>
+  h+=`<div class="ptabs" role="tablist" aria-label="Partidos">${CRED.map(p=>`<button type="button" role="tab" id="tab-${p.k}" aria-controls="ficha-${p.k}" aria-selected="${p.k===credParty}" data-k="${p.k}">${PARTIES[p.k].n}</button>`).join("")}</div>`;
+  h+=CRED.map((p,pi)=>`<section class="block credp" role="tabpanel" id="ficha-${p.k}" aria-labelledby="tab-${p.k}"${p.k===credParty?'':' hidden'}><div class="credh"><h3>${PARTIES[p.k].n}</h3><span class="src">Candidato: ${p.leader}</span></div>
    <div class="credsec"><h4>Exposición al poder</h4><ul class="plain">${p.exp.map(e=>`<li>${e}</li>`).join("")}</ul></div>
    <div class="credsec"><h4>Su relato, en datos</h4><div class="claims2">${[...(REL[p.k]||[]),...(DEP[p.k]?[DEP[p.k]]:[])].map((c,i)=>relCard(c,i+1,p.leader)).join("")}</div></div>
    ${DIJO[p.k]?`<div class="credsec"><h4>Dijo y votó</h4><div class="claims2">${DIJO[p.k].map((c,i)=>dijoCard(c,i+1)).join("")}</div></div>`:''}
    <details class="credsec"><summary><span class="sumt">Casos en los tribunales<span class="jsum">${judSum(p.jud)}</span>${judNow(p.jud)}</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><div class="claims2">${[...p.jud].sort((a,b)=>AFE_ORD.indexOf(a.a)-AFE_ORD.indexOf(b.a)).map(j=>`<article class="claim2"><div class="vline"><span class="pill t-${JUD[j.c][1]}">${JUD[j.c][0]}</span></div><h5 class="jt">${j.t}</h5><p class="afe"><b>A quién afecta:</b> ${AFE[j.a]}</p><p class="why">${j.x}</p><p class="cs"><a href="${j.s[1]}" target="_blank" rel="noopener">${j.s[0]}</a></p></article>`).join("")}</div></details>
+   ${pi<CRED.length-1?`<div class="pnext"><button type="button" data-k="${CRED[pi+1].k}">Siguiente: ${PARTIES[CRED[pi+1].k].n} →</button></div>`:''}
   </section>`).join("");
   h+=`<p class="note">«Su relato, en datos»: los mensajes centrales de cada partido en esta campaña, descritos a partir de su lema, su programa y lo que repite el candidato, sin buscarles una frase concreta. Para cada uno se muestran, con la misma regla: la medida que usa el partido, la que usan sus críticos, series largas para que la fecha de inicio no decida, la comparación europea cuando existe y lo que los datos oficiales no permiten saber. Se describen los datos, sin veredicto. Algunas fuentes enlazadas son medios que recogen el dato oficial; se indica entre paréntesis.</p><p class="note">«Dijo y votó»: casos en que un partido dijo algo concreto y después votó en el Congreso en sentido contrario. La declaración es anterior al voto y tan concreta como lo votado. Si la medida iba dentro de un paquete con otras (un decreto «ómnibus»), se indica, y siempre se recoge la explicación del propio partido. Hasta tres casos por partido; el PP tiene dos y el resto uno. Quien más ha gobernado o más votaciones decisivas ha tenido acumula más ocasiones de contradecirse. Las votaciones y explicaciones se enlazan a través de la prensa que las recoge.</p><p class="note">«Casos en los tribunales» incluye las causas que afectan al partido, a sus cargos o, aparte, al entorno familiar del candidato, con resolución judicial o informe del Tribunal de Cuentas. Criterio común: se incluyen todas las causas que afectan al candidato, a su entorno familiar, a quienes han tenido cargos de gobierno o de dirección del partido con el candidato actual y al partido como organización; de etapas anteriores, solo condenas firmes, juicios abiertos y causas contra el partido ya archivadas. No se incluyen cargos de instituciones independientes del Gobierno, como la Fiscalía. En cada caso se indica a quién afecta, y primero aparecen los que tocan a la dirección o al equipo actual.</p>`;
   main.innerHTML=h;
+  const pick=k=>{credParty=k;main.querySelectorAll(".ptabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.k===k));main.querySelectorAll("section.credp").forEach(sec=>sec.hidden=sec.id!=="ficha-"+k);const t=main.querySelector(".ptabs");try{t&&t.scrollIntoView({block:"start"})}catch(e){}};
+  main.querySelectorAll(".ptabs button,.pnext button").forEach(b=>b.addEventListener("click",()=>pick(b.dataset.k)));
+  main.querySelector(".ptabs").addEventListener("keydown",e=>{if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;const ks=CRED.map(p=>p.k);let i=ks.indexOf(credParty)+(e.key==="ArrowRight"?1:-1);i=(i+ks.length)%ks.length;pick(ks[i]);main.querySelector("#tab-"+ks[i]).focus()});
 }
 
 function route(){const id=(location.hash||"").slice(1);if(id==="credibilidad"){renderCred();return}render(T.some(t=>t.id===id)?id:"vivienda")}
