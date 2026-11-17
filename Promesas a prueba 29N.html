@@ -1,0 +1,780 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Promesas a prueba 29N</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,650&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: una columna de lectura (máx. 760px), barra de temas fija arriba, cada tema = ficha de contexto + matriz por partido + medidas con evidencia */
+:root{
+  --bg:#F3F5F7; --surface:#FFFFFF; --ink:#16212C; --muted:#5A6774; --line:#DBE1E7;
+  --accent:#1E5A86; --accent-soft:#E3EDF5;
+  --good:#2E7D4F; --mid:#B7791F; --unk:#7A8591; --bad:#B4483C;
+  --good-soft:#E3F2E8; --mid-soft:#FBF0DC; --unk-soft:#ECEFF2; --bad-soft:#F8E4E1;
+  --f-display:"Newsreader",Georgia,"Times New Roman",serif;
+  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-data:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F161D; --surface:#17212B; --ink:#E6ECF1; --muted:#9AA8B5; --line:#2A3743;
+  --accent:#7DB4E0; --accent-soft:#1C2E3F;
+  --good:#6CC08E; --mid:#E0B160; --unk:#9AA6B2; --bad:#E5877B;
+  --good-soft:#18301F; --mid-soft:#33281A; --unk-soft:#212B35; --bad-soft:#3A201D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F161D; --surface:#17212B; --ink:#E6ECF1; --muted:#9AA8B5; --line:#2A3743;
+  --accent:#7DB4E0; --accent-soft:#1C2E3F;
+  --good:#6CC08E; --mid:#E0B160; --unk:#9AA6B2; --bad:#E5877B;
+  --good-soft:#18301F; --mid-soft:#33281A; --unk-soft:#212B35; --bad-soft:#3A201D; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:650;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,7vw,44px)}
+h2{font-size:clamp(24px,5.5vw,32px)}
+h3{font-size:19px}
+p{margin:0}
+a{color:var(--accent)}
+.eyebrow{font:500 11px/1 var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header.top{padding-block:28px 18px}
+header.top .lead{color:var(--muted);max-width:62ch;margin-top:12px}
+.howto{display:grid;gap:10px;margin-top:18px;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.howto .row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px;color:var(--muted)}
+.howto b{color:var(--ink);font-weight:600}
+nav.topics{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-block:1px solid var(--line)}
+nav.topics .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+nav.topics .wrap::-webkit-scrollbar{display:none}
+nav.topics a{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:13px;font-weight:500;white-space:nowrap}
+nav.topics a svg{width:16px;height:16px}
+nav.topics a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+nav.topics a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{padding-block:22px 48px;display:grid;gap:26px}
+.hero{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
+.hero .ill{width:96px;height:96px;border-radius:14px;background:var(--accent-soft);display:grid;place-items:center}
+.hero .ill svg{width:64px;height:64px}
+.hero .ex{color:var(--muted);font-size:14px;margin-top:6px}
+section.block{display:grid;gap:12px}
+.block>.eyebrow{margin-bottom:-2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:4px;min-width:0}
+.stat .n{font:500 21px/1.15 var(--f-data);font-variant-numeric:tabular-nums}
+.stat .l{font-size:12.5px;color:var(--muted);line-height:1.4}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:8px}
+.chart .cap{font-size:13px;color:var(--muted)}
+.bars{display:grid;gap:10px}
+.br{display:grid;gap:3px;min-width:0}
+.bl{font-size:13px;line-height:1.3}
+.bt{display:grid;grid-template-columns:1fr 84px;gap:8px;align-items:center}
+.track{position:relative;height:18px}
+.bf{display:block;height:100%;border-radius:3px;background:var(--unk);opacity:.55}
+.bf.em{background:var(--accent);opacity:1}
+.bv{font:500 12.5px/1 var(--f-data);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ref{position:absolute;top:-4px;bottom:-4px;width:0;border-left:2px dashed var(--bad)}
+.reflg{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--bad)}
+.refk{width:16px;border-top:2px dashed var(--bad)}
+.chart svg{width:100%;height:auto;display:block}
+.chart svg text{font-family:var(--f-body)}
+.matrix{display:grid;gap:8px}
+.prow{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.prow .pn{font-weight:600;font-size:14px}
+.prow .src{font:500 10px/1.3 var(--f-data);letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.prow ul{margin:0;padding-left:18px;display:grid;gap:3px;font-size:14px;min-width:0}
+.prow .none{font-size:14px;color:var(--muted);font-style:italic}
+.concept{background:var(--accent-soft);border-radius:10px;padding:14px;display:grid;gap:6px}
+.concept .ck{font:500 10.5px/1 var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.concept .ct{font-family:var(--f-display);font-weight:650;font-size:18px;line-height:1.25}
+.concept .cx{font-size:14px;max-width:68ch}
+.chain{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:st}
+.chain li{position:relative;padding:6px 0 10px 34px;font-size:14px;counter-increment:st}
+.chain li::before{content:counter(st);position:absolute;left:0;top:4px;width:24px;height:24px;border-radius:50%;background:var(--bg);border:1px solid var(--line);font:500 12px/22px var(--f-data);text-align:center;color:var(--muted)}
+.chain li:not(:last-child)::after{content:"";position:absolute;left:11.5px;top:30px;bottom:-4px;border-left:1px solid var(--line)}
+.chain li.weak::before{background:var(--mid-soft);border-color:var(--mid);color:var(--mid)}
+.chain li.weak span{font-weight:600}
+.chain li em{display:block;font-style:normal;font-size:12px;color:var(--mid);font-weight:600;margin-top:2px}
+.promise,.indic{display:grid;gap:3px;font-size:14px}
+.promise .k,.indic .k,.arg .k{font:500 10.5px/1.2 var(--f-data);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.indic .now{color:var(--muted);font-size:13px}
+.args{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.arg{border:1px solid var(--line);border-radius:8px;padding:10px;display:grid;gap:4px;font-size:14px;min-width:0}
+@media (max-width:520px){.args{grid-template-columns:1fr}}
+.measure{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.measure summary{list-style:none;cursor:pointer;padding:14px 14px 12px;display:grid;gap:8px}
+.measure summary::-webkit-details-marker{display:none}
+.mhead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.mhead h3{font-size:18px}
+.chev{flex:0 0 auto;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:transform .2s}
+.measure[open] .chev{transform:rotate(180deg)}
+.who{display:flex;flex-wrap:wrap;gap:6px;font-size:12px}
+.chip{padding:2px 8px;border-radius:999px;border:1px solid var(--line);font-weight:500;white-space:nowrap}
+.chip.for{background:var(--accent-soft);border-color:transparent;color:var(--ink)}
+.chip.against{background:transparent;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--muted)}
+.meters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.meter{display:grid;gap:4px;min-width:0}
+.meter .k{font:500 10px/1.2 var(--f-data);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pill{display:inline-block;justify-self:start;max-width:100%;padding:3px 8px;border-radius:6px;font-size:12px;font-weight:600;line-height:1.3}
+.t-good{background:var(--good-soft);color:var(--good)}
+.t-mid{background:var(--mid-soft);color:var(--mid)}
+.t-unk{background:var(--unk-soft);color:var(--unk)}
+.t-bad{background:var(--bad-soft);color:var(--bad)}
+.mbody{padding:0 14px 14px;display:grid;gap:12px;border-top:1px solid var(--line);padding-top:12px}
+.mbody h4{margin:0 0 4px;font:600 12px/1.2 var(--f-body);letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+.cases{display:grid;gap:8px}
+.case{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:14px}
+.case .where{font:500 11.5px/1.5 var(--f-data);color:var(--muted);white-space:nowrap}
+.spain{background:var(--bg);border-radius:8px;padding:10px 12px;font-size:14px}
+.text{font-size:14px;max-width:68ch}
+.sources{font-size:12.5px;color:var(--muted);display:grid;gap:4px}
+.sources ul{margin:0;padding-left:18px;display:grid;gap:2px}
+.credh{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;border-bottom:2px solid var(--ink);padding-bottom:6px}
+.credsec{display:grid;gap:8px}
+.credsec h4{font:500 10.5px/1.2 var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+ul.plain{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.claims{display:grid;gap:10px}
+.claim{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:6px;min-width:0}
+.claim .ch{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.claim .when{font-size:12px;color:var(--muted)}
+.claim .q{font-style:italic;font-size:14.5px;max-width:68ch}
+.claim .r{font-size:14px;max-width:68ch}
+.claim .cs{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.claim .cs a{color:var(--accent)}
+nav.topics a.navcred{border-style:dashed}
+.note{font-size:13px;color:var(--muted);max-width:68ch}
+footer{padding-block:24px 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;display:grid;gap:8px}
+@media (max-width:520px){
+  .hero{grid-template-columns:64px 1fr}.hero .ill{width:64px;height:64px}.hero .ill svg{width:42px;height:42px}
+  .prow{grid-template-columns:1fr;gap:6px}
+  .meters{grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .pill{font-size:11px;padding:3px 6px}
+  .case{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top wrap">
+  <div class="eyebrow">Elecciones generales · 29 de noviembre de 2026</div>
+  <h1 style="margin-top:10px">Promesas a prueba</h1>
+  <p class="lead">Qué propone cada partido en doce temas y qué ha pasado cuando medidas parecidas se aplicaron en otros países o en España. Cada medida se evalúa con los mismos tres criterios, sea del partido que sea. No es una recomendación de voto.</p>
+  <div class="howto">
+    <div class="row"><b>Cómo leer cada medida</b></div>
+    <div class="row"><span class="pill t-unk">Evidencia</span> cuánta experiencia comparable hay: alta, media, escasa o sin precedentes.</div>
+    <div class="row"><span class="pill t-unk">Resultado probable</span> si lograría en España lo que promete: favorable, con contrapartidas, incierto o desfavorable.</div>
+    <div class="row"><span class="pill t-unk">Viabilidad</span> coste, competencias, mayorías y capacidad para ejecutarla en una legislatura.</div>
+    <div class="row">Al desplegar cada medida verás además cómo tendría que funcionar paso a paso, qué eslabón suele fallar, qué se promete exactamente, el mejor argumento a favor y en contra, y con qué dato comprobar si funcionó.</div>
+    <div class="row">Fuentes: programas del PP (10 nov.), Vox (12 nov.), PSOE (15 nov.) y Frente Amplio (16 nov.). Podemos no ha publicado programa; se usan sus cinco medidas de campaña y declaraciones recogidas en prensa.</div>
+  </div>
+</header>
+
+<nav class="topics" aria-label="Temas"><div class="wrap" id="nav"></div></nav>
+<main class="wrap" id="main"></main>
+
+<footer class="wrap">
+  <p><b style="color:var(--ink)">Qué temas no están.</b> Aborto, eutanasia como derecho, ley trans, memoria histórica, lenguas o tauromaquia se deciden sobre todo por valores; la evidencia empírica aporta poco a esas decisiones, por eso no se evalúan aquí.</p>
+  <p><b style="color:var(--ink)">Límites de este análisis.</b> Una medida que funcionó en otro país no tiene por qué funcionar aquí, y al revés; por eso cada ficha separa lo que pasó fuera de lo que cabe esperar en España. Las valoraciones resumen la evidencia disponible a 17 de noviembre de 2026 y pueden discutirse. Los estudios académicos se citan por autor y año; los datos de España enlazan a la fuente consultada.</p>
+  <p>Programas completos: <a href="https://www.pp.es/wp-content/uploads/2026/11/PROGRAMA-ELECTORAL-PP-2026-RECONSTRUCCION-NACIONAL.pdf">PP</a> · <a href="https://www.psoe.es/media-content/2026/11/PROGRAMAPSOE29N26.pdf">PSOE</a> · <a href="https://www.voxespana.es/wp-content/uploads/2026/11/Programa-completo-A5-1.pdf">Vox</a> · <a href="https://www.democrata.es/elecciones-generales-espana/herramientas/assets/programas-2026/programa-frente-amplio-29n-2026.pdf">Frente Amplio</a> · <a href="https://github.com/jynus/programas-electorales-29n-generales-2026">Podemos (web de campaña, archivada)</a></p>
+</footer>
+
+<script>
+const PARTIES={PP:{n:"PP",src:"Programa 29N"},PSOE:{n:"PSOE",src:"Programa 29N"},VOX:{n:"Vox",src:"Programa 29N"},FA:{n:"Frente Amplio",src:"Programa 29N"},POD:{n:"Podemos",src:"Sin programa · declaraciones"}};
+const ORDER=["PP","PSOE","VOX","FA","POD"];
+const LV={ev:{alta:["Alta","good"],media:["Media","mid"],escasa:["Escasa","unk"],nueva:["Sin precedentes","bad"]},
+ out:{fav:["Favorable","good"],contra:["Con contrapartidas","mid"],inc:["Incierto","unk"],desf:["Desfavorable","bad"]},
+ via:{alta:["Alta","good"],media:["Media","mid"],baja:["Baja","bad"]}};
+
+const ICONS={
+credibilidad:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M32 8 52 15v15c0 13-8 22-20 26C20 52 12 43 12 30V15z"/><path d="M23 32l6 6 12-13"/></svg>',
+vivienda:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M8 30 32 10l24 20"/><path d="M14 26v28h36V26"/><rect x="27" y="38" width="10" height="16"/><rect x="18" y="32" width="7" height="7"/><rect x="39" y="32" width="7" height="7"/></svg>',
+impuestos:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><ellipse cx="24" cy="18" rx="14" ry="5"/><path d="M10 18v8c0 3 6 5 14 5s14-2 14-5v-8"/><path d="M10 26v8c0 3 6 5 14 5"/><path d="M10 34v8c0 3 6 5 14 5"/><circle cx="42" cy="42" r="13"/><path d="M38 38l8 8M46 38l-8 8"/></svg>',
+empleo:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><rect x="8" y="20" width="48" height="32" rx="4"/><path d="M24 20v-6h16v6"/><path d="M8 33h48"/><circle cx="32" cy="34" r="3"/></svg>',
+pensiones:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="32" cy="34" r="20"/><path d="M32 22v12l8 6"/><path d="M14 10l-6 6M50 10l6 6"/></svg>',
+inmigracion:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="32" cy="32" r="22"/><path d="M10 32h44"/><path d="M32 10c7 7 7 37 0 44M32 10c-7 7-7 37 0 44"/></svg>',
+sanidad:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><rect x="10" y="14" width="44" height="40" rx="4"/><path d="M28 24h8v8h8v8h-8v8h-8v-8h-8v-8h8z"/></svg>',
+energia:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M36 6 16 36h14l-4 22 22-32H34z"/></svg>',
+educacion:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M4 24 32 12l28 12-28 12z"/><path d="M16 30v12c0 4 8 8 16 8s16-4 16-8V30"/><path d="M58 25v14"/></svg>',
+seguridad:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M32 6 52 14v16c0 13-9 23-20 28C21 53 12 43 12 30V14z"/><path d="M24 31l6 6 11-12"/></svg>',
+defensa:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><circle cx="32" cy="32" r="22"/><path d="M32 16l3.5 10.5H46l-8.5 6.5 3.2 10.5L32 37l-8.7 6.5 3.2-10.5L18 26.5h10.5z"/></svg>',
+transporte:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><rect x="16" y="8" width="32" height="38" rx="6"/><path d="M16 28h32"/><circle cx="24" cy="37" r="2.5"/><circle cx="40" cy="37" r="2.5"/><path d="M22 46l-8 10M42 46l8 10M18 54h28"/></svg>',
+territorio:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M8 14l14-6 20 6 14-6v42l-14 6-20-6-14 6z"/><path d="M22 8v42M42 14v42"/></svg>'
+};
+
+/* chart: barras horizontales en HTML (etiqueta encima, sin recortes en móvil). rows:[label,value,display,emph] ; ref:{v,label} */
+function bars(rows,{max,ref=null}={}){
+  const pct=v=>Math.max(0.6,(v/max)*100);
+  let h=`<div class="bars">`;
+  rows.forEach(r=>{h+=`<div class="br"><div class="bl">${r[0]}</div><div class="bt"><div class="track"><span class="bf${r[3]?' em':''}" style="width:${pct(r[1])}%"></span>${ref?`<span class="ref" style="left:${pct(ref.v)}%"></span>`:''}</div><span class="bv">${r[2]}</span></div></div>`});
+  if(ref)h+=`<div class="reflg"><span class="refk"></span>${ref.label}</div>`;
+  return h+`</div>`;
+}
+const T=[
+{id:"vivienda",name:"Vivienda",ex:"Alquiler, vivienda pública, compra de la primera vivienda, fondos y extranjeros, okupación.",
+ stats:[["≈1 millón","viviendas de déficit previsto en 2028 (Banco de España)"],["90.000–100.000","viviendas libres terminadas al año, cifra estancada"],["<3 %","del parque es vivienda social, frente al 9,3 % de media en la UE"]],
+ chart:{cap:"Viviendas al año que implica cada promesa con cifra, frente al ritmo actual. Vox y Podemos no fijan una cifra. La del PSOE es solo el parque estatal; además promete movilizar el 1 % del PIB al año.",svg:()=>bars([["Ritmo actual (libres)",95000,"90–100 mil",0],["PP: 1 millón en 4 años",250000,"250.000",1],["FA: 1,5 M públicas en 12 años",125000,"125.000",1],["PSOE: parque estatal 100.000",25000,"≈25.000",1]],{max:260000})},
+ pos:{PP:["Derogar la Ley de Vivienda, las zonas tensionadas y el índice de precios","Un millón de viviendas: nueva Ley del Suelo y licencias en 3 meses","IVA del 4 % y aval del 20 % para compradores menores de 40 años","Desalojo de okupas en 48 horas","Prioridad en ayudas para quien acredite arraigo"],
+  PSOE:["Movilizar el 1 % del PIB al año en vivienda","Parque estatal de 100.000 viviendas","Congelar rentas que superen el índice en zonas tensionadas","Impuesto a fondos y grandes tenedores con pisos fuera del alquiler asequible","Préstamos sin interés de hasta 50.000 € para la entrada"],
+  VOX:["Derogar la Ley de Vivienda","IVA 0 % en la primera vivienda nueva y sin ITP en la usada","Reformar la Ley del Suelo y bajar impuestos a la construcción","Prioridad para españoles en vivienda protegida y ayudas","Desalojo en menos de 24 horas","Fiscalidad agravada a compradores de fuera de la UE y fondos"],
+  FA:["1,5 millones de viviendas públicas en 12 años (1 % del PIB)","Tope de alquiler: el menor entre el 25 % de la renta del barrio y el índice oficial (≈ −35 %)","Prohibir comprar vivienda salvo para vivir o alquilar a precio regulado","Expropiar viviendas a grandes propietarios corporativos","Contrato de alquiler indefinido"],
+  POD:["Bajar los alquileres por ley (≈ −40 %, según declaraciones)","Que nadie que especule pueda comprar vivienda","Expropiar el uso de viviendas de fondos para alquiler social","Gran impuesto a la vivienda vacía"]},
+ m:[
+ {t:"Topes o rebajas del alquiler por ley",for:["FA","POD","PSOE"],against:["PP","VOX"],ev:"alta",out:"contra",via:"media",
+  cases:[["Berlín, 2020","Congeló y rebajó rentas. Bajaron los alquileres regulados, pero cayó con fuerza la oferta y subieron las rentas en los municipios vecinos sin tope. El Constitucional alemán lo anuló en 2021 (Hahn y otros, 2024)."],
+   ["San Francisco, 1994","Ampliar el control a más edificios llevó a los propietarios a retirar un 15 % de esas viviendas del alquiler; el alquiler medio de la ciudad subió un 5 % (Diamond, McQuade y Qian, 2019)."],
+   ["Cataluña, 2024","Con zonas tensionadas, los alquileres subieron un 5,7 % frente al 10,8 % nacional, pero los anuncios cayeron un 20,5 % y los pisos ofertados son más pequeños (Fedea)."]],
+  spain:"Un tope ayuda a quien ya tiene contrato y complica encontrar uno, porque parte de la oferta pasa a venta, a temporada o sale del mercado. La congelación del PSOE es una versión moderada de lo que ya se aplica. Rebajas del 35–40 % como las de Frente Amplio y Podemos no tienen precedente en Europa: el efecto sobre la oferta sería mayor que en Berlín.",
+  src:[["Idealista: resultados en Cataluña (Fedea)","https://www.idealista.com/news/node/903549"],["DIW: efectos del tope de Berlín","https://www.diw.de/de/diw_01.c.873005.de/publikationen/externe_referierte_aufsaetze/2024_0003/forward_to_the_past__short-term_effects_of_the_rent_freeze_in_berlin.html"]]},
+ {t:"Derogar la Ley de Vivienda y las zonas tensionadas",for:["PP","VOX"],against:["PSOE","FA","POD"],ev:"media",out:"inc",via:"alta",
+  cases:[["Berlín, 2021","Tras la anulación del tope, parte de la oferta volvió al mercado y los alquileres de los pisos antes regulados subieron de golpe hasta el nivel de mercado."],["Cataluña, 2022","El Constitucional anuló la ley catalana de 2020; la oferta se recuperó, pero los precios siguieron la tendencia general al alza."]],
+  spain:"Devolvería oferta de alquiler en las zonas reguladas, sobre todo en Cataluña. Pero con un déficit cercano al millón de viviendas, quitar la regulación no crea casas: sin más construcción, los precios seguirían subiendo, ahora sin freno para los inquilinos actuales.",
+  src:[["Infobae: déficit de vivienda (Banco de España)","https://www.infobae.com/espana/2026/10/09/espana-no-logra-construir-las-viviendas-que-necesita-el-deficit-llegara-al-millon-en-2028-calcula-el-banco-de-espana-e-insta-a-invertir-mas/"]]},
+ {t:"Construir mucho más: más suelo y menos trámites",for:["PP","VOX","PSOE"],against:[],ev:"alta",out:"fav",via:"baja",
+  cases:[["Auckland, 2016","Recalificó tres cuartas partes de la ciudad para permitir más altura. Se duplicaron los permisos de obra y los alquileres crecieron bastante menos que en el resto de Nueva Zelanda (Greenaway-McGrevy y Phillips, 2023)."],["Japón","Una ley nacional de suelo permisiva permite a Tokio construir más que ninguna gran capital; su vivienda apenas se ha encarecido en décadas."]],
+  spain:"Es la medida con más respaldo empírico a largo plazo. El problema es el ritmo: un millón en cuatro años supone 250.000 al año, más del doble de lo actual. El Banco de España señala los frenos: falta mano de obra, trámites lentos, poco suelo listo y retrasos en la conexión eléctrica. Ninguno se resuelve en una legislatura, y gran parte del suelo depende de comunidades y ayuntamientos.",
+  src:[["Infobae: Banco de España, frenos a la construcción","https://www.infobae.com/espana/2026/10/09/espana-no-logra-construir-las-viviendas-que-necesita-el-deficit-llegara-al-millon-en-2028-calcula-el-banco-de-espana-e-insta-a-invertir-mas/"]]},
+ {t:"Gran parque público de alquiler",for:["FA","PSOE","POD"],against:[],ev:"alta",out:"fav",via:"media",
+  cases:[["Viena","Lleva un siglo construyendo; hoy la vivienda municipal y cooperativa aloja a cerca de la mitad de la ciudad y sus alquileres crecen más despacio que en otras capitales."],["Países Bajos y Dinamarca","Con un 30 % y un 20 % del parque en alquiler social, respectivamente, amortiguan las subidas, aunque con listas de espera largas."]],
+  spain:"Funciona, pero tarda: los parques que hoy moderan precios en Europa se construyeron durante décadas. El 1 % del PIB son unos 16.000 millones al año; con costes de construcción actuales da para bastantes menos de 125.000 viviendas anuales, salvo que gran parte se obtenga comprando o expropiando, lo que no añade casas nuevas. España ya tuvo mucha vivienda protegida que acabó en el mercado libre al perder la calificación; sin protección permanente se repite el problema. El parque estatal del PSOE (100.000) es más ejecutable pero de alcance menor.",
+  src:[["El Cronista: vivienda social en España y la UE","https://www.cronista.com/espana/economia-finanzas/el-pais-esta-ultimo-en-la-vivienda-social-cuanto-tendria-que-crecer-para-acercarse-al-promedio-europeo/"]]},
+ {t:"Ayudas a la compra: menos IVA, avales o préstamos",for:["PP","VOX","PSOE"],against:[],ev:"media",out:"contra",via:"alta",
+  cases:[["Reino Unido, Help to Buy (2013–2023)","Préstamos públicos para la entrada. En Londres, donde casi no se podía construir más, subieron los precios sin más viviendas; fuera de Londres sí aumentó la construcción (Carozzi, Hilber y Yu, 2024)."],["Reino Unido, 2020","La rebaja temporal del impuesto de compra se trasladó en buena parte al precio."]],
+  spain:"Cuando la oferta no puede crecer, la ayuda acaba en el precio: quien compra antes se beneficia y el resto paga más. Ayuda a jóvenes con ingresos estables y sin ahorro, pero no mejora la asequibilidad general. El IVA del 0 % de Vox es el caso más costoso para Hacienda y el que más se trasladaría a precio en las zonas más tensionadas.",
+  src:[]},
+ {t:"Restringir compras de fondos, empresas o extranjeros",for:["FA","POD","VOX","PSOE"],against:[],ev:"media",out:"inc",via:"media",
+  cases:[["Canadá, 2023","Prohibió comprar vivienda a no residentes extranjeros. Los precios apenas reaccionaron, porque eran pocos compradores."],["Nueva Zelanda, 2018","Prohibición similar; efecto pequeño en precios, algo mayor en zonas turísticas."]],
+  spain:"Fondos y compradores extranjeros pesan poco en el conjunto del mercado, aunque mucho en ciertos barrios y en la costa. La prohibición total de Frente Amplio a cualquier empresa afectaría también a promotoras que construyen para alquilar, lo que reduciría oferta nueva. Vox y el PSOE optan por impuestos en lugar de prohibir, una vía con menos riesgo jurídico en la UE.",
+  src:[]},
+ {t:"Gravar las viviendas vacías",for:["PSOE","POD","FA"],against:[],ev:"media",out:"fav",via:"alta",
+  cases:[["Vancouver, 2017","Impuesto anual a viviendas vacías: las declaradas vacías bajaron de unas 2.500 a menos de 1.000."],["Francia","Su impuesto a la vivienda vacía en zonas tensionadas redujo la vacancia alrededor de un 13 % (Segú, 2020)."]],
+  spain:"Funciona, pero con efecto pequeño: la mayoría de las viviendas vacías de España están en pueblos y zonas sin demanda. En las ciudades tensionadas añadiría algo de oferta. Exige un censo fiable de vacías, que hoy depende de cada ayuntamiento.",
+  src:[["Castanet: Vancouver por debajo de 1.000 viviendas vacías","https://www.castanetkamloops.net/news/Metro-Vancouver/587283/Vacant-homes-in-Vancouver-fall-below-1000-for-first-time-since-empty-homes-tax-launch-in-2017"]]},
+ {t:"Desalojo exprés de viviendas okupadas",for:["PP","VOX"],against:[],ev:"escasa",out:"inc",via:"media",
+  cases:[["Francia, 2023","La ley antiokupación permite al prefecto desalojar en 72 horas una vivienda habitual okupada. No hay evaluaciones sobre su efecto en la oferta de alquiler."]],
+  spain:"Las okupaciones son pocas frente al tamaño del mercado, pero el miedo a la okupación y a los impagos pesa en los propietarios y empuja hacia el alquiler de temporada. Agilizarlo puede animar algo la oferta. Un plazo de 24–48 horas choca con las garantías judiciales y con la protección de familias vulnerables, por lo que el diseño legal decidirá si es aplicable.",
+  src:[]},
+ {t:"Prioridad en ayudas por arraigo o nacionalidad",for:["PP","VOX"],against:[],ev:"escasa",out:"inc",via:"media",
+  cases:[["Dinamarca y Austria","Exigen años de residencia para ciertas ayudas sociales. Reordenan quién recibe, pero no aumentan las viviendas disponibles."]],
+  spain:"No añade vivienda: cambia el orden de la cola. La versión del PP (empadronamiento, años cotizados) cabe en el derecho europeo si no se basa solo en la nacionalidad, como su propio programa reconoce. La de Vox, por nacionalidad, choca con la directiva europea de residentes de larga duración y el principio de igualdad, y probablemente acabaría en los tribunales.",
+  src:[]}
+ ]},
+{id:"impuestos",name:"Impuestos y gasto",ex:"IRPF, grandes fortunas, herencias, empresas, banca, IVA y cómo cuadrar las cuentas.",
+ stats:[["100,7 %","deuda pública sobre el PIB al cierre de 2025"],["123 %","deuda prevista en 2050 sin cambios (AIReF)"],["623 M€","recaudó en 2023 el impuesto a grandes fortunas, de 12.010 contribuyentes"]],
+ chart:{cap:"Tamaño de distintas cifras fiscales, en millones de euros al año. Las dos primeras son recaudación real; las dos últimas, estimaciones de los propios partidos.",svg:()=>bars([["Imp. grandes fortunas (2023)",623,"623",0],["Gravamen a la banca (2024)",843,"843",0],["FA: impuesto vivienda acumulada",10000,"≈10.000",1],["Vox: coste de su rebaja fiscal",40000,"≈40.000",1]],{max:42000})},
+ pos:{PP:["Bajar el IRPF a rentas medias y bajas y ajustarlo a la inflación","Que quien cobre el salario mínimo no pague IRPF","Jóvenes de 18 a 35: IRPF −100 % el primer año, bajando hasta −25 % el cuarto","IVA 0 % en alimentos básicos mientras dure la inflación","Auditoría del gasto y reducir deuda; ningún gasto nuevo sin financiación"],
+  PSOE:["Subir el IRPF de rentas del capital, hasta el 35 % por encima de 300.000 €","Tributación complementaria de grandes patrimonios","Duplicar la tasa Tobin (0,2 % a 0,4 %)","Más impuestos a empresas con sueldos directivos >100 veces la mediana","Deducción por hijo reembolsable y reducir déficit y deuda"],
+  VOX:["Bajar el IRPF según el número de hijos","Bajar el IVA y el impuesto de sociedades","Cuota cero para autónomos que no lleguen al salario mínimo","Recortar gasto «superfluo e ideológico» y subvenciones a partidos, sindicatos y ONG"],
+  FA:["IRPF hasta el 52 % por encima de 300.000 €","Impuesto a los ultrarricos y a grandes herencias (hasta 34 %, tope de 10 M€ por heredero)","Tipo mínimo efectivo del 20 % en Sociedades para grandes grupos","Gravamen estructural a la banca y al 1 % de los depósitos","Bajar el IVA de bienes básicos y energía"],
+  POD:["Que grandes empresas y fortunas paguen más","Impuesto del 57 % sobre beneficios de la banca (propuesta de 2026)","Bajar el coste de la vida limitando precios"]},
+ m:[
+ {t:"Impuesto a las grandes fortunas",for:["PSOE","FA","POD"],against:[],ev:"media",out:"contra",via:"alta",
+  cases:[["Noruega, 2022","Subió el impuesto al patrimonio y a dividendos. Unos 300 multimillonarios se mudaron a Suiza, pero la recaudación del impuesto siguió creciendo, de 27.000 a 34.000 millones de coronas en 2025."],["Francia, 2017","Suprimió su impuesto al patrimonio tras años de salidas de grandes contribuyentes; la recaudación perdida se compensó en parte con otros impuestos."],["Madrid","Al bonificar el impuesto, atrajo contribuyentes ricos de otras regiones; lo perdido en IRPF por esa movilidad fue unas seis veces lo recaudado por patrimonio (Agrawal, Foremny y Martínez-Toledano, 2024)."]],
+  spain:"Recauda poco en términos de PIB (623 millones en 2023), pero corrige la competencia entre comunidades: el 86 % de esos contribuyentes vivía en Madrid. La salida de grandes fortunas al extranjero es real pero limitada; la mudanza dentro de España era mayor. Su eficacia depende de cerrar vías como las sociedades patrimoniales y de un impuesto de salida, como hizo Noruega en 2024.",
+  src:[["The Local: Noruega","https://www.thelocal.no/20251023/how-norways-wealth-tax-drove-out-the-rich-without-breaking-the-bank"],["El Cronista: recaudación del impuesto en 2023","https://www.cronista.com/espana/actualidad-es/impuesto-a-las-grandes-fortunas-el-gobierno-anuncia-la-millonaria-cifra-que-recaudo-con-esta-medida"],["AEJ: Agrawal, Foremny y Martínez-Toledano","https://www.aeaweb.org/doi/10.1257/app.20220615"]]},
+ {t:"Subir el IRPF a las rentas más altas",for:["FA","PSOE","POD"],against:[],ev:"media",out:"contra",via:"alta",
+  cases:[["Reino Unido, 2010–2013","Subió el tipo máximo al 50 %. Hacienda británica concluyó que recaudó bastante menos de lo previsto porque muchos adelantaron o retrasaron ingresos para esquivarlo."],["Estudios internacionales","Las rentas del capital y las de los muy ricos reaccionan mucho más a los impuestos que los sueldos: se reorganizan en sociedades o se difieren."]],
+  spain:"El tipo marginal máximo ya ronda el 45–54 % según la comunidad. Subirlo al 52 % (Frente Amplio) aporta poco si no se tocan las vías de elusión. La subida del PSOE sobre rentas del capital por encima de 50.000 € afecta a una base pequeña y móvil: recaudaría algo, menos que la cifra estática.",
+  src:[]},
+ {t:"Impuesto de sociedades: suelo del 20 % o rebaja",for:["FA"],against:["VOX"],ev:"media",out:"inc",via:"media",
+  cases:[["Estados Unidos, 2017","Bajó Sociedades del 35 % al 21 %. La inversión subió algo, pero la recaudación cayó y la rebaja no se pagó sola (Oficina Presupuestaria del Congreso)."],["UE, 2024","Aplica un tipo mínimo efectivo del 15 % a grandes grupos, acordado en la OCDE."]],
+  spain:"Un suelo del 20 % iría por encima del mínimo europeo y podría desviar inversión a países vecinos, aunque la mayoría de grandes empresas españolas tienen su actividad aquí. La rebaja que propone Vox, sin cifra, reduciría ingresos en un país con deuda del 100 % del PIB; la experiencia de EE. UU. sugiere que no se compensaría con crecimiento.",
+  src:[]},
+ {t:"Rebaja general de impuestos financiada con recortes",for:["VOX"],against:[],ev:"alta",out:"desf",via:"baja",
+  cases:[["Kansas, 2012","Gran rebaja del impuesto sobre la renta prometiendo que el crecimiento la financiaría. La recaudación cayó, el crecimiento fue inferior al de estados vecinos y se revirtió en 2017."],["Reino Unido, 2022","45.000 millones de libras en rebajas sin financiar provocaron una crisis de la deuda pública; se retiraron en semanas."]],
+  spain:"Vox estima su rebaja en unos 40.000 millones, cerca del 2,5 % del PIB. Las subvenciones a partidos, sindicatos y ONG suman una pequeña fracción de eso; cuadrar las cuentas exigiría recortar partidas grandes como pensiones, sanidad o educación, o más deuda, que las reglas fiscales europeas limitan. El PP propone rebajas más acotadas (ajustar el IRPF a la inflación, como hacen EE. UU. o Francia), mucho más baratas y ejecutables.",
+  src:[["DatosClaros: coste estimado por Vox","https://www.datosclaros.es/comparador-de-programas-29n/"],["Infobae: deuda pública y proyección AIReF","https://www.infobae.com/espana/2026/05/29/la-airef-confirma-que-espana-cumple-la-regla-de-gasto-en-pensiones-pero-advierte-de-que-la-deuda-publica-alcanzara-el-123-del-pib-en-2050/"]]},
+ {t:"IVA cero o reducido en alimentos y productos básicos",for:["PP","VOX","FA"],against:[],ev:"alta",out:"contra",via:"alta",
+  cases:[["España, 2023","La rebaja del IVA de alimentos se trasladó a precios entre un 70 % y un 100 % (Banco de España); la CNMC no halló problemas sistemáticos."]],
+  spain:"Llega al consumidor, a diferencia de lo que se suele temer. El problema es de puntería: en euros ahorra más a quien más gasta, así que es una forma cara de ayudar a los hogares con menos renta frente a una ayuda directa. Bien para una crisis puntual; costoso como medida permanente.",
+  src:[["Banco de España: traslación de la rebaja del IVA","https://repositorio.bde.es/bitstream/123456789/36652/4/dt2417e.pdf"],["CNMC: nota sobre el IVA de alimentos","https://www.cnmc.es/sites/default/files/editor_contenidos/Notas%20de%20prensa/2023/20230810_NP_Estudio_IVA.pdf"]]},
+ {t:"Impuestos especiales a la banca",for:["PSOE","FA","POD"],against:[],ev:"media",out:"contra",via:"media",
+  cases:[["España, 2023–2025","El gravamen temporal recaudó 843 millones en 2024; el impuesto que lo sustituyó ingresó 566 millones en su primer pago de 2025."],["Italia, 2023","Anunció un impuesto del 40 % a beneficios extraordinarios de la banca; tras la caída en bolsa lo suavizó hasta hacerlo casi voluntario."]],
+  spain:"Recauda, pero parte puede trasladarse a clientes con comisiones o peores condiciones en un sector concentrado. El 57 % sobre beneficios que plantea Podemos no tiene precedente en la UE y chocaría con la supervisión bancaria europea. El 1 % sobre depósitos de Frente Amplio es 30 veces el tipo actual.",
+  src:[["El Derecho: recaudación del impuesto a la banca","https://elderecho.com/hacienda-recauda-566-millones-del-primer-pago-fraccionado-en-2025-del-nuevo-impuesto-a-la-banca"]]},
+ {t:"Herencias: impuesto estatal y tope de 10 M€",for:["FA"],against:[],ev:"escasa",out:"inc",via:"media",
+  cases:[["Suecia, 2004","Suprimió el impuesto de sucesiones por su escasa recaudación y la salida de empresas familiares."],["Japón","Tiene el tipo máximo más alto de la OCDE (55 %), sin tope confiscatorio."]],
+  spain:"Un tipo del 100 % por encima de 10 millones por heredero no existe en ningún país de la OCDE: recaudaría poco, porque esas herencias se planificarían o se trasladarían, y podría tener problemas constitucionales por confiscatorio. El impuesto estatal mínimo sí reduciría la diferencia actual entre comunidades.",
+  src:[]}
+ ]},
+{id:"empleo",name:"Empleo y salarios",ex:"Salario mínimo, jornada laboral, despido, autónomos y bajas.",
+ stats:[["1.221 €","salario mínimo mensual en 14 pagas (17.094 € al año)"],["24.497 €","salario mediano anual en 2024; el medio es 29.540 € (INE)"],["18.413 M€","gasto en bajas laborales en 2025, un 11,8 % más"]],
+ chart:{cap:"Salario mínimo anual según cada propuesta frente al salario mediano (la mitad de los trabajadores gana menos). El PP no propone cifra; Vox no menciona el salario mínimo.",svg:()=>bars([["Salario mínimo actual",17094,"17.094 €",0],["PSOE y FA: 60 % del medio",17724,"≈17.700 €",1],["Podemos: 1.800 €/mes",25200,"25.200 €",1]],{max:27000,ref:{v:24497,label:"Salario mediano 24.497 €"}})},
+ pos:{PP:["Salario mínimo sin IRPF; sin nueva cifra","Autónomos: sin cuota el primer año ni el segundo si no llegan al salario mínimo","Bonificar el 100 % de las cotizaciones del primer trabajador contratado","Más papel de las mutuas en las bajas; premiar a empresas con plantillas estables","No menciona la jornada laboral"],
+  PSOE:["Salario mínimo por ley por encima del 60 % del salario medio","Jornada de 37,5 horas e impulsar las 35 en convenios","Reformar el despido improcedente para que sea más disuasorio","Recuperar los salarios de tramitación","Objetivo de paro del 8 % en 2030"],
+  VOX:["Derogar la legislación laboral del Gobierno actual","Cuota cero a autónomos que no lleguen al salario mínimo","Bajar impuestos para crear empleo","No menciona el salario mínimo ni la jornada"],
+  FA:["Jornada de 37,5 horas ya y avanzar hacia 32 sin bajar sueldo","Salario mínimo por ley en el 60 % del salario medio neto","Derogar las reformas laborales y volver a 45 días de indemnización","Participación de las plantillas en los consejos de administración"],
+  POD:["Salario mínimo de 1.800 € al mes por ley","Jornada laboral de 30 horas semanales"]},
+ m:[
+ {t:"Subir el salario mínimo",for:["PSOE","FA","POD"],against:[],ev:"alta",out:"contra",via:"media",
+  cases:[["Alemania, 2015","Introdujo un salario mínimo sin pérdida apreciable de empleo; los trabajadores pasaron a empresas más productivas (Dustmann y otros, 2022)."],["España, 2019","La subida del 22 % redujo el crecimiento del empleo de los afectados entre 6 y 11 puntos, sobre todo jóvenes y campo (Banco de España); otros estudios hallaron efectos menores."]],
+  spain:"Mantenerlo en torno al 60 % del salario medio (PSOE y Frente Amplio) es prolongar lo que ya hay, con efectos conocidos y moderados. Los 1.800 € de Podemos (25.200 € al año) superarían el salario mediano: ningún país de la OCDE tiene un mínimo por encima del mediano, ni siquiera cerca. Con esa cifra, la mitad de los asalariados cobraría el mínimo, y el riesgo para el empleo en hostelería, campo y comercio de regiones con salarios bajos sería alto.",
+  src:[["INE: Encuesta de estructura salarial 2024","https://ine.es/dyngs/Prensa/EAES2024.htm"],["El Derecho: Banco de España sobre el SMI de 2019","https://elderecho.com/la-subida-del-smi-ocasiono-a-sus-perceptores-una-perdida-de-empleo-de-hasta-11-puntos-segun-banco-de-espana"]]},
+ {t:"Reducir la jornada laboral por ley",for:["PSOE","FA","POD"],against:[],ev:"media",out:"contra",via:"media",
+  cases:[["Francia, 2000","La jornada de 35 horas no creó empleo neto apreciable; mejoró el tiempo libre de los trabajadores y se financió en parte con rebajas de cotizaciones (Chemin y Wasmer, 2009)."],["Reino Unido e Islandia","Pruebas de semana de cuatro días con resultados positivos, pero con empresas voluntarias: no se pueden extrapolar a toda la economía."]],
+  spain:"La reducción a 37,5 horas ya fue rechazada en el Congreso en 2025. Es asumible si se negocia por sectores; el coste recae sobre pymes y hostelería. Pasar a 30–32 horas sin bajar sueldo encarece la hora de trabajo entre un 25 % y un 33 %: sin precedente en ningún país y difícil de absorber con la productividad española actual.",
+  src:[["DatosClaros: votación de la ley de 37,5 horas","https://www.datosclaros.es/comparador-de-programas-29n/"]]},
+ {t:"Encarecer o abaratar el despido",for:["PSOE","FA"],against:["VOX"],ev:"media",out:"inc",via:"media",
+  cases:[["España, 2012 y 2021","La reforma de 2012 abarató el despido; la de 2021 limitó los contratos temporales y redujo con fuerza la temporalidad sin frenar el empleo."],["OCDE","Despidos más caros reducen los despidos y también las contrataciones; el efecto neto sobre el paro suele ser pequeño."]],
+  spain:"Subir la indemnización protege a quien tiene contrato fijo y puede frenar contrataciones en pymes. Vox propone derogar la legislación laboral sin concretar qué la sustituiría; volver a contratos temporales generalizados revertiría el descenso de la temporalidad.",
+  src:[]},
+ {t:"Cuota cero para autónomos y bonificar contrataciones",for:["PP","VOX"],against:[],ev:"media",out:"contra",via:"alta",
+  cases:[["España, tarifa plana 2013","Aumentó las altas de autónomos, pero una parte relevante no sobrevivió al fin de la bonificación."],["España, evaluación de 2019","La AIReF concluyó que las bonificaciones a la contratación tienen escasa eficacia: muchas pagan empleos que se habrían creado igual."]],
+  spain:"Barato de aplicar y popular, con efecto real pero modesto. Funciona mejor para quien empieza con ingresos bajos que como política de empleo general.",
+  src:[]},
+ {t:"Control de las bajas laborales",for:["PP"],against:["PSOE"],ev:"alta",out:"contra",via:"media",
+  cases:[["Países Bajos, 2002","Obligó a empresas y médicos a gestionar activamente la vuelta al trabajo durante la baja; las bajas largas cayeron de forma notable."],["Suecia, 2008","Fijó plazos y revisiones; reducción de bajas con quejas por altas prematuras."]],
+  spain:"El gasto se ha duplicado en una década. Influyen las listas de espera, el envejecimiento de la plantilla y la salud mental, no solo el fraude. Dar más papel a las mutuas puede acortar bajas, con riesgo de altas prematuras si no hay control médico público. El PSOE propone lo contrario: integrar las mutuas en la gestión pública.",
+  src:[["El Independiente: gasto en bajas","https://www.elindependiente.com/economia/2026/08/03/el-gasto-de-la-seguridad-social-en-bajas-se-dispara-un-10-en-un-ano-y-ya-supera-los-9-500-millones/amp/"]]}
+ ]},
+{id:"pensiones",name:"Pensiones",ex:"Subida con el IPC, edad de jubilación, pensiones mínimas, ahorro privado y demografía.",
+ stats:[["13 %","del PIB se gasta hoy en pensiones"],["11,6 → 17,4 M","pensiones hoy y en 2050 (AIReF)"],["66 años y 10 meses","edad ordinaria de jubilación en 2026"]],
+ chart:{cap:"Gasto en pensiones previsto en 2050, en % del PIB, según quién haga la proyección. Todas suponen las leyes actuales; las promesas de bajar la edad o subir mínimas lo elevarían.",svg:()=>bars([["Gasto actual",13,"13,0 %",0],["Gobierno, 2050",15.3,"15,3 %",1],["AIReF, 2050",16.4,"16,4 %",1],["Comisión Europea, 2050",17.3,"17,3 %",1]],{max:18.5})},
+ pos:{PP:["Subir las pensiones cada año con el IPC","Reconstruir el Pacto de Toledo","Incentivar la jubilación activa con deducciones en el IRPF","No propone cambiar la edad"],
+  PSOE:["Blindar en la Constitución el sistema público y la subida con el IPC","Acercar las pensiones mínimas a estándares de ingresos","Que el Estado pague las prestaciones no contributivas","Fondo de reserva de 20.000 millones al final de la legislatura (declaraciones)"],
+  VOX:["Sostenibilidad mediante crecimiento, empleo y natalidad","El Estado cotiza por quien deja de trabajar para cuidar a sus hijos","El programa del 29N no incluye el modelo mixto con capitalización que defendió antes"],
+  FA:["Blindar la subida con el IPC y que ninguna pensión sea inferior al salario mínimo","Volver a la jubilación a los 65 años","Jubilación a los 60 en oficios penosos","Eliminar las deducciones por planes de pensiones privados"],
+  POD:["Jubilación a los 63 años (declaraciones)","Subir las pensiones mínimas y no contributivas"]},
+ m:[
+ {t:"Subir todas las pensiones con el IPC",for:["PP","PSOE","FA","VOX","POD"],against:[],ev:"alta",out:"fav",via:"media",
+  cases:[["Suecia","Su sistema ajusta automáticamente las pensiones si las cuentas no cuadran; en 2010 las recortó. Garantizar el IPC hace lo contrario: traslada el ajuste a otras partidas."]],
+  spain:"Todos los partidos lo prometen, así que no distingue a ninguno. Mantiene el poder adquisitivo de los pensionistas, pero la factura crece sobre todo porque habrá 17,4 millones de pensiones en 2050. La pregunta relevante es quién lo paga: más cotizaciones, más impuestos o menos gasto en otras cosas. Solo PSOE y Frente Amplio concretan fuentes, y nadie cuantifica el total.",
+  src:[["Infobae: proyecciones de la AIReF","https://www.infobae.com/espana/2026/05/29/la-airef-confirma-que-espana-cumple-la-regla-de-gasto-en-pensiones-pero-advierte-de-que-la-deuda-publica-alcanzara-el-123-del-pib-en-2050/"]]},
+ {t:"Bajar la edad de jubilación (65 o 63 años)",for:["FA","POD"],against:[],ev:"alta",out:"desf",via:"baja",
+  cases:[["Polonia, 2017","Bajó la edad de 67 a 60 (mujeres) y 65 (hombres). Muchos se retiraron enseguida, cayó el empleo de mayores y sus pensiones futuras serán más bajas."],["Francia, 2023","Hizo lo contrario: subió la edad a 64 años para contener el gasto, con fuertes protestas."]],
+  spain:"La esperanza de vida a los 65 supera los 20 años y la generación del baby boom se jubila entre 2025 y 2045, el peor momento para adelantar la edad. Supondría más pensionistas y menos cotizantes justo cuando la AIReF ya prevé un gasto del 16,4 % del PIB. Adelantar la edad en oficios penosos concretos es mucho más barato y tiene precedentes.",
+  src:[["BBVA Mi Jubilación: Ageing Report 2024","https://www.bbvamijubilacion.es/blog/informe-de-envejecimiento-2024-sobre-espana-el-gasto-en-pensiones-subira-hasta-el-173-sobre-pib-en-2050-y-la-tasa-de-sustitucion-bajara/"]]},
+ {t:"Pensión mínima igual al salario mínimo",for:["FA","POD"],against:[],ev:"media",out:"contra",via:"baja",
+  cases:[["Chile, 2022","Creó una pensión garantizada universal para reducir la pobreza en la vejez; la redujo, con un coste fiscal elevado."]],
+  spain:"Reduciría la pobreza de los mayores, sobre todo mujeres con carreras cortas. Pero equiparar la mínima al salario mínimo acerca lo que cobra quien cotizó poco a lo de quien cotizó mucho, lo que desincentiva cotizar, y es muy costoso con millones de pensiones con complemento a mínimos. El PSOE propone acercarlas de forma gradual, sin fijar el salario mínimo como objetivo.",
+  src:[]},
+ {t:"Ahorro privado y jubilación activa",for:["PP"],against:["FA"],ev:"media",out:"inc",via:"alta",
+  cases:[["Suecia, 1999","Combina un sistema público de cuentas con un pequeño componente capitalizado obligatorio (2,5 % del sueldo)."],["Chile, 1981","Pasó a capitalización individual; las pensiones resultaron bajas y en 2025 añadió aportaciones empresariales al sistema."]],
+  spain:"Las deducciones por planes privados benefician sobre todo a rentas altas; quitarlas (Frente Amplio) apenas afecta a la mayoría. Incentivar trabajar más años (PP) tiene efecto positivo y bajo coste. Pasar a un modelo mixto, que Vox defendía antes, exige pagar a la vez las pensiones actuales y el ahorro de los jóvenes: un doble coste durante décadas.",
+  src:[]},
+ {t:"Blindar las pensiones en la Constitución",for:["PSOE","FA"],against:[],ev:"escasa",out:"inc",via:"baja",
+  cases:[["Portugal, 2013","Su Tribunal Constitucional anuló recortes de pensiones; el Gobierno tuvo que ajustar por otras vías."]],
+  spain:"La Constitución ya exige pensiones «adecuadas y periódicamente actualizadas» (art. 50). Blindar el IPC da seguridad jurídica, pero no crea dinero: en una crisis, el ajuste se trasladaría a otras partidas. Además, la reforma constitucional necesita tres quintos de ambas cámaras, lo que exige el apoyo del PP.",
+  src:[]},
+ {t:"Natalidad e inmigración como solución demográfica",for:["VOX"],against:[],ev:"media",out:"contra",via:"media",
+  cases:[["Hungría, 2010–2021","Gran gasto en ayudas a familias; la fecundidad subió de 1,23 a cerca de 1,6 hijos por mujer y después volvió a bajar."],["Banco de España","Mantener la tasa de dependencia actual exigiría casi 25 millones más de inmigrantes en edad de trabajar en 2053: la inmigración ayuda pero no lo resuelve sola."]],
+  spain:"Los niños que nazcan ahora empezarán a cotizar hacia 2050, cuando el pico de gasto ya habrá llegado: la natalidad no resuelve el problema de las próximas dos décadas. La inmigración aporta cotizantes de inmediato, pero también generará pensiones futuras. Ninguna de las dos sustituye a decidir cómo se financia el pico.",
+  src:[["Forbes: Banco de España, inmigración y dependencia","https://forbes.es/economia/454609/espana-necesitara-en-2053-casi-25-millones-de-inmigrantes-mas-para-trabajar-y-afrontar-el-envejecimiento/"]]}
+ ]},
+{id:"inmigracion",name:"Inmigración",ex:"Fronteras, regularización, inmigración laboral, expulsiones y acceso a ayudas.",
+ stats:[["26,6 %","tasa de dependencia actual (mayores frente a edad de trabajar)"],[">500.000","personas a regularizar en el proceso extraordinario de 2026"],["≈570.000","regularizados en 2005, el precedente más estudiado"]],
+ chart:null,
+ pos:{PP:["Identificar en 7 días a quien cruce ilegalmente y devolverlo sin demora","Cupos anuales de trabajadores por sectores, solo con países que colaboren","Prohibir regularizaciones masivas; arraigo excepcional","Compromiso de integración obligatorio para renovar la residencia","Expulsar a condenados por delitos graves; visados por puntos"],
+  PSOE:["Plan de Integración y Ciudadanía con 500 millones","Ampliar vías legales y el sistema de asilo","Unidad de apoyo a la infancia migrante","Política europea basada en solidaridad y necesidades laborales"],
+  VOX:["«Ni uno más»: quien entre ilegalmente nunca podrá regularizarse","Suprimir el arraigo y repatriar a quien esté en situación irregular","Plan de «remigración» para quien viva de subsidios","Prioridad nacional en ayudas; sin ayudas a irregulares","Gravar las remesas y cortar cooperación a países que no colaboren"],
+  FA:["Completar la regularización de 2026 y crear un procedimiento estable","Cerrar los centros de internamiento (CIE)","Derogar el rechazo en frontera","Voto municipal para residentes extranjeros"],
+  POD:["«España tiene que ser un refugio»; sin propuestas concretas publicadas"]},
+ m:[
+ {t:"Regularizar a quienes ya viven aquí",for:["FA","PSOE"],against:["PP","VOX"],ev:"alta",out:"fav",via:"alta",
+  cases:[["España, 2005","Regularizó a unas 570.000 personas con contrato. Aumentaron las cotizaciones y la recaudación; los estudios no hallan un efecto llamada relevante (Elias, Monras y Vázquez-Grenno)."],["Italia, varias desde 1986","Regularizaciones repetidas: mejoran ingresos y reducen delincuencia de los regularizados, pero su repetición puede animar a más llegadas irregulares."]],
+  spain:"Las personas ya están aquí y muchas trabajan en negro: regularizarlas añade cotizantes y reduce la explotación laboral. El riesgo es la repetición: un procedimiento permanente, como propone Frente Amplio, puede leerse como garantía de regularización futura. Prohibirlas (PP, Vox) no hace que esas personas se vayan.",
+  src:[["Diari de Tarragona: real decreto de regularización 2026","https://www.diaridetarragona.com/espana/257246/boe-publica-real-decreto-aprueba-regularizacion-inmigrantes-requisitos-plazos.html"]]},
+ {t:"Expulsiones masivas y «remigración»",for:["VOX"],against:["FA","PSOE"],ev:"media",out:"desf",via:"baja",
+  cases:[["Unión Europea","Solo se ejecuta alrededor de una de cada cinco órdenes de retorno: depende de que el país de origen acepte a sus nacionales."],["Estados Unidos, 2025","Un programa de deportaciones a gran escala con un coste muy elevado y escasez de mano de obra en campo y construcción."]],
+  spain:"Expulsar a cientos de miles de personas exige acuerdos de readmisión que hoy no existen con la mayoría de países de origen. Sectores como cuidados, campo, hostelería y construcción perderían trabajadores cuando ya faltan. Las expulsiones por delitos graves (PP, Vox) sí son viables y ya están en la ley; la «remigración» de residentes legales chocaría con el derecho europeo.",
+  src:[]},
+ {t:"Cupos por sectores y visados por puntos",for:["PP"],against:[],ev:"alta",out:"fav",via:"media",
+  cases:[["Canadá y Australia","Sistemas por puntos que seleccionan por formación, idioma y edad; buenos resultados de integración laboral, sobre todo en perfiles cualificados."]],
+  spain:"España ya tiene contratación en origen para el campo. Los cupos funcionan si se ajustan a la demanda real, que aquí es sobre todo de trabajo poco cualificado, justo donde los sistemas por puntos rinden menos. Ligarlos a que el país de origen colabore en las devoluciones es razonable, pero puede reducir los cupos disponibles.",
+  src:[]},
+ {t:"Control rápido en frontera o más garantías",for:["PP","VOX"],against:["FA"],ev:"media",out:"inc",via:"media",
+  cases:[["Pacto Europeo de Migración y Asilo, 2026","Ya obliga a un control de identidad y seguridad de hasta 7 días en frontera, lo mismo que propone el PP."]],
+  spain:"La propuesta del PP coincide con la norma europea que España debe aplicar en cualquier caso. Cerrar los CIE y derogar el rechazo en frontera (Frente Amplio) iría en sentido contrario al Pacto Europeo y abriría un conflicto con Bruselas.",
+  src:[]},
+ {t:"Prioridad nacional, integración obligatoria e impuesto a remesas",for:["VOX","PP"],against:["FA","PSOE"],ev:"escasa",out:"inc",via:"baja",
+  cases:[["Dinamarca y Países Bajos","Exigen exámenes de idioma y conocimientos cívicos; los resultados en integración laboral son mixtos."],["Estados Unidos, 2026","Aplica un impuesto del 1 % a ciertas remesas en efectivo; aún no hay evaluaciones."]],
+  spain:"Los cursos y compromisos de integración del PP tienen precedente en Europa y son viables. La prioridad para españoles en ayudas (Vox) choca con la directiva europea que garantiza igualdad de trato a residentes de larga duración. Gravar remesas recauda poco y empuja envíos a canales informales.",
+  src:[]}
+ ]},
+{id:"sanidad",name:"Sanidad",ex:"Listas de espera, médicos de primaria, gestión pública o privada, eutanasia y paliativos.",
+ stats:[["853.740","personas en lista de espera quirúrgica (dic. 2025)"],["122 días","de espera media para operarse; 102 para ver al especialista"],["21,6 %","de los pacientes lleva más de seis meses esperando cirugía"]],
+ chart:{cap:"Espera media para una operación por comunidad, en días (diciembre de 2025). La gestión sanitaria es autonómica, así que el Gobierno central solo influye en parte.",svg:()=>bars([["Andalucía",173,"173",0],["Cataluña",142,"142",0],["Aragón",135,"135",0],["Media de España",122,"122",1],["Galicia",73,"73",0],["País Vasco",64,"64",0],["Madrid",50,"50",0]],{max:185})},
+ pos:{PP:["Pacto de Estado y plan urgente de listas de espera, respetando a las comunidades","4.500 médicos más en Atención Primaria","Ley nacional de cuidados paliativos","Tarjeta e historial clínico únicos","Plan de salud mental 2027–2037"],
+  PSOE:["Acabar con las listas con financiación pública en torno al 7 % del PIB","Gestión directa pública como modalidad preferente","Salud bucodental pública","Primera consulta psicológica en 30 días","Garantizar el derecho a la eutanasia"],
+  VOX:["Tarjeta sanitaria única e historia compartida","Plan nacional de listas, con la privada cuando reduzca demoras","Excluir a irregulares salvo urgencias graves","Defensa de la vida «hasta la muerte natural» y objeción de conciencia"],
+  FA:["Sanidad 100 % pública y de gestión directa, con un suelo del 8 % del PIB","Revertir los servicios privatizados","25 % del presupuesto sanitario a Atención Primaria","Decreto de listas de espera que prohíba listas paralelas"],
+  POD:["Sanidad pública con recursos suficientes y más profesionales mejor pagados"]},
+ m:[
+ {t:"Usar la sanidad privada para reducir esperas",for:["VOX"],against:["PSOE","FA"],ev:"media",out:"contra",via:"alta",
+  cases:[["Reino Unido, años 2000","Contrató operaciones a centros privados y fijó plazos máximos: las esperas cayeron con fuerza, aunque por la suma de más dinero, objetivos y competencia."],["Comunitat Valenciana, 1999–2018","El modelo Alzira (hospital privado con dinero público) tuvo un coste por habitante menor; se revirtió a gestión pública y las evaluaciones no son concluyentes."]],
+  spain:"A corto plazo añade capacidad, sobre todo en cirugía menor. A largo plazo, si se sustituye la inversión pública, la red privada pasa a depender del concierto. Madrid tiene las esperas más cortas y usa mucho la concertación, pero eso no prueba causa: también influyen sus recursos y cómo cuenta los pacientes. Revertir privatizaciones (Frente Amplio) cuesta indemnizaciones y tiempo.",
+  src:[["Qué!: listas de espera por comunidades","https://www.que.es/2026/09/25/listas-espera-quirurgica-850000-pacientes/"]]},
+ {t:"Más gasto público en sanidad",for:["PSOE","FA","POD"],against:[],ev:"media",out:"contra",via:"media",
+  cases:[["OCDE","Más gasto reduce esperas cuando se traduce en plantillas y quirófanos activos por la tarde, no cuando se queda en salarios sin más actividad."]],
+  spain:"El Gobierno central no gestiona hospitales: el dinero debe llegar a las comunidades por la financiación autonómica y no hay forma de obligarlas a gastarlo en sanidad. El cuello de botella son ciertas especialidades y plazas de formación, que tardan años en crecer.",
+  src:[]},
+ {t:"Más médicos en Atención Primaria",for:["PP","FA","PSOE"],against:[],ev:"alta",out:"fav",via:"media",
+  cases:[["Europa","Los países con primaria fuerte (Países Bajos, Dinamarca) derivan menos a especialistas y a urgencias."]],
+  spain:"España tiene más médicos por habitante que la media europea, pero faltan en primaria, pediatría y zonas rurales, y muchos emigran. 4.500 médicos más exige más plazas de formación, que tardan cuatro años, y condiciones que retengan. Medida con amplio consenso; la dificultad está en ejecutarla.",
+  src:[]},
+ {t:"Tarjeta e historial clínico únicos",for:["PP","VOX"],against:[],ev:"alta",out:"fav",via:"alta",
+  cases:[["Estonia y Dinamarca","Historiales digitales compartidos en todo el país: menos pruebas repetidas y mejor atención fuera de la comunidad propia."]],
+  spain:"Barata, poco discutida y ya en marcha en parte. Mejora la atención al desplazarse, pero no reduce por sí sola las listas de espera.",
+  src:[]},
+ {t:"Excluir de la sanidad a inmigrantes irregulares",for:["VOX"],against:["FA"],ev:"alta",out:"desf",via:"media",
+  cases:[["España, 2012–2018","Se retiró la tarjeta sanitaria a los irregulares. Un estudio halló que su mortalidad subió alrededor de un 15 % en los primeros años (Juanmartí, López-Casasnovas y Vall Castelló); se revirtió en 2018."]],
+  spain:"El ahorro es pequeño porque la atención pasa a urgencias, que es más cara, y aumentan riesgos de salud pública como enfermedades transmisibles sin tratar. España ya lo probó y la evidencia sobre ese periodo es desfavorable.",
+  src:[]},
+ {t:"Eutanasia y cuidados paliativos",for:["PSOE","FA"],against:["VOX"],ev:"escasa",out:"inc",via:"alta",
+  cases:[["Países Bajos, Bélgica, Canadá","Permiten la eutanasia con requisitos estrictos; el debate sigue sobre su ampliación a casos psiquiátricos."]],
+  spain:"Es sobre todo una cuestión de valores que la evidencia no decide. Sí hay acuerdo en que la cobertura de cuidados paliativos es insuficiente: la ley del PP apunta ahí sin derogar la eutanasia; Vox defiende la vida «hasta la muerte natural», lo que implicaría revisarla.",
+  src:[]}
+ ]},
+{id:"energia",name:"Energía y clima",ex:"Centrales nucleares, renovables, factura de la luz, Pacto Verde y empresa pública.",
+ stats:[["≈20 %","de la electricidad consumida es nuclear"],["2030","nuevo cierre de Almaraz, aplazado por el Gobierno en agosto de 2026"],["81 %","de electricidad renovable en 2030, objetivo del plan actual"]],
+ chart:null,
+ pos:{PP:["Eliminar el calendario de cierre de las cinco centrales nucleares","Reformular el plan energético con neutralidad tecnológica","Eliminar el impuesto del 7 % a la generación eléctrica","Tarifa social única; estrategia de reactores pequeños"],
+  PSOE:["Mantener el cierre nuclear hasta 2035","81 % de electricidad renovable en 2030","Almacenamiento, bombeo hidráulico y redes","Bono social único y automático; defender el Pacto Verde"],
+  VOX:["Mantener las nucleares y estudiar nuevas junto a las actuales","Bajada masiva de impuestos a la electricidad","Revertir normas del Pacto Verde, como el fin del coche de combustión","Frenar grandes plantas solares y eólicas en suelo agrícola"],
+  FA:["Cerrar Almaraz en 2027–2028 como estaba previsto","100 % de electricidad renovable en 2040","Sacar nuclear e hidráulica del precio marginal y gravar a las eléctricas","Fondo público de energía y empresa pública"],
+  POD:["Empresa pública de energía","Lucha contra el cambio climático"]},
+ m:[
+ {t:"Alargar la vida de las nucleares",for:["PP","VOX"],against:["PSOE","FA"],ev:"alta",out:"contra",via:"alta",
+  cases:[["Alemania, 2011–2023","Cerró sus nucleares; la producción se sustituyó en buena parte con carbón, con un coste social estimado en unos 12.000 millones de dólares al año, sobre todo por contaminación (Jarvis, Deschênes y Jha, 2022)."],["Bélgica y EE. UU.","Bélgica prorrogó dos reactores hasta 2035 tras la crisis del gas; EE. UU. autoriza operar hasta 60–80 años."]],
+  spain:"El propio Gobierno ya aplazó el cierre de Almaraz a 2030 por la volatilidad del gas: según su análisis, mantenerla reduce el uso de gas un 7 % y las renovables solo un 1,4 %. Extender centrales amortizadas es barato frente a construir. Las contrapartidas son la gestión de residuos y que limita el espacio para nuevas renovables en ciertas horas.",
+  src:[["Infobae: Almaraz hasta 2030","https://www.infobae.com/espana/2026/08/14/almaraz-seguira-operativa-hasta-junio-de-2030-el-gobierno-retrasa-el-cierre-de-la-central-nuclear/"]]},
+ {t:"Construir nuevas centrales nucleares",for:["VOX","PP"],against:["FA","PSOE"],ev:"alta",out:"desf",via:"baja",
+  cases:[["Francia, Flamanville 3","Doce años de retraso y un coste varias veces superior al previsto."],["Reino Unido y Finlandia","Hinkley Point C y Olkiluoto 3 sufrieron sobrecostes y retrasos similares."]],
+  spain:"Una central nueva tarda más de diez años y en Europa todas han tenido sobrecostes grandes. Los reactores pequeños aún no funcionan comercialmente en Europa. No aportaría electricidad en la próxima legislatura y necesitaría garantías públicas de precio.",
+  src:[]},
+ {t:"Acelerar renovables hasta el 100 %",for:["FA","PSOE","POD"],against:["VOX"],ev:"alta",out:"contra",via:"media",
+  cases:[["Dinamarca y Portugal","Altas cuotas renovables con buena integración gracias a interconexiones con países vecinos y almacenamiento."],["España, abril de 2025","El apagón se atribuyó a un fallo en el control de tensión del sistema, lo que reabrió el debate sobre cómo integrar tantas renovables."]],
+  spain:"España ya genera más de la mitad de su electricidad con renovables y eso abarata el precio mayorista en muchas horas. Llegar al 100 % exige mucho más almacenamiento, redes y conexiones con Francia, que hoy son pequeñas. Sin ellas, sube el coste de mantener el sistema estable y se desperdicia producción.",
+  src:[]},
+ {t:"Bajar los impuestos de la luz",for:["PP","VOX"],against:[],ev:"alta",out:"contra",via:"alta",
+  cases:[["España, 2021–2024","Se rebajaron el IVA de la luz y el impuesto a la generación durante la crisis energética; la factura bajó, con un coste fiscal de miles de millones."]],
+  spain:"Se nota en la factura de inmediato y beneficia más a quien más consume. Eliminar el impuesto del 7 % (PP) resta unos ingresos que hoy financian el sistema eléctrico, y habría que cubrirlos por otra vía.",
+  src:[]},
+ {t:"Revertir el Pacto Verde europeo",for:["VOX"],against:["PSOE","FA"],ev:"escasa",out:"desf",via:"baja",
+  cases:[["Unión Europea","Las normas del Pacto Verde son legislación europea; un Estado no puede dejar de aplicarlas sin ser sancionado y perder fondos."]],
+  spain:"España no puede revertirlas por su cuenta: necesitaría una mayoría en el Consejo y el Parlamento europeos. Sí puede pedir flexibilidad, como han hecho varios países con el fin del motor de combustión en 2035.",
+  src:[]},
+ {t:"Empresa pública y cambio del precio de la luz",for:["FA","POD"],against:[],ev:"media",out:"inc",via:"media",
+  cases:[["Francia, EDF","Nacionalizada del todo en 2023; ofrece precios regulados, pero acumula una deuda elevada."],["España y Portugal, 2022–2023","La «excepción ibérica» limitó el precio del gas y abarató la luz, aunque parte de la ventaja se fue en exportaciones a Francia."]],
+  spain:"Una empresa pública no baja precios por sí sola dentro del mercado europeo común. Sacar nuclear e hidráulica del precio marginal recorta los beneficios extraordinarios de esas centrales y está en línea con la reforma europea de 2024, pero exige autorización de Bruselas.",
+  src:[]}
+ ]},
+{id:"territorio",name:"Territorio e instituciones",ex:"Financiación autonómica, deuda de las comunidades, jueces, amnistía y modelo de Estado.",
+ stats:[["2014","año en que caducó el sistema de financiación autonómica"],["83.000 M€","de deuda autonómica que el PSOE propone que asuma el Estado"],["10.302 de 12.010","contribuyentes del impuesto a grandes fortunas vivían en Madrid (2023)"]],
+ chart:null,
+ pos:{PP:["Financiación acordada entre todas las comunidades, sin regímenes singulares","Cada comunidad responde de su deuda","Los jueces eligen a los 12 vocales judiciales del CGPJ","Derogar la Ley de Amnistía; recuperar sedición y referéndum ilegal","Elecciones si se prorrogan dos veces los presupuestos"],
+  PSOE:["Nuevo sistema de financiación con 21.000 millones adicionales","Asumir 83.000 millones de deuda autonómica","Reformar el Senado como cámara territorial"],
+  VOX:["Ley de Unidad de Mercado","Los jueces eligen a los vocales judiciales del CGPJ","Recuperar la sedición y prohibir indultos por corrupción o delitos territoriales","Ilegalizar partidos que atenten contra la unidad de España"],
+  FA:["República federal y plurinacional, con referéndum para la cuestión territorial","2,3 % del PIB más para financiación autonómica (≈38.000 M€)","Condonar y reestructurar deuda autonómica","Mínimo común en patrimonio y sucesiones","Desbloquear el CGPJ por mayoría absoluta"],
+  POD:[]},
+ m:[
+ {t:"Que los jueces elijan a los jueces del CGPJ",for:["PP","VOX"],against:["FA"],ev:"media",out:"contra",via:"media",
+  cases:[["Consejo de Europa y Comisión Europea","Recomiendan que al menos la mitad de los miembros del órgano de gobierno judicial sean elegidos por los propios jueces."],["Italia, 2019","Su consejo, elegido en gran parte por jueces, sufrió un escándalo de reparto de cargos entre asociaciones judiciales."]],
+  spain:"Alinearía a España con el estándar europeo y evitaría bloqueos como el de 2018–2024. El riesgo es que la politización pase a las asociaciones judiciales. El desbloqueo por mayoría absoluta de Frente Amplio facilita renovarlo, pero deja la elección en manos de la mayoría de gobierno.",
+  src:[]},
+ {t:"Condonar deuda autonómica",for:["PSOE","FA"],against:["PP"],ev:"media",out:"contra",via:"media",
+  cases:[["Alemania","El Estado federal ha rescatado a regiones muy endeudadas como Bremen y el Sarre; los estudios señalan que eso anima a otras a endeudarse esperando el mismo trato."]],
+  spain:"Alivia a las comunidades más endeudadas y les permite gastar más en servicios, pero premia a quien gastó por encima de sus ingresos frente a quien se ajustó, y la deuda no desaparece: pasa al Estado. El PP propone reestructurarla con reglas comunes en lugar de condonar.",
+  src:[]},
+ {t:"Armonizar impuestos entre comunidades",for:["FA","PSOE"],against:["PP"],ev:"alta",out:"contra",via:"media",
+  cases:[["Suiza","Los cantones compiten en impuestos desde hace siglos: atraen a contribuyentes ricos y empresas a los cantones de tipos bajos."],["Madrid","Su bonificación del impuesto al patrimonio atrajo a grandes fortunas de otras regiones (Agrawal y otros, 2024)."]],
+  spain:"La competencia fiscal entre comunidades es real: el 86 % de quienes pagaron el impuesto a grandes fortunas vivía en Madrid. Fijar un mínimo común aumenta la recaudación total, según ese mismo estudio. A cambio reduce la autonomía fiscal que la Constitución reconoce a las comunidades.",
+  src:[["El Cronista: contribuyentes por comunidad","https://www.cronista.com/espana/actualidad-es/impuesto-a-las-grandes-fortunas-el-gobierno-anuncia-la-millonaria-cifra-que-recaudo-con-esta-medida"]]},
+ {t:"Derogar la Ley de Amnistía",for:["PP"],against:["PSOE","FA"],ev:"escasa",out:"inc",via:"baja",
+  cases:[["Tribunales","El Tribunal Constitucional avaló la ley en 2025 y el Tribunal de Justicia de la UE se pronunció en julio de 2026, según la prensa, en el mismo sentido en lo esencial."]],
+  spain:"Derogarla tendría sobre todo valor político: las amnistías ya concedidas no pueden revertirse, porque la Constitución prohíbe aplicar con efecto retroactivo normas penales desfavorables (art. 9.3). Solo afectaría a casos todavía pendientes.",
+  src:[]},
+ {t:"Referéndum territorial o ilegalizar partidos",for:["FA","VOX"],against:["PP","PSOE"],ev:"media",out:"inc",via:"baja",
+  cases:[["Reino Unido y Canadá","Escocia (2014) y Quebec (1995) votaron con acuerdo previo del Estado; Canadá fijó después en su Ley de Claridad cuándo un resultado sería válido."],["Tribunal Europeo de Derechos Humanos","Solo admite ilegalizar partidos que amenacen la democracia o usen la violencia, no por defender la independencia de forma pacífica."]],
+  spain:"Ambas propuestas exigen reformar la Constitución, con mayorías de dos tercios y un referéndum nacional que hoy nadie tiene. La ilegalización que propone Vox chocaría además con la jurisprudencia europea; la vía federal de Frente Amplio requiere el acuerdo de PP y PSOE.",
+  src:[]}
+ ]}
+];
+
+/* ===== Capa de profundidad: concepto clave por tema y, por medida, cadena causal, argumentos, tipo de promesa e indicador ===== */
+const CONCEPT={
+vivienda:["Si la oferta no crece, las ayudas acaban en el precio","Cuando faltan casas, cualquier ayuda al comprador o al inquilino aumenta lo que la gente puede pagar y el vendedor sube el precio. Por eso lo decisivo es cuántas viviendas se añaden, y a qué ritmo, más que cuánto dinero se reparte."],
+impuestos:["Quién paga de verdad un impuesto y cuánto cambia la gente para evitarlo","Un impuesto no siempre lo paga quien lo ingresa: puede trasladarse a clientes, sueldos o precios. Y cuanto más fácil es mover la renta o el patrimonio, menos recauda una subida. Lo mismo al revés: una rebaja rara vez se paga sola con más actividad."],
+empleo:["Salario nominal frente a salario real, y la productividad como techo","Subir el sueldo en euros no garantiza más poder de compra: depende de los precios. A largo plazo, los salarios reales solo crecen de forma sostenida si cada hora de trabajo produce más. Las leyes pueden repartir mejor lo producido, pero con límites."],
+pensiones:["Cuántos cotizan por cada pensionista","El sistema paga las pensiones de hoy con las cotizaciones de hoy. Entre 2025 y 2045 se jubila la generación más numerosa, así que habrá menos cotizantes por pensionista. Cualquier promesa tiene que decir de dónde sale la diferencia: más cotizaciones, más impuestos, menos gasto en otras cosas o pensiones más bajas."],
+inmigracion:["Qué atrae a la inmigración y dónde presiona","La principal razón para venir es el trabajo, seguida de las redes familiares. La inmigración aporta cotizantes y mano de obra, pero se concentra en ciertas zonas, donde presiona sobre la vivienda, las escuelas y la sanidad. Las dos cosas son ciertas a la vez."],
+sanidad:["Gasto no es lo mismo que resultado","Más dinero solo reduce esperas si se convierte en más profesionales y más horas de quirófano o consulta. El cuello de botella suele ser el personal, que tarda años en formarse, y la gestión es de las comunidades autónomas, no del Gobierno central."],
+energia:["El precio de la luz lo marca la central más cara que se necesita","En el mercado eléctrico europeo, todas las centrales cobran el precio de la última que hace falta para cubrir la demanda, a menudo una de gas. Por eso más renovables bajan el precio en muchas horas, y por eso el gas encarece toda la factura cuando sube."],
+territorio:["Si se rescata a quien se endeuda, otros tienen incentivos para endeudarse","Cuando el Estado asume deudas o perdona impagos, las comunidades que se ajustaron salen perdiendo y todas aprenden que endeudarse tiene premio. Al mismo tiempo, si las reglas de reparto son injustas, algunas comunidades no pueden prestar servicios sin endeudarse."],
+educacion:["Lo que más explica cuánto aprende un alumno es quién le enseña","Más dinero o menos alumnos por clase ayudan solo si se traducen en mejores profesores y más atención a quien se queda atrás. El origen social del alumno pesa mucho, por eso las medidas que se centran en los alumnos rezagados suelen rendir más."],
+seguridad:["Disuade más la certeza de ser detenido que la dureza de la pena","Los estudios coinciden en que lo que reduce el delito es la probabilidad de ser detenido y juzgado pronto. Alargar penas que ya son largas apenas disuade, aunque sí mantiene apartado de la calle a quien la cumple."],
+defensa:["Cada punto del PIB son unos 16.000 millones al año","Gastar más en defensa obliga a elegir: subir impuestos, endeudarse o gastar menos en otras cosas. El efecto en la economía depende de dónde se compra: si es industria nacional, una parte vuelve en forma de empleo; si se importa, mucho menos."],
+transporte:["Más presupuesto no es más fiabilidad","Lo que cuenta es cuánto se ejecuta de verdad, si va a mantener lo que existe o a obra nueva, y quién gestiona. España ha invertido mucho en alta velocidad mientras la red convencional y las Cercanías envejecían."]
+};
+
+const X={
+/* VIVIENDA */
+"Topes o rebajas del alquiler por ley":{ch:["La ley fija un precio máximo","El inquilino paga menos","El propietario mantiene el piso en alquiler","Más personas acceden a una vivienda asequible"],wk:2,pro:"El alquiler absorbe ya una parte insoportable del sueldo y el inquilino no puede esperar a que se construya.",con:"Si alquilar deja de compensar, los propietarios venden o pasan a temporada, y encontrar piso se vuelve más difícil.",pr:"Una ley. FA y Podemos fijan además una bajada concreta (35–40 %).",ind:["Alquiler medio y número de pisos anunciados en zonas reguladas","Cataluña: +5,7 % de precio y −20,5 % de anuncios desde 2024"]},
+"Derogar la Ley de Vivienda y las zonas tensionadas":{ch:["Se eliminan los topes","Los propietarios recuperan confianza","Vuelven pisos al alquiler","Más oferta modera los precios"],wk:3,pro:"La regulación ha reducido la oferta y la inseguridad jurídica frena a los pequeños propietarios.",con:"Sin construir más, más oferta de alquiler sale del mismo parque y los precios siguen subiendo.",pr:"Una ley de derogación. Ninguno de los dos fija un objetivo de precio.",ind:["Pisos en alquiler anunciados y precio medio","Déficit estimado: ≈1 millón de viviendas en 2028"]},
+"Construir mucho más: más suelo y menos trámites":{ch:["Más suelo y licencias más rápidas","Los promotores inician más obras","Hay empresas y trabajadores para construirlas","Más viviendas moderan los precios"],wk:2,pro:"Es la única medida que ataca la causa: faltan casas, y donde se ha permitido construir los precios han subido menos.",con:"Los efectos tardan años y la construcción no tiene hoy mano de obra para duplicar su ritmo.",pr:"El PP promete un resultado medible: un millón de viviendas. Vox y el PSOE, leyes del suelo sin cifra.",ind:["Viviendas terminadas al año","Hoy: 90.000–100.000 libres"]},
+"Gran parque público de alquiler":{ch:["El Estado dedica dinero y suelo","Se construyen o compran viviendas","Se alquilan por debajo del mercado de forma permanente","Su peso es suficiente para moderar todos los precios"],wk:3,pro:"Los países con alquileres más estables tienen un gran parque público o social; España casi no tiene.",con:"Tarda décadas en tener peso suficiente, y comprar viviendas existentes no añade casas nuevas.",pr:"Gasto (PSOE: 1 % del PIB) y resultado (FA: 1,5 millones en 12 años; PSOE: 100.000 estatales).",ind:["Vivienda social sobre el total del parque","Hoy: <3 % (media UE: 9,3 %)"]},
+"Ayudas a la compra: menos IVA, avales o préstamos":{ch:["El comprador paga menos impuestos o recibe un aval","Puede permitirse comprar antes","El vendedor no sube el precio","Comprar se vuelve más asequible"],wk:2,pro:"Muchos jóvenes con sueldo estable pueden pagar una hipoteca pero no reunir la entrada.",con:"Con poca oferta, el vendedor captura la ayuda subiendo el precio, y el resto de compradores paga más.",pr:"Una rebaja fiscal o un programa de avales, sin objetivo de precio.",ind:["Edad media de compra de la primera vivienda y precio por metro cuadrado",""]},
+"Restringir compras de fondos, empresas o extranjeros":{ch:["Se prohíbe o grava la compra","Esos compradores dejan de pujar","Baja la competencia por las viviendas","Bajan los precios para quien compra para vivir"],wk:3,pro:"En ciertos barrios y en la costa, fondos y no residentes compiten con ventaja frente a las familias.",con:"Pesan poco en el conjunto del mercado, y prohibir comprar a cualquier empresa frena también la construcción para alquilar.",pr:"Una ley o un impuesto, sin objetivo medible.",ind:["Compras de vivienda por personas jurídicas y no residentes",""]},
+"Gravar las viviendas vacías":{ch:["Se cobra un impuesto a la vivienda vacía","El dueño la alquila o la vende","Aumenta la oferta en zonas con demanda"],wk:2,pro:"No tiene sentido mantener pisos vacíos en ciudades donde falta vivienda.",con:"La mayoría de las viviendas vacías están donde nadie quiere vivir, así que el efecto en las ciudades es pequeño.",pr:"Un impuesto, sin objetivo de viviendas movilizadas.",ind:["Viviendas vacías en municipios tensionados",""]},
+"Desalojo exprés de viviendas okupadas":{ch:["El juez ordena el desalojo en 24–48 horas","Los propietarios pierden el miedo a alquilar","Ponen más pisos en alquiler de larga duración"],wk:2,pro:"El miedo a la okupación y al impago empuja a los propietarios a dejar el piso vacío o a alquilar por temporadas.",con:"Las okupaciones son pocas frente al mercado, y plazos tan cortos chocan con las garantías judiciales.",pr:"Una ley con un plazo concreto (24 o 48 horas).",ind:["Duración media de los procedimientos de desalojo","Denuncias por ocupación al año"]},
+"Prioridad en ayudas por arraigo o nacionalidad":{ch:["Se cambia el orden de acceso a las ayudas","Los residentes de larga duración reciben antes","Perciben un reparto más justo"],wk:0,pro:"Quien lleva años contribuyendo debería tener prioridad sobre quien acaba de llegar.",con:"No añade ni una vivienda; solo cambia quién espera más. La versión por nacionalidad es probablemente ilegal en la UE.",pr:"Un cambio de criterios de reparto.",ind:["Tiempo de espera para vivienda protegida",""]},
+/* IMPUESTOS */
+"Impuesto a las grandes fortunas":{ch:["Se grava el patrimonio por encima de 3 millones","Los afectados pagan","No se van ni esconden el patrimonio","Se recauda y se reduce la desigualdad"],wk:2,pro:"Las grandes fortunas tributan poco en proporción a su riqueza y algunas comunidades compiten bajando el impuesto.",con:"Recauda poco, castiga el ahorro y la inversión, y el patrimonio más móvil puede irse o reorganizarse.",pr:"Un impuesto, sin recaudación objetivo en el programa.",ind:["Recaudación y número de contribuyentes","2023: 623 M€ y 12.010 contribuyentes"]},
+"Subir el IRPF a las rentas más altas":{ch:["Sube el tipo de las rentas más altas","Los afectados pagan más","No adelantan, retrasan ni trasladan ingresos","Aumenta la recaudación"],wk:2,pro:"Quien más gana puede contribuir más, y la desigualdad de renta en España es alta en Europa.",con:"Las rentas altas son las que más fácilmente se reorganizan; la recaudación real suele quedar muy por debajo de la prevista.",pr:"Un cambio de tipos impositivos.",ind:["Recaudación del IRPF de los últimos tramos",""]},
+"Impuesto de sociedades: suelo del 20 % o rebaja":{ch:["Cambia el tipo efectivo de las grandes empresas","Cambia su beneficio después de impuestos","Deciden invertir más o menos aquí","Cambian empleo y recaudación"],wk:2,pro:"A favor del suelo: muchas grandes empresas pagan tipos efectivos bajos. A favor de bajar: atraer inversión.",con:"Un suelo alto puede desviar inversión a otros países; una rebaja reduce ingresos sin garantía de más inversión.",pr:"Un cambio de tipos; Vox no da cifra.",ind:["Tipo efectivo pagado por grandes grupos y recaudación de Sociedades",""]},
+"Rebaja general de impuestos financiada con recortes":{ch:["Se bajan impuestos","La gente gasta e invierte más","La economía crece lo bastante","La recaudación se recupera o se recorta gasto sin dañar servicios"],wk:2,pro:"La presión fiscal ha subido mucho y deja menos dinero a familias y empresas; hay gasto público ineficiente.",con:"Las rebajas grandes casi nunca se pagan solas, y lo que se presenta como gasto superfluo es una parte pequeña del presupuesto.",pr:"Rebajas fiscales y recortes sin cuantificar, salvo la estimación de Vox de su coste.",ind:["Déficit y deuda pública","Deuda: 100,7 % del PIB (2025)"]},
+"IVA cero o reducido en alimentos y productos básicos":{ch:["Se baja el IVA","El comercio baja el precio","El hogar ahorra en la compra"],wk:1,pro:"Es la forma más directa y rápida de bajar el precio de la cesta de la compra.",con:"Ayuda igual o más a quien más gasta y es caro de mantener; una ayuda directa a hogares con menos renta es más eficaz.",pr:"Una rebaja de impuestos; el PP la limita a mientras dure la inflación.",ind:["Precio de los alimentos rebajados frente al resto",""]},
+"Impuestos especiales a la banca":{ch:["Se grava el beneficio o los depósitos de los bancos","Los bancos pagan","No lo trasladan a clientes con comisiones o peores condiciones","Se recauda sin reducir el crédito"],wk:2,pro:"Los bancos ganan mucho cuando suben los tipos de interés sin haber hecho nada distinto.",con:"En un sector con pocos competidores, parte del coste acaba en los clientes, y tipos extremos chocan con la supervisión europea.",pr:"Un impuesto; Podemos fija un 57 % y FA un 1 % sobre depósitos.",ind:["Recaudación y evolución de comisiones y crédito","2024: 843 M€ recaudados"]},
+"Herencias: impuesto estatal y tope de 10 M€":{ch:["Se gravan con fuerza las grandes herencias","Se paga el impuesto","No se planifica ni se traslada la herencia","Se reduce la acumulación de riqueza"],wk:2,pro:"Heredar grandes fortunas perpetúa la desigualdad y no responde al esfuerzo de quien hereda.",con:"Es fácil de planificar con años de antelación y un tipo del 100 % no existe en ningún país de la OCDE.",pr:"Un impuesto con tipos concretos.",ind:["Recaudación del impuesto estatal sobre grandes herencias",""]},
+/* EMPLEO */
+"Subir el salario mínimo":{ch:["Sube el salario mínimo","Sube el coste laboral de las empresas","La empresa lo absorbe en su margen, lo paga con más productividad, sube precios o contrata menos","Sube el poder adquisitivo de quien cobra poco"],wk:2,pro:"Mejora directamente los sueldos más bajos y, con subidas moderadas, apenas destruye empleo. La traslación a precios es pequeña: en restaurantes de EE. UU., subir el mínimo un 10 % elevó los precios en torno a un 0,5 % (Aaronson, 2001).",con:"Si la productividad no acompaña, una subida grande se paga con menos empleo o menos horas, sobre todo para jóvenes y en regiones con salarios bajos. A largo plazo, los salarios reales siguen a la productividad, no a la ley.",pr:"Una ley que fija un porcentaje (PSOE, FA) o una cifra (Podemos: 1.800 €).",ind:["Salario mínimo frente al mediano y empleo de los menores de 25 años","Hoy: 17.094 € frente a 24.497 € de mediano"]},
+"Reducir la jornada laboral por ley":{ch:["Se trabajan menos horas por el mismo sueldo","Sube el coste por hora","Las empresas reorganizan y ganan productividad","Hay más tiempo libre sin perder empleo ni sueldo"],wk:2,pro:"España trabaja más horas que países más productivos, y el tiempo libre también es bienestar.",con:"Sin ganancias de productividad, el coste por hora sube de golpe y pymes y hostelería lo pagan con menos empleo o menos contratación.",pr:"Una ley con un número de horas.",ind:["Horas trabajadas y empleo en pymes",""]},
+"Encarecer o abaratar el despido":{ch:["Cambia la indemnización por despido","Cambia cuánto cuesta despedir","Las empresas despiden y contratan de otra manera","Cambia la estabilidad del empleo"],wk:2,pro:"A favor de encarecer: protege frente a despidos injustificados. A favor de abaratar: anima a contratar.",con:"Encarecer frena contrataciones; abaratar aumenta despidos y precariedad. El efecto neto sobre el paro suele ser pequeño.",pr:"Una reforma legal.",ind:["Tasa de temporalidad y despidos al año",""]},
+"Cuota cero para autónomos y bonificar contrataciones":{ch:["Se reduce o elimina la cuota o la cotización","Emprender o contratar sale más barato","Se crean negocios y empleos que no habrían existido"],wk:2,pro:"La cuota pesa mucho al empezar, cuando aún no se gana dinero.",con:"Muchas bonificaciones pagan empleos o negocios que se habrían creado igual.",pr:"Una bonificación concreta (cuota cero el primer año).",ind:["Altas de autónomos que siguen activas a los tres años",""]},
+"Control de las bajas laborales":{ch:["Las mutuas y la inspección revisan más las bajas","Se acortan las bajas injustificadas","Baja el gasto y el absentismo sin dañar la salud"],wk:2,pro:"El gasto en bajas se ha duplicado en una década y la gestión pública no da abasto.",con:"Parte del aumento se debe a listas de espera y a la salud mental; acortar bajas sin tratar la causa puede empeorar la salud.",pr:"Un cambio de gestión sin objetivo de reducción.",ind:["Gasto en bajas y duración media","2025: 18.413 M€"]},
+/* PENSIONES */
+"Subir todas las pensiones con el IPC":{ch:["Las pensiones suben con los precios","El pensionista mantiene su poder de compra","Se encuentra dinero para pagarlo cada año"],wk:2,pro:"Los pensionistas no pueden compensar la inflación trabajando más; perder poder adquisitivo los empobrece.",con:"Garantizarlo pase lo que pase traslada todo el ajuste demográfico a cotizantes jóvenes y a otras partidas del presupuesto.",pr:"Una garantía legal, sin decir cómo se financia.",ind:["Gasto en pensiones sobre el PIB","Hoy: 13 %; 16,4 % en 2050 (AIReF)"]},
+"Bajar la edad de jubilación (65 o 63 años)":{ch:["Se baja la edad de jubilación","Más personas se jubilan antes","Hay menos cotizantes y más pensionistas","Se pagan las pensiones sin recortar ni subir cotizaciones"],wk:3,pro:"Muchos trabajos son físicamente duros y la gente quiere descansar tras décadas cotizando.",con:"Llega justo cuando se jubila la generación más numerosa: más años de pensión por persona y menos cotizantes.",pr:"Una ley con una edad concreta.",ind:["Edad efectiva de jubilación y gasto en pensiones","Edad ordinaria hoy: 66 años y 10 meses"]},
+"Pensión mínima igual al salario mínimo":{ch:["Suben las pensiones más bajas","Se reduce la pobreza en la vejez","Se sigue animando a cotizar","Se financia sin tensionar el sistema"],wk:2,pro:"Muchas mujeres mayores tienen pensiones muy bajas por haber cuidado a otros en lugar de cotizar.",con:"Si cotizar poco y cotizar mucho llevan a pensiones parecidas, desaparece el incentivo a declarar el trabajo, y el coste es alto.",pr:"Un resultado medible (pensión mínima = salario mínimo), sin coste estimado.",ind:["Riesgo de pobreza de los mayores de 65",""]},
+"Ahorro privado y jubilación activa":{ch:["Se incentiva trabajar más años o ahorrar aparte","La gente retrasa la jubilación o ahorra","Su pensión total es mayor y el sistema gasta menos"],wk:1,pro:"Seguir trabajando por voluntad propia mejora la pensión y alivia el sistema.",con:"Las deducciones por planes privados benefician sobre todo a quien más gana, y un sistema mixto tiene un coste de transición enorme.",pr:"Incentivos fiscales, sin objetivo.",ind:["Personas que trabajan más allá de la edad ordinaria",""]},
+"Blindar las pensiones en la Constitución":{ch:["La Constitución garantiza la subida con el IPC","Ningún Gobierno puede recortarlas","Se encuentra cómo pagarlas"],wk:2,pro:"Da seguridad a los pensionistas frente a futuros recortes.",con:"No crea dinero: en una crisis, el ajuste se traslada a otras partidas. Y exige el apoyo del PP para reformar la Constitución.",pr:"Una reforma constitucional.",ind:["",""]},
+"Natalidad e inmigración como solución demográfica":{ch:["Se apoya a las familias","Nacen más niños","Cotizan dentro de 20–25 años","Mejora la relación entre cotizantes y pensionistas"],wk:1,pro:"Sin más nacimientos, el envejecimiento no tiene arreglo a largo plazo.",con:"Las ayudas aumentan poco la natalidad, y esos niños cotizarán cuando el pico de gasto ya haya pasado.",pr:"Ayudas a familias, sin objetivo de natalidad.",ind:["Hijos por mujer",""]},
+/* INMIGRACIÓN */
+"Regularizar a quienes ya viven aquí":{ch:["Se concede permiso de residencia y trabajo","Los regularizados pasan a la economía formal","Cotizan y pagan impuestos","Sin atraer nuevas llegadas irregulares"],wk:3,pro:"Las personas ya están aquí: regularizarlas aflora empleo sumergido, añade cotizantes y reduce la explotación.",con:"Premia la entrada irregular y puede animar nuevas llegadas con la expectativa de una próxima regularización; más población presiona la vivienda y los servicios donde se concentra.",pr:"Un procedimiento legal; FA lo quiere permanente.",ind:["Afiliados extranjeros a la Seguridad Social y llegadas irregulares",""]},
+"Expulsiones masivas y «remigración»":{ch:["Se ordena la expulsión","El país de origen acepta a la persona","Se ejecuta la expulsión","Baja la población irregular sin dañar sectores que dependen de ella"],wk:1,pro:"Cumplir la ley de extranjería y desincentivar la entrada irregular exige que las expulsiones se ejecuten.",con:"La mayoría de órdenes no se ejecutan porque los países de origen no colaboran, y faltarían trabajadores en sectores clave.",pr:"Un objetivo político sin cifras ni coste.",ind:["Órdenes de expulsión ejecutadas sobre dictadas","UE: alrededor de una de cada cinco"]},
+"Cupos por sectores y visados por puntos":{ch:["Se fija cuántos trabajadores y de qué perfiles","Llegan con contrato o visado de búsqueda","Cubren puestos vacantes","Se integran en el mercado laboral"],wk:0,pro:"Permite decidir cuánta inmigración entra según lo que necesita la economía.",con:"Calcular bien la demanda es difícil y los sistemas por puntos rinden peor en trabajos poco cualificados.",pr:"Un sistema legal, sin cifras de cupo.",ind:["Vacantes sin cubrir por sector",""]},
+"Control rápido en frontera o más garantías":{ch:["Se identifica a quien llega en pocos días","Se resuelve si tiene derecho a asilo","Se devuelve a quien no lo tiene"],wk:2,pro:"A favor de rapidez: decidir pronto evita estancias largas sin resolver. A favor de garantías: proteger a quien huye de persecución.",con:"Más rapidez sin acuerdos de devolución no cambia el resultado; menos control choca con las normas europeas.",pr:"Un procedimiento legal.",ind:["Plazo de resolución del asilo",""]},
+"Prioridad nacional, integración obligatoria e impuesto a remesas":{ch:["Se condicionan ayudas a nacionalidad o a integración","Se reorienta el gasto social","Mejora la integración y la percepción de justicia"],wk:2,pro:"Exigir aprender el idioma y conocer las normas facilita la integración y la convivencia.",con:"La prioridad por nacionalidad choca con el derecho europeo, y gravar remesas empuja envíos a canales informales.",pr:"Cambios legales, sin objetivos medibles.",ind:["Empleo y dominio del idioma de los inmigrantes a los cinco años",""]},
+/* SANIDAD */
+"Usar la sanidad privada para reducir esperas":{ch:["Se deriva pacientes a centros privados","Se operan antes","La red pública no se debilita","Bajan las esperas a largo plazo"],wk:2,pro:"Hay capacidad privada ociosa y los pacientes no pueden esperar a que se contraten médicos públicos.",con:"Si sustituye inversión pública, la red pública pierde capacidad y la dependencia del concierto se vuelve permanente.",pr:"Un plan sin objetivo de días de espera (Vox).",ind:["Espera media para operarse","Hoy: 122 días"]},
+"Más gasto público en sanidad":{ch:["El Estado aumenta la financiación","Llega a las comunidades","Se convierte en más profesionales y más horas de actividad","Bajan las esperas"],wk:2,pro:"España gasta menos en sanidad pública que los países de su entorno y las plantillas están al límite.",con:"El Gobierno no puede obligar a las comunidades a gastarlo en sanidad, y faltan profesionales que no se forman en una legislatura.",pr:"Gasto: un porcentaje del PIB (PSOE 7 %, FA 8 %).",ind:["Espera media para especialista","Hoy: 102 días"]},
+"Más médicos en Atención Primaria":{ch:["Se crean plazas","Se forman y contratan médicos","Se quedan donde hacen falta","Mejora el acceso y bajan las derivaciones"],wk:2,pro:"Una primaria fuerte resuelve problemas antes de que lleguen a urgencias o al especialista.",con:"Formar un médico de familia lleva cuatro años de residencia, y sin mejores condiciones se marchan a otros países o a la privada.",pr:"Un resultado medible: 4.500 médicos más (PP).",ind:["Días de espera para el médico de familia",""]},
+"Tarjeta e historial clínico únicos":{ch:["Se unifican los sistemas","El historial está disponible en toda España","Menos pruebas repetidas y mejor atención fuera de casa"],wk:0,pro:"Es absurdo que un paciente no sea atendido con su historial al cambiar de comunidad.",con:"Mejora la coordinación, pero no reduce las listas de espera.",pr:"Un proyecto técnico.",ind:["",""]},
+"Excluir de la sanidad a inmigrantes irregulares":{ch:["Se retira la atención salvo urgencias","Baja el gasto sanitario","No empeora la salud pública"],wk:1,pro:"Los servicios públicos deben reservarse a quien está en situación legal y contribuye.",con:"La atención se traslada a urgencias, que es más cara, y la experiencia española de 2012 elevó la mortalidad de este grupo.",pr:"Un cambio legal.",ind:["",""]},
+"Eutanasia y cuidados paliativos":{ch:["Se regula el final de la vida","Las personas eligen cómo morir con apoyos","Nadie pide morir por falta de cuidados"],wk:2,pro:"A favor de la eutanasia: la libertad de decidir sobre la propia muerte. A favor de reforzar paliativos primero: que nadie la pida por falta de alternativas.",con:"Es un dilema de valores; los datos no lo resuelven.",pr:"Leyes.",ind:["Cobertura de cuidados paliativos",""]},
+/* ENERGÍA */
+"Alargar la vida de las nucleares":{ch:["Se prorroga la licencia","La central sigue produciendo sin emitir CO₂","Se quema menos gas","Baja el precio y la dependencia exterior"],wk:2,pro:"Es electricidad estable, sin emisiones y ya amortizada; cerrarla obliga a usar más gas.",con:"Genera residuos sin solución definitiva y, en horas de mucho sol y viento, compite con las renovables.",pr:"Una decisión regulatoria (PP: tramitarla en 100 días).",ind:["Uso de gas para producir electricidad","Nuclear: ≈20 % del consumo"]},
+"Construir nuevas centrales nucleares":{ch:["Se decide construir","Se obtienen permisos y financiación","Se construye en plazo y coste","Produce electricidad barata y limpia"],wk:2,pro:"Aseguraría energía estable sin emisiones durante 60 años.",con:"Todas las centrales nuevas en Europa han acumulado años de retraso y costes varias veces superiores.",pr:"Estudios y estrategias, sin compromisos de construcción.",ind:["",""]},
+"Acelerar renovables hasta el 100 %":{ch:["Se instalan más renovables","Producen más horas","Se almacena y se transporta esa energía","Baja el precio y las emisiones sin afectar a la estabilidad"],wk:2,pro:"El sol y el viento son la electricidad más barata, son nacionales y no emiten.",con:"Sin almacenamiento, redes e interconexiones, se desperdicia producción y cuesta más mantener estable el sistema.",pr:"Un resultado medible: porcentaje de electricidad renovable en una fecha.",ind:["Electricidad renovable y producción desperdiciada","Objetivo actual: 81 % en 2030"]},
+"Bajar los impuestos de la luz":{ch:["Se rebajan impuestos","La factura baja","Hacienda compensa la pérdida de ingresos"],wk:2,pro:"La luz es un bien básico y su factura pesa mucho en hogares e industria.",con:"Beneficia más a quien más consume y resta ingresos que hay que cubrir por otra vía.",pr:"Una rebaja fiscal.",ind:["Precio final de la luz para hogares",""]},
+"Revertir el Pacto Verde europeo":{ch:["España deja de aplicar normas europeas","Bajan costes para industria y campo","Sin sanciones ni pérdida de fondos"],wk:2,pro:"Muchas normas climáticas encarecen la vida y restan competitividad frente a países sin esas exigencias.",con:"Un Estado no puede dejarlas de aplicar por su cuenta sin sanciones; cambiarlas exige mayorías en Europa.",pr:"Un objetivo político, sin cauce legal concreto.",ind:["",""]},
+"Empresa pública y cambio del precio de la luz":{ch:["El Estado produce o vende electricidad","Fija precios por debajo del mercado","No acumula pérdidas ni deuda","La factura baja de forma duradera"],wk:2,pro:"La energía es un servicio esencial y los beneficios extraordinarios de algunas centrales los pagan los consumidores.",con:"Dentro del mercado europeo, una empresa pública no puede bajar el precio sola sin cargar pérdidas al contribuyente.",pr:"Una empresa y un cambio de reglas de mercado.",ind:["",""]},
+/* TERRITORIO */
+"Que los jueces elijan a los jueces del CGPJ":{ch:["Cambia quién elige a los vocales","Los partidos pierden influencia","Los jueces se perciben como más independientes"],wk:1,pro:"Es lo que recomiendan las instituciones europeas y evitaría bloqueos como el de 2018–2024.",con:"La politización puede trasladarse a las asociaciones judiciales.",pr:"Una reforma legal.",ind:["Confianza en la independencia judicial (Eurobarómetro)",""]},
+"Condonar deuda autonómica":{ch:["El Estado asume deuda de las comunidades","Pagan menos intereses","Gastan más en servicios","No vuelven a endeudarse en exceso"],wk:3,pro:"Parte de esa deuda nació de un sistema de financiación insuficiente; condonarla libera recursos para servicios.",con:"Premia a quien se endeudó más y enseña que endeudarse tiene recompensa; la deuda no desaparece, pasa al Estado.",pr:"Una cifra concreta (PSOE: 83.000 millones).",ind:["Deuda de cada comunidad sobre su PIB",""]},
+"Armonizar impuestos entre comunidades":{ch:["Se fija un mínimo común","Ninguna comunidad puede bajar de ahí","Se reduce la mudanza fiscal","Aumenta la recaudación total"],wk:2,pro:"Que una comunidad atraiga a los más ricos bajando impuestos reduce los ingresos del resto del país.",con:"Limita la autonomía fiscal y la capacidad de cada comunidad de decidir su política.",pr:"Una ley de mínimos.",ind:["Recaudación de patrimonio y sucesiones por comunidad",""]},
+"Derogar la Ley de Amnistía":{ch:["Se deroga la ley","Se vuelve a perseguir los hechos amnistiados"],wk:1,pro:"Restablecer la igualdad ante la ley y que el perdón no se use para conseguir apoyos.",con:"Las amnistías ya concedidas no pueden revertirse; el efecto práctico es muy limitado.",pr:"Una ley de derogación.",ind:["",""]},
+"Referéndum territorial o ilegalizar partidos":{ch:["Se reforma la Constitución","Se celebra la votación o se aplica la ilegalización","Se cierra el conflicto territorial"],wk:0,pro:"A favor del referéndum: resolver el conflicto votando. A favor de endurecer: proteger la unidad del Estado.",con:"Ambas exigen mayorías de dos tercios que hoy nadie tiene, y la ilegalización chocaría con la jurisprudencia europea.",pr:"Reformas constitucionales.",ind:["",""]}
+};
+
+/* ===== Temas nuevos ===== */
+const NEW_TOPICS=[
+{id:"educacion",name:"Educación",ex:"Ratios por aula, escuela concertada, profesorado, 0–3 años, evaluación y abandono escolar.",
+ stats:[["13,2 %","de abandono escolar temprano, el segundo más alto de la UE"],["4,48 %","del PIB en gasto público educativo (2024)"],["5.534 € – 8.946 €","gasto por alumno en Madrid y en País Vasco"]],
+ chart:{cap:"Gasto público por alumno en 2023, en euros. La educación la gestionan las comunidades, así que el Gobierno central decide solo una parte.",svg:()=>bars([["País Vasco",8946,"8.946 €",0],["Media de España",6851,"6.851 €",1],["Madrid",5534,"5.534 €",0]],{max:9500})},
+ pos:{PP:["Sustituir la LOMLOE por un nuevo marco educativo","Refuerzo en el mismo curso para quien no lea o calcule bien","Nota mínima para Magisterio y carrera docente","Conciertos de al menos seis años y elección de centro","0–3 años gratuito, financiado a medias con las comunidades","Mejor resultado de PISA de la historia en cuatro años"],
+  PSOE:["Universalizar el 0–3 con escuelas públicas","Más becas y límite de alumnos por aula","Un orientador por cada 250 alumnos","Plan de educación inclusiva"],
+  VOX:["Derogar la LOMLOE; currículo, reválidas y EvAU únicas","Educación en español en todo el territorio","Libre elección de centro y prioridad para españoles en ayudas","Máximo de alumnos extranjeros o sin dominio del español por aula","Fin de los móviles en clase"],
+  FA:["7 % del PIB en educación por ley en 2030","Que todos los fondos públicos vayan a la pública; fin progresivo de los conciertos","Ratios máximas por ley: 15 en Primaria, 20 en Secundaria","Becas hasta el 0,44 % del PIB","Inmersión lingüística en catalán"],
+  POD:["Educación pública con recursos suficientes y más profesionales"]},
+ m:[
+ {t:"Bajar el número de alumnos por aula",for:["FA","PSOE"],against:[],ev:"alta",out:"contra",via:"media",
+  cases:[["Tennessee, 1985–1989","Un experimento con clases de 13–17 alumnos frente a 22–25 mejoró los resultados, sobre todo de alumnos desfavorecidos (proyecto STAR)."],["California, 1996","Reducir ratios en todo el estado obligó a contratar profesores menos preparados y el efecto fue pequeño."]],
+  spain:"Funciona si hay buenos profesores para cubrir las nuevas aulas. La caída de la natalidad ya está bajando las ratios sin coste añadido en muchas zonas; fijar 15 alumnos por ley exigiría miles de profesores más y aulas nuevas justo en los barrios donde más falta.",
+  src:[],ch:["Se limita el número de alumnos por aula","Se contratan más profesores","Esos profesores son buenos","Cada alumno recibe más atención y aprende más"],wk:2,pro:"Con menos alumnos, el profesor puede atender a quien se queda atrás.",con:"Es una de las medidas más caras, y su efecto depende de que haya buenos profesores para todas las aulas nuevas.",pr:"Una ley con ratios concretas (FA).",ind:["Alumnos por aula y resultados en PISA","PISA 2022 en Matemáticas: 473 puntos"]},
+ {t:"Más dinero para la educación pública",for:["FA","PSOE","POD"],against:[],ev:"media",out:"inc",via:"baja",
+  cases:[["Estados Unidos","Las reformas que aumentaron el gasto por alumno en distritos pobres alargaron los años de estudio y elevaron los ingresos de adultos (Jackson, Johnson y Persico, 2016)."],["OCDE","Por encima de cierto nivel, gastar más se relaciona poco con mejores resultados; importa en qué se gasta."]],
+  spain:"Pasar del 4,5 % al 7 % del PIB supondría unos 40.000 millones más al año, sin decir de dónde salen. El gasto llega a las comunidades sin obligación de usarlo en educación. Es más eficaz destinarlo a alumnos rezagados y a centros con más dificultades que repartirlo por igual.",
+  src:[["El Español: gasto educativo","https://www.elespanol.com/observatorio-educacion/20260925/gasto-publico-educacion-espana-cae-decimas-pib-detras-media-ocde/1003744396390_0.html"]],ch:["El Estado fija un mínimo de gasto","Llega a las comunidades","Se dedica a profesores y apoyo a rezagados","Mejoran resultados y baja el abandono"],wk:2,pro:"El gasto educativo español está por debajo de la media de la OCDE y ha perdido peso sobre el PIB.",con:"El dinero solo mejora resultados si va a lo que funciona; más gasto general no garantiza nada.",pr:"Gasto: un porcentaje del PIB.",ind:["Abandono escolar temprano","Hoy: 13,2 %"]},
+ {t:"Escuela concertada: mantenerla o eliminarla",for:["PP","VOX"],against:["FA"],ev:"media",out:"inc",via:"media",
+  cases:[["Países Bajos","La mayoría de los centros son de gestión privada con fondos públicos, con buenos resultados y libertad de elección."],["Chile y Suecia","Los cheques escolares y las escuelas privadas financiadas con dinero público aumentaron la segregación y no mejoraron claramente los resultados."]],
+  spain:"La concertada escolariza a cerca de una cuarta parte del alumnado y cuesta menos por alumno a la administración. Eliminarla obligaría a absorber esos alumnos en la pública con un gran coste. Mantenerla sin controlar las cuotas y la selección de alumnos aumenta la segregación.",
+  src:[],ch:["Se garantiza la libre elección","Los centros compiten por alumnos","Mejoran sin que se concentren los alumnos con dificultades en unos pocos"],wk:2,pro:"A favor de mantenerla: las familias eligen y el sistema es más barato. A favor de eliminarla: el dinero público debe ir a la red pública y evitar segregación.",con:"Mantenerla sin control segrega; eliminarla es carísimo y quita una opción a muchas familias.",pr:"Leyes; FA lo plantea como hoja de ruta progresiva.",ind:["Segregación escolar por renta",""]},
+ {t:"Evaluaciones externas y currículo común",for:["VOX","PP"],against:[],ev:"media",out:"fav",via:"media",
+  cases:[["Países con exámenes externos","Los sistemas con pruebas comunes al final de cada etapa obtienen mejores resultados de media (Woessmann; Bishop)."],["Portugal","Introdujo exámenes nacionales y mejoró en PISA en la década de 2010."]],
+  spain:"Permite comparar centros y comunidades y detectar a tiempo a quien se queda atrás. El riesgo es que la escuela enseñe para el examen. Las competencias son en gran parte autonómicas, así que un examen único necesita acuerdo con las comunidades.",
+  src:[],ch:["Se hacen pruebas comunes","Se conocen los resultados de cada centro","Se actúa en los que van peor","Mejora el aprendizaje"],wk:2,pro:"Sin medir no se sabe qué funciona, y hoy cada comunidad evalúa a su manera.",con:"Puede convertir la enseñanza en preparación de exámenes y estigmatizar a centros con alumnos difíciles.",pr:"Una ley de evaluación; el PP se compromete con un resultado en PISA.",ind:["Resultados de PISA","2022 en Matemáticas: 473 (OCDE: 472)"]},
+ {t:"Seleccionar y formar mejor al profesorado",for:["PP"],against:[],ev:"alta",out:"fav",via:"media",
+  cases:[["Finlandia y Singapur","Seleccionan a los futuros profesores entre los mejores estudiantes y les dan carrera y prestigio."],["Estudios de EE. UU.","Un buen profesor durante un año mejora los ingresos de sus alumnos de adultos (Chetty, Friedman y Rockoff, 2014)."]],
+  spain:"Es la palanca con más evidencia, pero tarda una generación en notarse. Exigir nota para Magisterio reduce aspirantes si no va acompañado de mejor carrera y salario.",
+  src:[],ch:["Se exige más para entrar en Magisterio","Entran mejores candidatos","Se quedan en la profesión","Mejora la enseñanza"],wk:2,pro:"Es el factor dentro de la escuela que más influye en lo que aprenden los alumnos.",con:"Sin mejores condiciones, subir la exigencia puede dejar plazas sin cubrir.",pr:"Una reforma del acceso y la carrera.",ind:["Nota de acceso a Magisterio",""]},
+ {t:"Escuela infantil de 0 a 3 años gratuita",for:["PP","PSOE","FA"],against:[],ev:"alta",out:"fav",via:"media",
+  cases:[["Quebec, 1997","Las guarderías a 5 dólares al día elevaron con fuerza el empleo de las madres; algunos estudios encontraron peores resultados de comportamiento en niños de familias acomodadas (Baker, Gruber y Milligan)."],["Programas de calidad","Los efectos más grandes y duraderos se dan en niños de familias desfavorecidas (Heckman)."]],
+  spain:"Hay acuerdo entre PP, PSOE y Frente Amplio, lo que la hace viable. Su efecto depende de la calidad y de llegar a las familias con menos recursos, que hoy son las que menos matriculan.",
+  src:[],ch:["Se financian plazas gratuitas","Las familias, sobre todo con menos renta, las usan","La atención es de calidad","Mejora el desarrollo de los niños y el empleo de los padres"],wk:1,pro:"Ayuda a conciliar, sobre todo a las madres, y mejora las oportunidades de niños desfavorecidos.",con:"Si se reparte sin atender a la calidad, beneficia más a familias acomodadas que ya lo pagaban.",pr:"Un resultado medible: gratuidad al final de la legislatura (PP).",ind:["Escolarización de 0 a 2 años por nivel de renta",""]},
+ {t:"Repartir al alumnado para evitar concentración",for:["VOX","FA"],against:[],ev:"media",out:"inc",via:"media",
+  cases:[["Dinamarca","Limitó el porcentaje de alumnos de origen inmigrante en ciertas escuelas; los resultados son discutidos."],["Francia y EE. UU.","Repartir alumnos entre centros reduce la segregación, pero choca con la preferencia de las familias por el centro cercano."]],
+  spain:"Vox propone un tope de alumnos extranjeros o sin dominio del español por aula; Frente Amplio, un tope de alumnos con necesidades especiales por centro. Ambas buscan evitar centros que concentran dificultades. Topar por origen plantea problemas de discriminación; topar por necesidad educativa es más defendible jurídicamente.",
+  src:[],ch:["Se fija un máximo por aula o centro","Se redistribuye a los alumnos","Ningún centro concentra dificultades","Mejoran todos sin perjudicar a nadie"],wk:2,pro:"La concentración de alumnos con dificultades en pocos centros perjudica a todos los que están en ellos.",con:"Exige mover alumnos lejos de casa, y un criterio por origen puede ser discriminatorio.",pr:"Topes legales.",ind:["Índice de segregación escolar",""]}
+ ]},
+{id:"seguridad",name:"Seguridad y justicia",ex:"Penas y prisión permanente, multirreincidencia, menores, policía y Ley de Seguridad Ciudadana.",
+ stats:[["2.474.156","infracciones penales conocidas en 2025 (+0,8 %)"],["40,4","delitos convencionales por 1.000 habitantes, en la banda baja de la serie"],["19,8 %","de los delitos ya son por internet (+5,3 %)"]],
+ chart:null,
+ pos:{PP:["Juicios rápidos y respuesta más eficaz a la multirreincidencia","Ampliar la prisión permanente revisable","Más internamiento para menores en delitos graves; castigar captar menores","Más policías y profesión de riesgo","Endurecer penas por desórdenes públicos violentos"],
+  PSOE:["Más policías y guardias civiles según población y dispersión","Nueva Ley de Seguridad Ciudadana que sustituya la de 2015, con cámaras corporales","Más jueces y fiscales"],
+  VOX:["Bajar la edad de responsabilidad penal","Ampliar la prisión permanente revisable","Más medios contra el narcotráfico","Deportar a extranjeros que cometan delitos graves"],
+  FA:["Derogar por completo la Ley de Seguridad Ciudadana de 2015","Ampliar la justicia gratuita"],
+  POD:[]},
+ m:[
+ {t:"Penas más largas y más prisión permanente",for:["PP","VOX"],against:[],ev:"alta",out:"inc",via:"alta",
+  cases:[["Revisiones internacionales","Aumentar penas ya largas apenas disuade; lo que reduce el delito es la probabilidad de ser detenido (Nagin, 2013)."],["California, 1994","La ley de «tres strikes» tuvo un efecto disuasorio modesto con un coste penitenciario muy alto (Helland y Tabarrok, 2007)."]],
+  spain:"La prisión permanente revisable existe desde 2015 y se aplica a pocos casos muy graves; ampliarla afecta a muy pocos delitos. Mantiene apartado a quien la cumple, pero no cambia la criminalidad general.",
+  src:[],ch:["Se alargan las penas","Quien piensa delinquir lo tiene en cuenta","Decide no hacerlo"],wk:1,pro:"Las penas deben ser proporcionales a la gravedad, y apartar a delincuentes peligrosos protege a la sociedad.",con:"Quien delinque rara vez calcula la pena; lo que disuade es pensar que le van a pillar.",pr:"Reformas del Código Penal.",ind:["Reincidencia de los condenados por delitos graves",""]},
+ {t:"Juicios rápidos para la multirreincidencia",for:["PP"],against:[],ev:"media",out:"fav",via:"media",
+  cases:[["Hawái, programa HOPE","Sanciones rápidas y seguras a quien incumplía la libertad condicional redujeron la reincidencia; al replicarlo en otros estados los resultados fueron más débiles."]],
+  spain:"Muchos hurtos los comete un número pequeño de personas que acumulan decenas de causas. Juzgarlas rápido y sumar sus antecedentes ataca la certeza y la rapidez, que es lo que más disuade. Depende de que haya jueces y fiscales suficientes.",
+  src:[],ch:["Se juzga en días","Se suman los antecedentes","La sanción llega rápido y es segura","El reincidente deja de delinquir"],wk:0,pro:"Una minoría comete gran parte de los pequeños delitos; actuar sobre ella tiene mucho efecto.",con:"Sin más medios judiciales, los juicios rápidos atascan otros procedimientos.",pr:"Una reforma procesal.",ind:["Detenidos con más de diez antecedentes",""]},
+ {t:"Bajar la edad penal o endurecer la Ley del Menor",for:["VOX","PP"],against:[],ev:"alta",out:"desf",via:"media",
+  cases:[["Estados Unidos","Juzgar a menores como adultos aumentó su reincidencia frente a los que pasaron por la justicia de menores (revisión de los Centros para el Control de Enfermedades, 2007)."]],
+  spain:"La edad penal en España es 14 años, similar a la de la mayoría de Europa. Bajarla (Vox) tiene evidencia en contra: los menores que pasan por cárceles de adultos reinciden más. Alargar el internamiento en delitos graves con formación (PP) tiene menos riesgos.",
+  src:[],ch:["Se juzga a menores con más dureza","Cumplen penas más largas","Salen sin reincidir"],wk:2,pro:"Algunos delitos muy graves cometidos por menores generan la sensación de impunidad.",con:"La cárcel de adultos aumenta la reincidencia de los menores.",pr:"Reformas legales.",ind:["Reincidencia de menores infractores",""]},
+ {t:"Más policías",for:["PP","PSOE","VOX"],against:[],ev:"alta",out:"fav",via:"alta",
+  cases:[["Estados Unidos","Cada policía adicional reduce el delito, sobre todo los homicidios (Chalfin y McCrary, 2018)."]],
+  spain:"España ya tiene una de las tasas de policías por habitante más altas de Europa. Ganar efecto exige redistribuirlos hacia donde hace falta y hacia la ciberdelincuencia, que ya es uno de cada cinco delitos.",
+  src:[["The Objective: balance de criminalidad 2025","https://theobjective.com/espana/2026-02-20/criminalidad-espana-policias-marlaska/"]],ch:["Se contratan agentes","Se destinan donde hay más delitos","Aumenta la probabilidad de ser detenido","Baja el delito"],wk:1,pro:"Más presencia policial disuade y aumenta las detenciones.",con:"Si se reparten sin criterio o no se especializan en delitos por internet, el efecto es menor.",pr:"Más plazas, sin cifra concreta.",ind:["Delitos esclarecidos sobre conocidos",""]},
+ {t:"Ley de Seguridad Ciudadana: sustituirla o mantenerla",for:["PSOE","FA"],against:["PP"],ev:"escasa",out:"inc",via:"media",
+  cases:[["Comisarios de derechos humanos","El Consejo de Europa criticó la ley de 2015 por limitar la libertad de reunión y expresión."]],
+  spain:"Es sobre todo una cuestión de equilibrio entre libertades y orden público, donde la evidencia empírica decide poco. El PP propone además endurecer los desórdenes públicos violentos.",
+  src:[],ch:["Se cambian las sanciones administrativas","Cambia cómo actúa la policía en protestas","Se protegen libertades sin perder orden"],wk:2,pro:"A favor de cambiarla: sanciones desproporcionadas por protestar. A favor de mantenerla: herramientas ante disturbios.",con:"Es un dilema de valores más que de evidencia.",pr:"Una ley.",ind:["",""]}
+ ]},
+{id:"defensa",name:"Defensa y Europa",ex:"Gasto militar, la OTAN, la industria de defensa, Ucrania y el papel de la Unión Europea.",
+ stats:[["2,00 %","del PIB en defensa en 2025, el mínimo de la OTAN"],["5 %","objetivo de la OTAN para 2035; España no lo ha aceptado"],["4,3 %","gasta Polonia, el aliado que más esfuerzo hace"]],
+ chart:{cap:"Gasto en defensa en % del PIB (2025) frente al objetivo de la OTAN para 2035.",svg:()=>bars([["España",2.0,"2,00 %",1],["Polonia",4.3,"4,3 %",0],["Objetivo OTAN 2035",5,"5 %",0]],{max:5.4})},
+ pos:{PP:["Ley de programación y financiación plurianual de la defensa","Más militares, mejor pagados, profesión de riesgo","Impulsar la industria nacional de defensa","Apoyo militar y económico a Ucrania","Más presencia en la OTAN y un pilar europeo reforzado"],
+  PSOE:["Rechazar el 5 % del PIB en gasto militar","Mantener los compromisos con aliados","Apoyo a Ucrania; una UE con unión política y fiscal"],
+  VOX:["Aumentar la inversión en defensa","Fuerzas Armadas en el control de fronteras","Recuperar la soberanía sobre Gibraltar","Defender la soberanía nacional frente a Bruselas"],
+  FA:["Rechazar el 5 % y reducir el gasto militar","Firmar el tratado de prohibición de armas nucleares","Autodeterminación del Sáhara Occidental"],
+  POD:["«Ni un euro más a armas»; el dinero a servicios públicos","Ser socio de EE. UU. en la OTAN «nos pone en peligro»"]},
+ m:[
+ {t:"Aumentar el gasto en defensa",for:["PP","VOX"],against:["PSOE","FA","POD"],ev:"media",out:"contra",via:"media",
+  cases:[["Polonia","Ha llevado su gasto por encima del 4 % del PIB por la amenaza rusa, con deuda y fuerte apoyo político."],["Estudios europeos","El efecto de la defensa en la economía es mayor cuando se compra a industria nacional e incluye investigación (Ilzetzki, 2025)."]],
+  spain:"Pasar del 2 % al 3,5 % del PIB son unos 24.000 millones más al año. Ninguno de los dos partidos dice de dónde saldrían. Si se compra a industria española, parte vuelve en empleo; si se importa, el coste para otros servicios es mayor.",
+  src:[["El Independiente: gasto en defensa 2025","https://www.elindependiente.com/economia/2026/03/26/espana-cumple-otan-defensa-aumento-gasto-cola/amp/"]],ch:["Se aumenta el presupuesto","Se compra material y se contrata personal","Mejora la capacidad militar","Aumenta la seguridad y la credibilidad ante los aliados"],wk:0,pro:"El entorno de seguridad europeo ha empeorado y España está a la cola de la OTAN.",con:"Es un coste de oportunidad directo frente a sanidad, educación o pensiones, y nadie dice de dónde sale.",pr:"Una ley plurianual sin cifra (PP) o un aumento sin cuantificar (Vox).",ind:["Gasto en defensa sobre el PIB","2025: 2,00 %"]},
+ {t:"No aumentar o reducir el gasto militar",for:["PSOE","FA","POD"],against:["PP","VOX"],ev:"escasa",out:"inc",via:"alta",
+  cases:[["España, 2025","Fue el único aliado que no aceptó el objetivo del 5 %; EE. UU. amenazó con represalias comerciales."]],
+  spain:"Libera recursos para otros fines. El riesgo es la fricción con aliados y la capacidad militar en un entorno más inestable. Mantener el 2 % (PSOE) y reducirlo (Frente Amplio, Podemos) son posiciones distintas.",
+  src:[],ch:["Se mantiene o reduce el gasto","Ese dinero va a otros servicios","Los aliados no responden con represalias","La seguridad no se resiente"],wk:2,pro:"El 5 % pondría en riesgo el Estado del bienestar y la amenaza para España es distinta a la de Polonia.",con:"España depende de la protección colectiva de la OTAN; aportar menos que el resto tiene costes diplomáticos y comerciales.",pr:"Un rechazo a un objetivo.",ind:["",""]},
+ {t:"Impulsar la industria nacional de defensa",for:["PP","VOX"],against:[],ev:"media",out:"fav",via:"media",
+  cases:[["Francia y Suecia","Industrias nacionales fuertes que exportan y generan tecnología con usos civiles."]],
+  spain:"Si el gasto aumenta, comprarlo aquí multiplica su efecto en empleo. Pero la industria tarda años en ampliar su capacidad y algunos sistemas solo los fabrican otros países.",
+  src:[],ch:["Se compra a empresas españolas","Las empresas invierten y contratan","Ganan tecnología y exportan"],wk:1,pro:"Reduce la dependencia exterior y retiene empleo cualificado.",con:"Comprar nacional puede ser más caro y más lento que comprar fuera.",pr:"Una orientación de compras.",ind:["",""]},
+ {t:"Más o menos poder para la Unión Europea",for:["PSOE"],against:["VOX"],ev:"alta",out:"inc",via:"media",
+  cases:[["Reino Unido, 2020","Salir de la UE redujo el comercio y se estima que el PIB británico será alrededor de un 4 % menor a largo plazo (Oficina de Responsabilidad Presupuestaria)."]],
+  spain:"Vox no propone salir, pero sí desobedecer normas europeas, lo que acarrea sanciones y pérdida de fondos. Una unión fiscal (PSOE) requiere que el resto de países acepte compartir deuda e impuestos, algo que hoy no tiene mayoría en Europa.",
+  src:[],ch:["Cambia el reparto de poder con Bruselas","España gana margen o gana apoyo común","Sin perder fondos ni mercado"],wk:2,pro:"A favor de más Europa: problemas como la defensa o la energía no se resuelven solos. A favor de menos: decidir más cerca de los ciudadanos.",con:"Más Europa exige que otros acepten; menos Europa por la vía de incumplir tiene costes directos.",pr:"Posiciones políticas.",ind:["",""]}
+ ]},
+{id:"transporte",name:"Transporte",ex:"Mantenimiento ferroviario, Cercanías, grandes planes de obra, abonos y liberalización.",
+ stats:[["46","fallecidos en el accidente de Adamuz (enero de 2026)"],["1.002","limitaciones temporales de velocidad activas en agosto de 2026"],["19.000 M€","comprometidos para conservación ferroviaria en 2026–2030"]],
+ chart:null,
+ pos:{PP:["El mantenimiento irá por delante de la obra nueva","Plan de infraestructuras de más de 300.000 M€ en 15 años, con el sector privado","Analizar las más de 1.000 limitaciones de velocidad y priorizarlas","Indemnizaciones efectivas por retrasos","Nuevas líneas solo con la seguridad del servicio existente garantizada"],
+  PSOE:["19.000 M€ para conservar la red en 2026–2030","Dirección técnica en Adif y Renfe y más plantillas","Pacto de Estado por la seguridad ferroviaria","Transporte público integrado con tarifas sencillas y asequibles"],
+  VOX:["Plan nacional de infraestructuras","Prioridad a la seguridad, el mantenimiento y las Cercanías","Auditoría del estado de la red","Electrificar la red convencional"],
+  FA:["Abono único estatal: 20 € al mes en Cercanías, gratis para menores de 16","Unir Adif y Renfe en un operador público y revertir la liberalización","Fondo para el transporte público del 0,25 % del PIB"],
+  POD:[]},
+ m:[
+ {t:"Mantener antes que construir",for:["PP","PSOE","VOX"],against:[],ev:"alta",out:"fav",via:"media",
+  cases:[["Alemania","Décadas de poca inversión en mantenimiento dejaron la puntualidad de los trenes de larga distancia por debajo del 65 %; ahora necesita un plan de más de 100.000 millones."],["Suiza","Prioriza mantener y sincronizar la red existente antes que ampliar, y tiene la puntualidad más alta de Europa."]],
+  spain:"Hay consenso tras Adamuz. El cuello de botella no es solo el dinero: faltan técnicos de mantenimiento y franjas en las que cortar vías sin paralizar el servicio. Los resultados se verán en años, no en meses.",
+  src:[["El Español: limitaciones de velocidad tras Adamuz","https://www.elespanol.com/invertia/observatorios/movilidad/20260819/adif-incapaz-bajar-averias-diarias-red-tren-meses-despues-accidente-adamuz/1003744356157_0.html?utm_cmp_rs=relatednewssection"]],ch:["Se asigna dinero al mantenimiento","Se ejecuta de verdad","Hay técnicos y franjas para trabajar en las vías","Bajan averías, limitaciones y retrasos"],wk:2,pro:"La red convencional y las Cercanías han envejecido mientras se priorizaba la alta velocidad.",con:"El dinero no se ejecuta solo: sin personal especializado y sin poder cortar vías, se acumula sin gastar.",pr:"Gasto (PSOE: 19.000 M€) y orden de prioridades (PP). Nadie fija un objetivo de puntualidad.",ind:["Limitaciones temporales de velocidad activas","Agosto de 2026: 1.002"]},
+ {t:"Grandes planes de obra con capital privado",for:["PP"],against:["FA"],ev:"media",out:"inc",via:"baja",
+  cases:[["España, autopistas radiales","Las autopistas de peaje construidas con capital privado quebraron en la década de 2010 y el Estado tuvo que rescatarlas."],["Reino Unido","Los contratos de financiación privada de infraestructuras resultaron más caros a largo plazo que la financiación pública."]],
+  spain:"300.000 millones en 15 años son 20.000 al año. La inversión pública suele ejecutarse por debajo de lo presupuestado, y la colaboración privada funciona cuando el riesgo lo asume de verdad el privado, no el Estado.",
+  src:[],ch:["Se anuncia una cifra de inversión","Se licitan y adjudican los proyectos","Se ejecutan en plazo y coste","Mejora el servicio"],wk:2,pro:"España necesita inversión que el presupuesto público no puede asumir solo.",con:"Anunciar cifras es fácil; ejecutarlas, no. Y si el riesgo vuelve al Estado, el contribuyente paga dos veces.",pr:"Una cifra de gasto, no de resultados.",ind:["Inversión ejecutada sobre presupuestada",""]},
+ {t:"Abonos muy baratos o gratuitos",for:["FA","PSOE"],against:[],ev:"alta",out:"contra",via:"media",
+  cases:[["Alemania, 2023","El abono de 49 € para todo el país aumentó el uso del transporte público, con un cambio modesto desde el coche."],["Luxemburgo, 2020","El transporte público gratuito apenas redujo el uso del coche."],["España, 2022–2025","Los descuentos y abonos gratuitos de Cercanías aumentaron mucho los viajeros."]],
+  spain:"Atrae viajeros y ahorra dinero a las familias, pero más viajeros sobre una red con averías significa trenes más llenos y más quejas. Sin mejorar capacidad y fiabilidad, el precio deja de ser el problema principal.",
+  src:[],ch:["Baja el precio del abono","Más gente usa el transporte público","Hay capacidad para todos","Menos coches y más satisfacción"],wk:2,pro:"Ayuda a los hogares con el coste de la vida y reduce emisiones.",con:"Es caro y, sin más trenes y más fiables, empeora la experiencia de quien ya lo usaba.",pr:"Precios concretos (FA: 20 € al mes).",ind:["Viajeros y puntualidad de Cercanías",""]},
+ {t:"Unir Adif y Renfe y revertir la liberalización",for:["FA"],against:[],ev:"alta",out:"desf",via:"baja",
+  cases:[["España, 2021","La llegada de Ouigo e Iryo a la alta velocidad bajó los precios y disparó el número de viajeros (CNMC)."],["Italia","La competencia en alta velocidad desde 2012 también bajó precios y aumentó el uso."]],
+  spain:"La competencia en alta velocidad ha sido de los cambios más visibles para el viajero. Revertirla chocaría con las normas ferroviarias europeas, que obligan a separar infraestructura y operación y a abrir el mercado.",
+  src:[],ch:["Un único operador público gestiona vías y trenes","Mejora la coordinación","Se mantienen precios y oferta"],wk:2,pro:"Separar quien gestiona la vía de quien opera los trenes complica la coordinación del mantenimiento.",con:"Supone perder la bajada de precios de la competencia y choca con el derecho europeo.",pr:"Una reestructuración legal.",ind:["Precio medio del billete de alta velocidad",""]}
+ ]}
+];
+
+T.push(...NEW_TOPICS);
+const nav=document.getElementById("nav"),main=document.getElementById("main");
+nav.innerHTML=`<a class="navcred" href="#credibilidad" data-id="credibilidad">${ICONS.credibilidad}Credibilidad</a>`+T.map(t=>`<a href="#${t.id}" data-id="${t.id}">${ICONS[t.id]}${t.name}</a>`).join("");
+const esc=s=>s;
+function pill(kind,k){const [l,c]=LV[kind][k];return `<span class="pill t-${c}">${l}</span>`}
+function deep(m,part){const d=Object.assign({},X[m.t]||{},m.ch?m:{});if(!d.ch)return "";
+  if(part==="top"){return `<div><h4>Cómo tendría que funcionar</h4><ol class="chain">${d.ch.map((c,i)=>`<li class="${i===d.wk?'weak':''}"><span>${c}</span>${i===d.wk?'<em>Eslabón que suele fallar</em>':''}</li>`).join("")}</ol></div><div class="promise"><span class="k">Qué se promete</span><span>${d.pr}</span></div>`;}
+  return `<div><h4>El mejor argumento de cada lado</h4><div class="args"><div class="arg"><span class="k">A favor</span><p>${d.pro}</p></div><div class="arg"><span class="k">En contra</span><p>${d.con}</p></div></div></div>${d.ind&&d.ind[0]?`<div class="indic"><span class="k">Cómo saber si funciona</span><p><b>${d.ind[0]}</b>${d.ind[1]?`<br><span class="now">${d.ind[1]}</span>`:''}</p></div>`:''}`;}
+function render(id){
+  const t=T.find(x=>x.id===id)||T[0];
+  nav.querySelectorAll("a").forEach(a=>a.setAttribute("aria-current",a.dataset.id===t.id?"page":"false"));
+  const cur=nav.querySelector(`[data-id="${t.id}"]`);try{cur&&cur.scrollIntoView&&cur.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}
+  let h=`<div class="hero"><div class="ill" style="color:var(--accent)">${ICONS[t.id]}</div><div><div class="eyebrow">Tema</div><h2>${t.name}</h2><p class="ex">${t.ex}</p></div></div>`;
+  const cc=CONCEPT[t.id];
+  h+=`<section class="block"><div class="eyebrow">España hoy</div>${cc?`<div class="concept"><div class="ck">Concepto clave</div><p class="ct">${cc[0]}</p><p class="cx">${cc[1]}</p></div>`:''}<div class="stats">${t.stats.map(s=>`<div class="stat"><span class="n">${s[0]}</span><span class="l">${s[1]}</span></div>`).join("")}</div>`;
+  if(t.chart)h+=`<figure class="chart" style="margin:0">${t.chart.svg()}<figcaption class="cap">${t.chart.cap}</figcaption></figure>`;
+  h+=`</section>`;
+  h+=`<section class="block"><div class="eyebrow">Qué propone cada partido</div><div class="matrix">${ORDER.map(k=>{const p=t.pos[k]||[];return `<div class="prow"><div><div class="pn">${PARTIES[k].n}</div><div class="src">${PARTIES[k].src}</div></div>${p.length?`<ul>${p.map(x=>`<li>${x}</li>`).join("")}</ul>`:`<p class="none">No ha publicado propuestas sobre este tema.</p>`}</div>`}).join("")}</div></section>`;
+  h+=`<section class="block"><div class="eyebrow">Las medidas, a prueba · toca para ver el análisis</div>${t.m.map((m,i)=>`<details class="measure"${i===0?" open":""}><summary><div class="mhead"><h3>${m.t}</h3><span class="chev" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l4 4 4-4"/></svg></span></div><div class="who">${m.for.map(k=>`<span class="chip for">${PARTIES[k].n}</span>`).join("")}${m.against.map(k=>`<span class="chip against" title="En contra">${PARTIES[k].n}</span>`).join("")}</div><div class="meters"><div class="meter"><span class="k">Evidencia</span>${pill("ev",m.ev)}</div><div class="meter"><span class="k">Resultado probable</span>${pill("out",m.out)}</div><div class="meter"><span class="k">Viabilidad</span>${pill("via",m.via)}</div></div></summary><div class="mbody">${deep(m,"top")}<div><h4>Dónde se ha probado</h4><div class="cases">${m.cases.map(c=>`<div class="case"><span class="where">${c[0]}</span><span>${c[1]}</span></div>`).join("")}</div></div><div><h4>Qué cabe esperar en España</h4><p class="spain">${m.spain}</p></div>${deep(m,"bottom")}${m.src.length?`<div class="sources">Fuentes: <ul>${m.src.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a></li>`).join("")}</ul></div>`:""}</div></details>`).join("")}<p class="note">En las etiquetas de partido, el tachado indica que ese partido se opone a la medida o propone lo contrario. Los estudios citados por autor y año son referencias académicas publicadas.</p></section>`;
+  main.innerHTML=h;
+}
+/* ===== Sección Credibilidad ===== */
+const CRED_RATE=[["Pedro Sánchez (PSOE)",2.0],["Alberto Núñez Feijóo (PP)",1.5],["Irene Montero (Podemos)",1.3],["Ada Colau (Frente Amplio)",0.9],["Santiago Abascal (Vox)",0.8]];
+const VER={F:["Falso","bad"],I:["Impreciso","mid"],C:["Falta contexto","unk"]};
+const JUD={firme:["Condena firme","bad"],juicio:["En juicio","mid"],invest:["En investigación","unk"],archivo:["Archivado","good"],tcu:["Tribunal de Cuentas","mid"],entorno:["Entorno del líder","unk"]};
+const CRED=[
+{k:"PP",leader:"Alberto Núñez Feijóo",
+ exp:["Gobierno central: 1996–2004 y 2011–2018 (con mayoría absoluta en 2000 y 2011)","Gobierna hoy la mayoría de comunidades autónomas","Feijóo presidió la Xunta de Galicia de 2009 a 2022"],
+ claims:[
+  {v:"F",d:"13 nov. 2026 · The Wild Project",q:"La sentencia que condenó al PP por la Gürtel «fue anulada por falta de prueba».",r:"No fue anulada. El Supremo confirmó en 2020 que el PP se benefició a título lucrativo de la trama, por 245.492 €.",s:["Poder Judicial: sentencia del Supremo de 14/10/2020","https://www.poderjudicial.es/cgpj/es/Poder-Judicial/Tribunal-Supremo/Noticias-Judiciales/El-Tribunal-Supremo-confirma-penas-de-hasta-51-anos-de-prision-para-los-procesados-en-el--caso-Gurtel-"],via:"https://argos29n.com/momento/feijoo-gurtel-anulada"},
+  {v:"F",d:"16 nov. 2026 · acto en Lleida",q:"«En Lleida se han perdido más de 260.000 hectáreas de cultivo en 11 años.»",r:"Entre los censos agrarios de 2009 y 2020 la superficie agrícola utilizada bajó 43.481 ha; las tierras de cultivo aumentaron. La cifra salía de comparar dos conceptos distintos.",s:["INE: Censo Agrario 2009, Lleida","https://www.ine.es/jaxi/Datos.htm?path=/t01/p042/a2009/prov25/l0/&file=0102.px"],via:"https://argos29n.com/momento/feijoo-lleida-hectareas"},
+  {v:"I",d:"15 nov. 2026 · La Voz de Galicia",q:"La vivienda es el primer problema «en 2023, 2024 y siguientes».",r:"En el CIS no fue el primer problema hasta diciembre de 2024; en 2023 su mejor puesto fue el sexto.",s:["CIS: barómetro de diciembre de 2024","https://www.cis.es/documents/d/cis/es3489marmt_a"],via:"https://argos29n.com/momento/feijoo-vivienda-problema-cis"}],
+ jud:[
+  {c:"firme",t:"Caso Gürtel: el PP, partícipe a título lucrativo",x:"El Tribunal Supremo confirmó en octubre de 2020 que el partido se benefició de la trama en 245.492 € en actos electorales de Majadahonda y Pozuelo.",s:["Poder Judicial (14/10/2020)","https://www.poderjudicial.es/cgpj/es/Poder-Judicial/Tribunal-Supremo/Noticias-Judiciales/El-Tribunal-Supremo-confirma-penas-de-hasta-51-anos-de-prision-para-los-procesados-en-el--caso-Gurtel-"]},
+  {c:"firme",t:"Papeles de Bárcenas: obras de la sede pagadas en B",x:"El Supremo confirmó en noviembre de 2024 la defraudación tributaria por el pago en dinero negro de la reforma de la sede de Génova. El PP es responsable civil subsidiario.",s:["Poder Judicial (15/11/2024)","https://www.poderjudicial.es/cgpj/en/Judiciary/Novelties/El-Tribunal-Supremo-confirma-el-delito-de-defraudacion-tributaria-en-el-caso--Papeles-de-Barcenas--y-reduce-las-penas-al-apreciar-dilaciones-indebidas"]},
+  {c:"juicio",t:"Operación Kitchen",x:"El exministro del Interior Jorge Fernández Díaz y su número dos, juzgados en la Audiencia Nacional por un operativo para obstaculizar la investigación de la Gürtel. Visto para sentencia desde el 28 de julio de 2026; la Fiscalía pide 15 años. Presunción de inocencia.",s:["Ara: visto para sentencia","https://es.ara.cat/politica/visto-sentencia-juicio-caso-kitchen-le-buscaba-policia-espanola-luis-barcenas_1_5810924.html"]}]},
+{k:"PSOE",leader:"Pedro Sánchez",
+ exp:["Gobierno central: 1982–1996, 2004–2011 y desde 2018 (en coalición desde 2020)","Gobierna varias comunidades autónomas","Sánchez es presidente del Gobierno desde junio de 2018"],
+ claims:[
+  {v:"F",d:"16 nov. 2026 · Informativos Telecinco",q:"La llegada de migración irregular «ha bajado en torno a un 38 %» este año.",r:"Hasta el 15 de noviembre llegaron 44.238 personas frente a 31.742 en 2025: una subida del 39,4 %.",s:["Ministerio del Interior, balance a 15/11/2026 (vía Europa Press)","https://www.europapress.es/epsocial/migracion/noticia-llegadas-migrantes-irregulares-espana-crecen-394-2026-superan-44200-personas-20261116190422.html"],via:"https://argos29n.com/momento/sanchez-llegadas-irregulares-38"},
+  {v:"F",d:"16 nov. 2026 · Informativos Telecinco",q:"Las llegadas a Canarias «han caído en más de un 70 %».",r:"Hasta el 15 de noviembre subieron un 65,9 % (24.364 frente a 14.690). La caída del 70 % solo se dio hasta junio.",s:["Ministerio del Interior, balance a 15/11/2026 (vía Europa Press)","https://www.europapress.es/epsocial/migracion/noticia-llegadas-migrantes-irregulares-espana-crecen-394-2026-superan-44200-personas-20261116190422.html"],via:"https://argos29n.com/momento/sanchez-canarias-mas-del-70"},
+  {v:"C",d:"16 nov. 2026 · Informativos Telecinco",q:"España concentra «más del 80 % de la creación de empleo» de la zona euro.",r:"Depende del periodo: en el último año, el 69,6 % (Eurostat); en algunos trimestres sí supera el 80 %. España crece el doble que la zona euro.",s:["Eurostat, estimación del tercer trimestre de 2026","https://ec.europa.eu/eurostat/en/web/products-euro-indicators/w/2-13112026-ap"],via:"https://argos29n.com/momento/sanchez-empleo-mas-del-80"}],
+ jud:[
+  {c:"firme",t:"Caso Koldo: exministro y exsecretario de Organización",x:"José Luis Ábalos condenado a 24 años y 3 meses y su asesor Koldo García a 19 años y 8 meses por organización criminal, cohecho, malversación y tráfico de influencias. El Supremo rechazó su nulidad el 14 de octubre de 2026; solo les queda el recurso de amparo.",s:["The Objective: el Supremo ratifica las condenas","https://theobjective.com/espana/tribunales/2026-10-14/supremo-rechaza-incidente-nulidad-abalos/"]},
+  {c:"invest",t:"Financiación del PSOE",x:"Pieza secreta en la Audiencia Nacional sobre discrepancias entre las donaciones declaradas por el partido, los bancos y el Tribunal de Cuentas (2017–2024). Sin imputados conocidos. Presunción de inocencia.",s:["Moncloa.com: el juez pide documentación al Tribunal de Cuentas","https://moncloa.com/2026/11/15/tribunal-cuentas-psoe-3467328"]},
+  {c:"entorno",t:"Familia del presidente",x:"Begoña Gómez, esposa del presidente, irá a juicio por tráfico de influencias y malversación (Audiencia Provincial de Madrid, julio de 2026), sin fecha fijada. Su hermano David Sánchez fue condenado a nueve años de inhabilitación por prevaricación; no consta si es firme. Ninguno ocupa cargo en el partido. Presunción de inocencia en la causa abierta.",s:["Qué!: juicio oral contra Begoña Gómez","https://www.que.es/2026/07/18/juicio-begona-gomez-confirmado/"]}]},
+{k:"VOX",leader:"Santiago Abascal",
+ exp:["Nunca ha gobernado España","Gobernó en coalición con el PP en varias comunidades (Castilla y León desde 2022 y otras desde 2023) hasta salir de todas en julio de 2024"],
+ claims:[
+  {v:"F",d:"15 nov. 2026 · mitin en Cornellà",q:"«Hoy los españoles son minoría en Cornellà.»",r:"El 81,5 % de sus vecinos tiene nacionalidad española y el 72,9 % nació en España.",s:["INE: censo anual de población 2025","https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/68548?nult=1&tv=19:5523"],via:"https://argos29n.com/momento/abascal-cornella-minoria"},
+  {v:"I",d:"16 nov. 2026 · mitin en Tenerife",q:"La entrada masiva en Ceuta ocurrió «mientras tres ministros de Marruecos reclamaban Ceuta y Melilla».",r:"La entrada fue el 30 y 31 de julio; los tres ministros hicieron esas declaraciones después, entre el 11 de agosto y el 3 de septiembre. Sin fuente oficial: se basa en RTVE.",s:["RTVE (12/10/2026)","https://www.rtve.es/noticias/20261012/buques-guerra-marroquies-entraron-aguas-ceuta-llegada-masiva-inmigrantes/17262984.shtml"],via:"https://argos29n.com/momento/abascal-ceuta-ministros-mientras"}],
+ jud:[
+  {c:"tcu",t:"Cuentas de 2021 y 2022 sin opinión del Tribunal de Cuentas",x:"Según el informe pendiente de aprobación, la documentación no permite conocer la situación financiera real del partido, algo sin precedentes en un partido nacional. Vox ha presentado alegaciones. No equivale a una condena por financiación ilegal.",s:["infoLibre (05/11/2026)","https://www.infolibre.es/politica/tribunal-cuentas-pone-contabilidad-vox-sospecha-falta-informacion-finanzas_1_2239543.html"]},
+  {c:"archivo",t:"Sanción de 862.496 € anulada",x:"El Supremo anuló en junio de 2026 una sanción del Tribunal de Cuentas por falta de base probatoria suficiente.",s:["infoLibre (05/11/2026)","https://www.infolibre.es/politica/tribunal-cuentas-pone-contabilidad-vox-sospecha-falta-informacion-finanzas_1_2239543.html"]},
+  {c:"tcu",t:"Transferencias a su fundación",x:"El Tribunal de Cuentas señala que Vox transfirió 2,5 millones al año a la fundación Disenso en 2021 y 2022, un caso único entre los partidos analizados. No es ilegal en sí.",s:["elDiario.es: informe sobre fundaciones","https://www.eldiario.es/politica/tribunal-cuentas-retrata-vox-unico-partido-traspasa-millones-fundacion_1_12670135.html"]}]},
+{k:"FA",leader:"Ada Colau",
+ exp:["Sus partidos (Sumar, IU, Comuns, Más Madrid) están en el Gobierno central desde 2023, e IU también entre 2020 y 2023","Colau fue alcaldesa de Barcelona de 2015 a 2023","Ahora Madrid, origen de Más Madrid, gobernó Madrid capital de 2015 a 2019"],
+ claims:[
+  {v:"F",d:"13 nov. 2026 · The Wild Project",q:"«Aumentamos miles de agentes de Guardia Urbana.»",r:"La plantilla pasó de 3.117 agentes (2018) a 3.348 (2022): 231 más.",s:["Verificat, con datos del Ayuntamiento de Barcelona","https://www.verificat.cat/es/es-enganoso-que-la-guardia-urbana-de-barcelona-tenga-1-000-agentes-mas-que-hace-cuatro-anos-como-dice-jaume-collboni/"],via:"https://argos29n.com/momento/colau-guardia-urbana"},
+  {v:"F",d:"14 nov. 2026 · acto en Sevilla",q:"Gracias al dentista municipal, «más de 100.000 personas en Barcelona pueden volver a sonreír».",r:"Hasta agosto de 2024 había atendido a unas 7.000 personas, con más de 70.000 visitas.",s:["Ajuntament de Barcelona","https://ajuntament.barcelona.cat/sanitatisalut/es/canal/dentista-persones-vulnerables"],via:"https://argos29n.com/momento/colau-dentista-municipal"},
+  {v:"C",d:"13 nov. 2026 · The Wild Project",q:"La inseguridad en Barcelona tuvo «cifras más o menos estables» durante su mandato.",r:"Los delitos denunciados pasaron de 174.496 (2015) a 226.366 (2019), un 30 % más; bajaron con la pandemia.",s:["Ajuntament de Barcelona, balance de seguridad 2022","https://web.archive.org/web/2024if_/https://ajuntament.barcelona.cat/premsa/wp-content/uploads/2023/02/2023_02_16_JuntaLocaldeSeguretat.pdf"],via:"https://argos29n.com/momento/colau-inseguridad-estable"}],
+ jud:[
+  {c:"archivo",t:"Querellas contra Colau como alcaldesa",x:"Archivadas las causas por la supermanzana del Eixample (recurso desestimado por el Supremo en 2024), por presuntas presiones contra desahucios (2024) y por subvenciones a entidades afines (archivada de nuevo en febrero de 2025).",s:["Ara: la justicia confirma que no delinquió (30/09/2024)","https://es.ara.cat/sociedad/barcelona/justicia-confirma-gobierno-colau-no-delinquio-detener-desahucios_1_5156072.html"]}]},
+{k:"POD",leader:"Irene Montero",
+ exp:["Gobierno central en coalición con el PSOE de 2020 a 2023 (vicepresidencia y varios ministerios)","Montero fue ministra de Igualdad de 2020 a 2023","No forma parte del Gobierno desde 2023"],
+ claims:[
+  {v:"F",d:"14 nov. 2026 · mitin en Las Palmas",q:"En Adeje y Yaiza las viviendas turísticas son el 30 % y el 60 % del total.",r:"Son el 14,1 % y el 21,7 % (mayo de 2026).",s:["INE: viviendas turísticas por municipio","https://www.ine.es/jaxiT3/Tabla.htm?t=39366"],via:"https://argos29n.com/momento/montero-adeje-yaiza"},
+  {v:"F",d:"15 nov. 2026 · Canal Sur",q:"Iryo y Ouigo pagan «un canon de unos 800 millones».",r:"Los 783 millones de cánones de 2024 los pagaron todos los operadores, Renfe incluida; Iryo y Ouigo pagan entre 190 y 250 millones.",s:["CNMC: balance de la liberalización ferroviaria","https://www.cnmc.es/sites/default/files/6148400.pdf"],via:"https://argos29n.com/momento/montero-canon-iryo-ouigo"},
+  {v:"C",d:"15 nov. 2026 · elDiario.es",q:"«Ninguna pulsera ha fallado por la causa de esos contratos.»",r:"El Tribunal de Cuentas halló fallos de GPS, baterías y averías en el contrato de 2023, en parte por su preparación (con Montero en el ministerio) y en parte por su ejecución posterior. Igualdad lo atribuye a la transición.",s:["Tribunal de Cuentas, informe n.º 1.695","https://www.tcu.es/export/sites/portal/repositorio2/INFORME/2026/I1695.pdf"],via:"https://argos29n.com/momento/montero-pulseras-contrato"}],
+ jud:[
+  {c:"archivo",t:"Caso Neurona",x:"El juzgado de instrucción n.º 42 de Madrid excluyó a Podemos en septiembre de 2023 y sobreseyó provisionalmente la causa en diciembre: no se acreditó desvío de fondos electorales.",s:["El Debate (12/12/2023)","https://www.eldebate.com/espana/20231212/juez-cierra-caso-neurona-concluir-podemos-no-apropio-fondos-electorales_159948_amp.html"]}]}
+];
+
+function renderCred(){
+  nav.querySelectorAll("a").forEach(a=>a.setAttribute("aria-current",a.dataset.id==="credibilidad"?"page":"false"));
+  let h=`<div class="hero"><div class="ill" style="color:var(--accent)">${ICONS.credibilidad}</div><div><div class="eyebrow">Sección aparte</div><h2>Credibilidad</h2><p class="ex">Qué han hecho y dicho los partidos y sus candidatos, comprobado con datos oficiales y resoluciones judiciales. No influye en la evaluación de las propuestas.</p></div></div>`;
+  h+=`<section class="block"><div class="eyebrow">Cómo está hecha</div><div class="concept"><div class="ck">Reglas</div><p class="cx">Solo cuentan datos oficiales (INE, ministerios, Eurostat, CNMC, Tribunal de Cuentas) y resoluciones judiciales. Las condenas firmes, los juicios, las investigaciones y los archivos se muestran por separado, y en lo que no es firme rige la presunción de inocencia. No hay nota final: quien más años ha gobernado ha tenido más ocasiones de equivocarse, así que cada ficha empieza por su exposición al poder.</p></div>
+  <div class="stats"><div class="stat"><span class="n">Listo</span><span class="l">Exposición al poder, afirmaciones de campaña verificadas y causas judiciales o de cuentas</span></div><div class="stat"><span class="n">En preparación</span><span class="l">Coherencia entre programa de 2023 y votaciones en el Congreso, y promesas cumplidas donde gobernaron</span></div></div></section>`;
+  h+=`<section class="block"><div class="eyebrow">Datos falsos o imprecisos por hora hablada en campaña</div><figure class="chart" style="margin:0">${bars(CRED_RATE.map(r=>[r[0],r[1],r[1].toFixed(1).replace(".",","),0]),{max:2.3})}<figcaption class="cap">Recuento del verificador independiente Argos sobre 155 afirmaciones de entrevistas, mítines y vídeos hasta el 17 de noviembre. Dividir por horas evita penalizar a quien habla más. Es un único verificador y una muestra parcial: úsalo como señal, no como veredicto. <a href="https://argos29n.com/" target="_blank" rel="noopener">Ver todas</a></figcaption></figure></section>`;
+  h+=CRED.map(p=>`<section class="block credp"><div class="credh"><h3>${PARTIES[p.k].n}</h3><span class="src">Candidato: ${p.leader}</span></div>
+   <div class="credsec"><h4>Exposición al poder</h4><ul class="plain">${p.exp.map(e=>`<li>${e}</li>`).join("")}</ul></div>
+   <div class="credsec"><h4>Afirmaciones de campaña comprobadas</h4><div class="claims">${p.claims.map(c=>`<div class="claim"><div class="ch"><span class="pill t-${VER[c.v][1]}">${VER[c.v][0]}</span><span class="when">${c.d}</span></div><p class="q">${c.q}</p><p class="r"><b>Dato oficial:</b> ${c.r}</p><p class="cs"><a href="${c.s[1]}" target="_blank" rel="noopener">${c.s[0]}</a> · <a href="${c.via}" target="_blank" rel="noopener">verificación</a></p></div>`).join("")}</div></div>
+   <div class="credsec"><h4>Tribunales y cuentas</h4><div class="claims">${p.jud.map(j=>`<div class="claim"><div class="ch"><span class="pill t-${JUD[j.c][1]}">${JUD[j.c][0]}</span></div><p class="q" style="font-style:normal;font-weight:600">${j.t}</p><p class="r">${j.x}</p><p class="cs"><a href="${j.s[1]}" target="_blank" rel="noopener">${j.s[0]}</a></p></div>`).join("")}</div></div>
+  </section>`).join("");
+  h+=`<p class="note">Selección: hasta tres afirmaciones de datos por candidato, entre las verificadas con fuente oficial, priorizando las que tratan sobre políticas públicas. Abascal tiene dos porque es el candidato con menos datos erróneos por hora. En tribunales se incluyen las causas que afectan al partido, a sus cargos o, aparte, al entorno familiar del candidato, con resolución judicial o informe del Tribunal de Cuentas.</p>`;
+  main.innerHTML=h;
+}
+
+function route(){const id=(location.hash||"").slice(1);if(id==="credibilidad"){renderCred();return}render(T.some(t=>t.id===id)?id:"vivienda")}
+window.addEventListener("hashchange",()=>{route();try{window.scrollTo(0,document.querySelector("nav.topics").offsetTop)}catch(e){}});
+route();
+</script>
+
+</body></html>
