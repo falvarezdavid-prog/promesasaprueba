@@ -297,16 +297,45 @@ nav.views a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 p.srclink{margin:10px 0 0;font-size:14px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
 p.srclink button{all:unset;cursor:pointer;color:var(--accent);font-weight:600}
 p.srclink button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-details.more{margin-top:8px}
-details.more>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font:600 14.5px/1.3 var(--f-body);color:var(--accent);padding:8px 0}
-details.more>summary::-webkit-details-marker{display:none}
-details.more>summary .chev{width:16px;height:16px;transition:transform .2s}
-details.more[open]>summary .chev{transform:rotate(180deg)}
-details.more>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-details.more.inl{margin-top:2px}
-details.more.inl>summary{font-size:13.5px;padding:4px 0}
-.mcard>details.more{margin-top:-8px}
-.mcard>details.more>*:not(summary){margin-top:22px}
+details.dmore{margin-top:8px}
+summary.cprev{list-style:none;cursor:pointer;display:grid;gap:8px;padding:14px 16px;margin:0;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+summary.cprev::-webkit-details-marker{display:none}
+summary.cprev:hover{border-color:var(--accent)}
+summary.cprev .kk{font:500 11.5px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+summary.cprev .cps{display:flex;flex-wrap:wrap;gap:6px}
+summary.cprev .cp{font:500 13.5px/1.2 var(--f-body);padding:6px 10px;border-radius:999px;background:var(--sunk);color:var(--ink)}
+summary.cprev .cp b{margin-right:2px}
+summary.cprev .cp.t-good b{color:var(--good,#1f7a4d)}
+summary.cprev .cp.t-mid b{color:var(--accent)}
+summary.cprev .cp.t-bad b{color:var(--bad,#b4382f)}
+summary.cprev .cpn{font-size:14.5px;color:var(--ink)}
+summary.cprev .cta{display:flex;align-items:center;justify-content:space-between;gap:10px;font:600 14.5px/1.3 var(--f-body);color:var(--accent)}
+summary.cprev .chev{flex:none;width:18px;height:18px;transition:transform .2s}
+details.dmore[open]>summary.cprev .chev{transform:rotate(180deg)}
+summary.cprev:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mcard>details.mprev{margin-top:-6px}
+details.dmore>summary.cprev{display:block;padding:14px 16px;font:inherit;color:var(--ink)}
+summary.cprev .kk{display:block}
+summary.cprev .cps,summary.cprev .cpn{display:flex;margin-top:8px}
+summary.cprev .cta{margin-top:12px}
+@media (max-width:640px){
+ body{margin:0}
+ .mcard,.credp,.quick,.mtable{margin-left:calc(-1*max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1*max(16px,env(safe-area-inset-right,0px)));border-radius:0!important;border-left:0!important;border-right:0!important;box-shadow:none!important}
+ .mcard{padding:20px 16px 18px!important}
+ .spainband{margin:0 -16px;padding:16px}
+ .credp{padding:18px 16px!important}
+ .quick{padding:18px 16px}
+ .credp .claim2{padding-left:0;padding-right:0}
+}
+details.dmore>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font:600 14.5px/1.3 var(--f-body);color:var(--accent);padding:8px 0}
+details.dmore>summary::-webkit-details-marker{display:none}
+details.dmore>summary .chev{width:16px;height:16px;transition:transform .2s}
+details.dmore[open]>summary .chev{transform:rotate(180deg)}
+details.dmore>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+details.dmore.inl{margin-top:2px}
+details.dmore.inl>summary{font-size:13.5px;padding:4px 0}
+.mcard>details.dmore{margin-top:-8px}
+.mcard>details.dmore>*:not(summary){margin-top:22px}
 p.keyl{margin:-8px 0 0;font-size:14.5px;line-height:1.45}
 p.keyl .kk{display:block;font:500 11.5px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
 p.keyl .pill{margin:2px 4px 2px 0}
@@ -1212,7 +1241,7 @@ function measureCard(m,i,n){const d=Object.assign({},X[m.t]||{},m.ch?m:{});
 ${COST[m.t]?`<p class="costline"><span class="ck">Coste para las cuentas públicas:</span> ${COST[m.t]}</p>`:""}
 <div class="spainband"><h4>Qué cabe esperar en España</h4><p>${m.spain}</p></div>
 ${keyLines(m,d)}
-<details class="more"><summary><span>Ver cómo funcionaría, dónde se ha probado y fuentes</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+<details class="dmore mprev">${casePreview(m)}
 ${d.pr?`<div class="sub"><h4>Qué se promete</h4><p>${d.pr}</p></div>`:""}
 ${chain}
 ${caseBlock(m)}
@@ -1221,14 +1250,16 @@ ${m.src.length?`<div class="sources"><span class="k">Fuentes</span><ul>${m.src.m
 </details>
 </article>`;}
 function keyLines(m,d){
-  let h="";
-  if(d.ch&&d.wk!=null&&d.ch[d.wk])h+=`<p class="keyl"><span class="kk">Paso que suele fallar</span> «${d.ch[d.wk]}»</p>`;
-  const codes=(CV[m.t]||""),kinds=CK[m.t]||"";const cnt={};let n=0;
-  (m.cases||[]).forEach((c,ci)=>{if(kinds[ci]==="o")return;n++;const k=codes[ci];if(CVL[k])cnt[k]=(cnt[k]||0)+1});
-  if(n)h+=`<p class="keyl"><span class="kk">Dónde se ha probado</span> ${n===1?"1 caso":n+" casos"}: ${Object.keys(cnt).map(k=>`<span class="pill cv t-${CVL[k][1]}">${cnt[k]} ${CVL[k][0]}</span>`).join(" ")}</p>`;
-  else h+=`<p class="keyl"><span class="kk">Dónde se ha probado</span> Sin precedentes comparables.</p>`;
-  return h;
+  return d.ch&&d.wk!=null&&d.ch[d.wk]?`<p class="keyl"><span class="kk">Paso que suele fallar</span> «${d.ch[d.wk]}»</p>`:"";
 }
+function casePreview(m){
+  const codes=(CV[m.t]||""),kinds=CK[m.t]||"";const ap=[];let op=0;
+  (m.cases||[]).forEach((c,ci)=>{if(kinds[ci]==="o"){op++;return}const v=CVL[codes[ci]];ap.push(`<span class="cp ${v?"t-"+v[1]:""}"><b>${v?v[0].split(" ")[0]:""}</b> ${c[0]}</span>`)});
+  const head=ap.length?`<span class="kk">Dónde se ha probado</span><span class="cps">${ap.join("")}</span>`:`<span class="kk">Dónde se ha probado</span><span class="cpn">Sin precedentes comparables</span>`;
+  const cta=ap.length?`Qué pasó en ${ap.length===1?"este caso":"cada caso"}${op?`, dónde se hizo lo contrario`:""}, la cadena causal y los argumentos`:`La cadena causal, los argumentos y las fuentes`;
+  return `<summary class="cprev">${head}<span class="cta">${cta}<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></summary>`;
+}
+
 function render(id){
   {const how=document.querySelector(".howto2");if(how)how.hidden=false;}
   const t=T.find(x=>x.id===id)||T[0];
@@ -1241,7 +1272,7 @@ function render(id){
   if(t.chart&&!LONG[t.id])h+=`<figure class="chart" style="margin:0">${t.chart.svg()}<figcaption class="cap">${t.chart.cap}</figcaption></figure>`;
   if(LONG[t.id])h+=lineChart(LONG[t.id]);
   h+=`</section>`;
-  h+=`<section class="block sec">${SH("02","Qué propone cada partido","Lo que dice cada programa, sin valorarlo",'<path d="M5 6h14M5 12h14M5 18h9"/>')}<div class="parties">${ORDER.map(k=>{const p=t.pos[k]||[];return `<article class="party"><header><h3>${PARTIES[k].n}</h3><span class="src">${PARTIES[k].src}</span></header>${p.length?`<ul>${p.slice(0,2).map(x=>`<li>${x}</li>`).join("")}</ul>${p.length>2?`<details class="more inl"><summary><span>${p.length-2} propuesta${p.length-2>1?"s":""} más</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><ul>${p.slice(2).map(x=>`<li>${x}</li>`).join("")}</ul></details>`:""}`:`<p class="none">No ha publicado propuestas sobre este tema.</p>`}</article>`}).join("")}</div></section>`;
+  h+=`<section class="block sec">${SH("02","Qué propone cada partido","Lo que dice cada programa, sin valorarlo",'<path d="M5 6h14M5 12h14M5 18h9"/>')}<div class="parties">${ORDER.map(k=>{const p=t.pos[k]||[];return `<article class="party"><header><h3>${PARTIES[k].n}</h3><span class="src">${PARTIES[k].src}</span></header>${p.length?`<ul>${p.slice(0,2).map(x=>`<li>${x}</li>`).join("")}</ul>${p.length>2?`<details class="dmore inl"><summary><span>${p.length-2} propuesta${p.length-2>1?"s":""} más</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><ul>${p.slice(2).map(x=>`<li>${x}</li>`).join("")}</ul></details>`:""}`:`<p class="none">No ha publicado propuestas sobre este tema.</p>`}</article>`}).join("")}</div></section>`;
   h+=`<section class="block sec">${SH("03","Las medidas, a prueba","Qué ha pasado donde se ha probado y qué cabe esperar aquí",'<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l6 6"/>')}<div class="mlegend"><span><span class="chip for">Partido</span> lo propone</span><span><span class="chip against">Partido</span> lo rechaza o propone lo contrario</span><span class="ml3">Si un partido no aparece, su programa no dice nada sobre esa medida. Podemos no tiene programa: solo se recogen sus declaraciones.</span></div><div class="mindex mtable" role="region" aria-label="Resumen: qué partido propone cada medida" tabindex="0"><table><caption>✓ lo propone · ✕ lo rechaza o propone lo contrario · · no dice nada. Toca una medida para ir a su ficha.</caption><thead><tr><th scope="col">Medida</th>${ORDER.map(k=>`<th scope="col">${k==="POD"?"Pod.":k==="FA"?"FA":PARTIES[k].n}</th>`).join("")}</tr></thead><tbody>${t.m.map((m,i)=>`<tr><th scope="row"><button type="button" data-mi="${i}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${m.t}</span></button></th>${ORDER.map(k=>m.for.includes(k)?`<td class="y"><span aria-hidden="true">✓</span><span class="sr">${PARTIES[k].n} lo propone</span></td>`:m.against.includes(k)?`<td class="x"><span aria-hidden="true">✕</span><span class="sr">${PARTIES[k].n} lo rechaza</span></td>`:`<td class="o"><span aria-hidden="true">·</span><span class="sr">${PARTIES[k].n} no dice nada</span></td>`).join("")}</tr>`).join("")}</tbody></table></div>${t.m.map((m,i)=>measureCard(m,i,t.m.length)).join("")}<p class="note">Los estudios citados por autor y año son referencias académicas publicadas.</p></section>`;
   main.innerHTML=h;
   main.querySelectorAll(".mindex button").forEach(b=>b.addEventListener("click",()=>{const el=document.getElementById("medida-"+b.dataset.mi);if(!el)return;try{const n=document.querySelector("nav.topics");const side=window.matchMedia("(min-width:1024px)").matches;window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-(side?16:n.getBoundingClientRect().height+12),behavior:"smooth"})}catch(e){}}));
@@ -1397,7 +1428,7 @@ const DERECHOS={t:"Si gobiernan PP y Vox, se retrocederá en derechos",d:"Mensaj
  con:"Los datos respaldan buena parte del mensaje: PP y Vox proponen derogar o reformar varias de estas leyes, y donde gobiernan ya han sustituido leyes de memoria y, en Madrid, reformado la ley trans. Pero el alcance es muy distinto entre los dos, y ninguno de los dos programas recoge un cambio concreto en la ley del aborto.",
  s:[["Comparativa de los programas de PP y Vox (Demócrata)","https://www.democrata.es/elecciones-generales-espana/comparativa-programas-electorales-derecha-proponen-pp-vox-29n/"],["Feijóo sobre aborto, eutanasia e Igualdad (Qué!)","https://que.es/2026/10/23/feijoo-aborto-igualdad-smi"],["Propuestas LGTBI de los partidos (Shangay)","https://shangay.com/actualidad/politicas-lgtbiq-29n-partidos-politicos"],["Leyes de concordia y Constitucional (El Salto)","https://www.elsaltodiario.com/valencia/constitucional-suspende-articulos-ley-concordia-valenciana"],["Reforma de Madrid y Constitucional (Público)","https://www.publico.es/politica/constitucional-anula-forma-cautelar-parte-leyes-trans-lgtbi-ayuso.html"],["Sánchez y el aborto en la Constitución (Vozpópuli)","https://www.vozpopuli.com/espana/politica/sanchez-caricaturiza-a-feijoo-y-abascal-como-el-club-de-la-motosierra-y-anuncia-que-blindara-el-aborto-en-la-constitucion.html"]]};
 REL.PSOE.push(DERECHOS);REL.FA.push(DERECHOS);REL.POD.push(DERECHOS);
-function relCard(c,n,leader){const sub=c.q&&c.q.includes("«")?`${leader}, ${c.d}: ${c.q}`:c.d;return `<article class="claim2"><h5 class="jt"><span class="nm">${n}</span>${c.t}</h5><p class="sub">${sub}</p><p class="verd"><b>Qué dicen los datos:</b> ${c.con}</p><details class="more"><summary><span>Ver datos y fuentes</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>${c.vs?`<p class="why" style="color:var(--muted)">${c.vs}</p>`:''}${c.ch?c.ch():''}<dl class="mets">${c.m.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join("")}</dl>${c.no?`<p class="why"><b>Lo que los datos no dicen:</b> ${c.no}</p>`:''}<p class="cs">Datos: ${c.s.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`).join(" · ")}</p></details></article>`}
+function relCard(c,n,leader){const sub=c.q&&c.q.includes("«")?`${leader}, ${c.d}: ${c.q}`:c.d;return `<article class="claim2"><h5 class="jt"><span class="nm">${n}</span>${c.t}</h5><p class="verd"><b>Qué dicen los datos:</b> ${c.con}</p><details class="dmore"><summary><span>Ver datos y fuentes</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p class="sub">${sub}</p>${c.vs?`<p class="why" style="color:var(--muted)">${c.vs}</p>`:''}${c.ch?c.ch():''}<dl class="mets">${c.m.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join("")}</dl>${c.no?`<p class="why"><b>Lo que los datos no dicen:</b> ${c.no}</p>`:''}<p class="cs">Datos: ${c.s.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`).join(" · ")}</p></details></article>`}
 
 /* Dijo y votó: declaración previa y concreta, seguida de un voto contrario en el Congreso, con la explicación del partido */
 const DIJO={
@@ -1436,8 +1467,8 @@ function judSum(js){const o=["firme","juicio","invest","tcu","entorno","archivo"
 const CRED_K={PSOE:"Pedro Sánchez (PSOE)",PP:"Alberto Núñez Feijóo (PP)",POD:"Irene Montero (Podemos)",FA:"Ada Colau (Frente Amplio)",VOX:"Santiago Abascal (Vox)"};
 function rateLine(k){const sorted=[...CRED_RATE].sort((a,b)=>b[1]-a[1]);const i=sorted.findIndex(r=>r[0]===CRED_K[k]);if(i<0)return "";const v=sorted[i][1].toFixed(1).replace(".",",");const pos=i===0?"la más alta de los cinco candidatos":i===sorted.length-1?"la más baja de los cinco candidatos":`la ${i+1}.ª de cinco, de más a menos`;return `<div class="credsec"><h4>Datos falsos o imprecisos en campaña</h4><p class="rate"><b>${v}</b> por hora hablada, ${pos}. Recuento de un único verificador, Argos, sobre una muestra parcial: tómalo como una señal. <a href="https://argos29n.com/" target="_blank" rel="noopener">Ver todas sus verificaciones</a></p></div>`}
 /* Dónde gobierna y qué ha hecho: medidas aplicadas donde el partido gobierna o gobernó, con el indicador que prometió mover */
-const PPVOX={vis:["Qué han hecho","Resultados"],t:"Gobiernos PP y Vox (2026): prioridad nacional y desregulación",w:"Coalición en Extremadura, Aragón, Castilla y León y Andalucía desde abril-julio de 2026, con cuatro vicepresidencias y nueve consejerías para Vox; acuerdos de presupuesto en la Comunitat Valenciana",
- m:[["Qué prometieron","Dar prioridad en ayudas y vivienda protegida a quien tenga arraigo «real, duradero y verificable», menos regulación y más control de la inmigración. El PP lleva la prioridad por arraigo en su programa del 29N, y Vox la «prioridad nacional»."],
+const PPVOX={vis:["En resumen","Resultados"],t:"Gobiernos PP y Vox (2026): prioridad nacional y desregulación",w:"Coalición en Extremadura, Aragón, Castilla y León y Andalucía desde abril-julio de 2026, con cuatro vicepresidencias y nueve consejerías para Vox; acuerdos de presupuesto en la Comunitat Valenciana",
+ m:[["En resumen","Ya aplican requisitos de arraigo para cobrar ayudas y acceder a vivienda pública (Comunitat Valenciana) y pruebas de edad a menores migrantes (Aragón). En Andalucía y Castilla y León la prioridad por arraigo está pactada, y Vox dirige consejerías de «desregulación» en las cuatro."],["Qué prometieron","Dar prioridad en ayudas y vivienda protegida a quien tenga arraigo «real, duradero y verificable», menos regulación y más control de la inmigración. El PP lleva la prioridad por arraigo en su programa del 29N, y Vox la «prioridad nacional»."],
     ["Qué han hecho","Comunitat Valenciana: el presupuesto de 2026 exige 3 años seguidos (o 10 alternos en los últimos 30) de empadronamiento para la Renta Valenciana de Inclusión, y las Corts aprobaron exigir 10 años de arraigo para la vivienda pública. Aragón: pruebas forenses para verificar la edad de menores migrantes no acompañados y retirada de una paga mensual de 17 euros. Andalucía: acuerdo para aplicar la prioridad nacional en ayudas y vivienda protegida y retirar subvenciones a ONG que, según el pacto, promuevan la inmigración ilegal. Castilla y León: el pacto incluye la prioridad por arraigo, al menos 5.000 viviendas protegidas y rebajas del IRPF. En las cuatro, consejerías de «desregulación» con la regla de eliminar tres normas por cada una nueva."],
     ["Resultados","Aún no hay resultados medibles: la mayoría de las medidas tiene pocos meses o está pendiente de aplicarse."],
     ["Coherencia","Lo que aplican coincide con lo que proponen en campaña para toda España."]],
@@ -1492,7 +1523,7 @@ GOB.FA.push({t:"Subida del salario mínimo (2018–2026)",w:"Gobierno central de
     ["Coherencia","Cumple la subida prometida; el coste en empleo existe y la AIReF lo califica de moderado."]],
  no:"La AIReF no da un efecto acumulado de todas las subidas ni cuánto han reducido la pobreza de quienes trabajan.",
  s:[["AIReF, mayo de 2026 (vía El Español)","https://www.elespanol.com/invertia/economia/empleo/20260530/subidas-salario-minimo-causaron-destruccion-empleos-airef/1003744266056_0.html"]]});
-function gobCard(c,n){const vis=c.vis||["Resultados","Coherencia"];const sh=c.m.filter(r=>vis.some(v=>r[0].startsWith(v))),hd=c.m.filter(r=>!vis.some(v=>r[0].startsWith(v)));const dl=a=>`<dl class="mets">${a.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join("")}</dl>`;return `<article class="claim2"><h5 class="jt"><span class="nm">${n}</span>${c.t}</h5><p class="sub">${c.w}</p>${dl(sh)}<details class="more"><summary><span>Ver qué prometió, qué ha hecho y fuentes</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>${dl(hd)}${c.no?`<p class="why"><b>Lo que los datos no dicen:</b> ${c.no}</p>`:''}<p class="cs">Fuentes: ${c.s.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`).join(" · ")}</p></details></article>`}
+function gobCard(c,n){const vis=c.vis||["Resultados","Coherencia"];const sh=c.m.filter(r=>vis.some(v=>r[0].startsWith(v))),hd=c.m.filter(r=>!vis.some(v=>r[0].startsWith(v)));const dl=a=>`<dl class="mets">${a.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join("")}</dl>`;return `<article class="claim2"><h5 class="jt"><span class="nm">${n}</span>${c.t}</h5><p class="sub">${c.w}</p>${dl(sh)}<details class="dmore"><summary><span>Ver qué prometió, qué ha hecho y fuentes</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>${dl(hd)}${c.no?`<p class="why"><b>Lo que los datos no dicen:</b> ${c.no}</p>`:''}<p class="cs">Fuentes: ${c.s.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`).join(" · ")}</p></details></article>`}
 
 const JUD={firme:["Condena firme","bad"],juicio:["En juicio","mid"],invest:["En investigación","unk"],archivo:["Archivado","good"],tcu:["Tribunal de Cuentas","mid"],entorno:["Entorno del líder","unk"]};
 const CRED=[
@@ -1583,7 +1614,7 @@ function renderCred(){
 
 function setView(v){document.body.classList.toggle("vparty",v!=="temas");const a=document.getElementById("v-temas"),b=document.getElementById("v-partidos");if(a&&b){a.setAttribute("aria-current",v==="temas"?"page":"false");b.setAttribute("aria-current",v==="partidos"?"page":"false")}}
 let allOpen=false;
-function applyOpen(){document.querySelectorAll("main details.more").forEach(d=>d.open=allOpen);const b=document.getElementById("expandAll");if(b){b.setAttribute("aria-pressed",String(allOpen));b.textContent=allOpen?"Mostrar solo lo esencial":"Desplegar todos los detalles"}}
+function applyOpen(){document.querySelectorAll("main details.dmore").forEach(d=>d.open=allOpen);const b=document.getElementById("expandAll");if(b){b.setAttribute("aria-pressed",String(allOpen));b.textContent=allOpen?"Mostrar solo lo esencial":"Desplegar todos los detalles"}}
 document.addEventListener("click",e=>{if(e.target&&e.target.id==="expandAll"){allOpen=!allOpen;applyOpen()}});
 function route(){const id=(location.hash||"").slice(1);if(id==="partidos"||id==="credibilidad"){setView("partidos");renderCred();return}if(id==="fuentes"){setView("fuentes");renderSources();return}setView("temas");render(T.some(t=>t.id===id)?id:"vivienda")}
 function goTop(){try{const n=document.querySelector("nav.topics");const side=window.matchMedia("(min-width:1024px)").matches;const y=main.getBoundingClientRect().top+window.scrollY-(side?16:n.getBoundingClientRect().height+8);window.scrollTo({top:Math.max(0,y),behavior:"auto"})}catch(e){}}
