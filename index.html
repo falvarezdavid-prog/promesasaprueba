@@ -579,6 +579,25 @@ section.credp[hidden],.howto2[hidden]{display:none!important}
 .credp p.rate{margin:0;font-size:15px}
 .credp p.rate b{font-size:22px;margin-right:2px}
 @media (max-width:620px){.qbig{font-size:19px}.claim2{padding:18px 0}}
+.q5link{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;max-width:520px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--accent-soft);color:var(--ink);text-decoration:none;font:600 15px/1.3 var(--f-body)}
+.q5link span.k{display:block;font:500 13px/1.3 var(--f-body);color:var(--muted);margin-top:2px}
+.q5link svg{flex:none;width:18px;height:18px;color:var(--accent)}
+.q5link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.q5rule{font-size:14px;color:var(--muted);margin:0}
+.q5t{padding:18px 0;border-top:1px solid var(--line)}
+.q5t:first-of-type{border-top:0}
+.q5t h3{display:flex;align-items:center;gap:8px;margin:0 0 4px;font-size:19px}
+.q5t h3 svg{width:22px;height:22px;flex:none;color:var(--accent)}
+.q5m{display:grid;gap:8px;padding:18px 0 0}.q5m+.q5m{margin-top:4px}
+.q5m h4{margin:0;font-size:16px;line-height:1.3}
+.q5m .who{margin:0}
+.q5m .res{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:13.5px}
+.q5m .res .k{font:500 11.5px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.q5m .cps{display:flex;flex-wrap:wrap;gap:6px}
+.q5m .cp{font:500 13px/1.2 var(--f-body);padding:5px 9px;border-radius:999px;background:var(--sunk);color:var(--ink)}
+.q5m .cp.t-good b{color:var(--good,#1f7a4d)}.q5m .cp.t-mid b{color:var(--accent)}.q5m .cp.t-bad b{color:var(--bad,#b4382f)}
+.q5m p.sp{margin:0;font-size:14.5px}
+.q5t a.more{display:inline-block;margin-top:12px;font:600 14px/1.3 var(--f-body);color:var(--accent)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -589,6 +608,7 @@ section.credp[hidden],.howto2[hidden]{display:none!important}
   <h1 style="margin-top:10px"><a href="./" class="homelink" id="homelink">Promesas a prueba</a></h1>
   <p class="lead">Dos formas de mirar estas elecciones: qué propone cada partido en doce temas, con lo que ha pasado cuando medidas parecidas se aplicaron en otros países o en España; y qué ha hecho y dicho cada partido, comprobado con datos oficiales y resoluciones judiciales. Los mismos criterios para todos. No es una recomendación de voto.</p>
   <nav class="views" aria-label="Vistas"><a href="#vivienda" id="v-temas">Propuestas por tema</a><a href="#partidos" id="v-partidos">Partidos a prueba</a></nav>
+  <a class="q5link" href="#5min"><span>¿Solo tienes 5 minutos?<span class="k">Lo esencial de cada tema: las medidas que más dividen y qué pasó donde se probaron</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
   <p class="srclink"><a href="#fuentes">Todas las fuentes</a></p>
   <div class="howto2">
     <h2 class="hk">Cómo leer cada medida</h2>
@@ -1609,11 +1629,29 @@ function renderCred(){
   main.querySelector(".ptabs").addEventListener("keydown",e=>{if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;const ks=CRED.map(p=>p.k);let i=ks.indexOf(credParty)+(e.key==="ArrowRight"?1:-1);i=(i+ks.length)%ks.length;pick(ks[i]);main.querySelector("#tab-"+ks[i]).focus()});
 }
 
+/* ===== Lo esencial en 5 minutos: se genera solo a partir de T ===== */
+const EVR={alta:3,media:2,escasa:1,nueva:0};
+function q5pick(t){
+  const sc=m=>[Math.min(m.for.length,m.against.length),m.for.length+m.against.length,EVR[m.ev]||0];
+  return t.m.map((m,i)=>({m,i,s:sc(m)})).sort((a,b)=>b.s[0]-a.s[0]||b.s[1]-a.s[1]||b.s[2]-a.s[2]||a.i-b.i).slice(0,2).sort((a,b)=>a.i-b.i);
+}
+function firstSentence(x){const m=(x||"").match(/^.+?[.!?](?=\s+[A-ZÁÉÍÓÚÑ¿«]|$)/);return m?m[0]:x}
+function renderQuick5(){
+  const how=document.querySelector(".howto2");if(how)how.hidden=true;
+  let h=`<div class="hero"><div class="ill" style="color:var(--accent)"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></div><div><div class="eyebrow">En 5 minutos</div><h2>Lo esencial</h2><p class="ex">Dos medidas por tema, qué partido las propone y qué pasó donde se aplicaron. El detalle, los argumentos y las fuentes están en cada tema.</p></div></div>`;
+  h+=`<section class="block sec"><p class="q5rule"><b>Cómo se eligen.</b> En cada tema, las dos medidas que más dividen a los partidos: primero las que unos proponen y otros rechazan; a igualdad, las que más partidos mencionan y las que tienen más experiencia previa. La misma regla para todos los temas y partidos.</p><div class="mlegend" style="margin-top:12px"><span><span class="chip for">Partido</span> lo propone</span><span><span class="chip against">Partido</span> lo rechaza o propone lo contrario</span></div></section>`;
+  h+=`<section class="block sec">${T.map(t=>`<div class="q5t"><h3>${ICONS[t.id]||""}${t.name}</h3>${q5pick(t).map(({m})=>{
+    const codes=CV[m.t]||"",kinds=CK[m.t]||"";const cps=[];
+    (m.cases||[]).forEach((c,ci)=>{if(kinds[ci]==="o")return;const v=CVL[codes[ci]];cps.push(`<span class="cp ${v?"t-"+v[1]:""}">${v?`<b>${v[0].split(" ")[0]}</b> `:""}${c[0]}</span>`)});
+    return `<div class="q5m"><h4>${m.t}</h4><div class="who">${m.for.map(k=>`<span class="chip for">${PARTIES[k].n}</span>`).join("")}${m.against.map(k=>`<span class="chip against" title="Lo rechaza o propone lo contrario">${PARTIES[k].n}</span>`).join("")}</div><div class="res"><span class="k">Dónde se probó</span>${cps.length?`<span class="cps">${cps.join("")}</span>`:`<span>Sin precedentes comparables</span>`}</div><div class="res"><span class="k">En España</span>${pill("out",m.out)}</div><p class="sp">${firstSentence(m.spain)}</p></div>`}).join("")}<a class="more" href="#${t.id}">Ver las ${t.m.length} medidas de ${t.name.toLowerCase()} →</a></div>`).join("")}</section>`;
+  main.innerHTML=h;window.scrollTo(0,0);
+}
+
 function setView(v){document.body.classList.toggle("vparty",v!=="temas");const a=document.getElementById("v-temas"),b=document.getElementById("v-partidos");if(a&&b){a.setAttribute("aria-current",v==="temas"?"page":"false");b.setAttribute("aria-current",v==="partidos"?"page":"false")}}
 let allOpen=false;
 function applyOpen(){document.querySelectorAll("main details.dmore").forEach(d=>d.open=allOpen);const b=document.getElementById("expandAll");if(b){b.setAttribute("aria-pressed",String(allOpen));b.textContent=allOpen?"Mostrar solo lo esencial":"Desplegar todos los detalles"}}
 document.addEventListener("click",e=>{if(e.target&&e.target.id==="expandAll"){allOpen=!allOpen;applyOpen()}});
-function route(){const id=(location.hash||"").slice(1);if(id==="partidos"||id==="credibilidad"){setView("partidos");renderCred();return}if(id==="fuentes"){setView("fuentes");renderSources();return}setView("temas");render(T.some(t=>t.id===id)?id:"vivienda")}
+function route(){const id=(location.hash||"").slice(1);if(id==="partidos"||id==="credibilidad"){setView("partidos");renderCred();return}if(id==="fuentes"){setView("fuentes");renderSources();return}if(id==="5min"){setView("resumen");renderQuick5();return}setView("temas");render(T.some(t=>t.id===id)?id:"vivienda")}
 function goTop(){try{const n=document.querySelector("nav.topics");const side=window.matchMedia("(min-width:1024px)").matches;const y=main.getBoundingClientRect().top+window.scrollY-(side?16:n.getBoundingClientRect().height+8);window.scrollTo({top:Math.max(0,y),behavior:"auto"})}catch(e){}}
 document.getElementById("homelink").addEventListener("click",e=>{e.preventDefault();try{history.replaceState(null,"",location.pathname+location.search)}catch(err){}route();try{window.scrollTo({top:0})}catch(err){}});
 window.addEventListener("hashchange",()=>{route();applyOpen();requestAnimationFrame(goTop)});
