@@ -626,17 +626,6 @@ dialog.sheet a.more{display:inline-block;margin-top:16px;font:600 14.5px/1.3 var
  dialog.sheet .shb::before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px}
  dialog.sheet[open]{animation:shup .22s ease-out}
 }
-dialog.sheet .shsec{margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
-dialog.sheet .shsec h4{margin:0;font:600 16px/1.3 var(--f-body);color:var(--ink)}
-dialog.sheet .shsec .cases{margin-top:8px;border-top:0}
-dialog.sheet .shsec .case{grid-template-columns:minmax(0,1fr);gap:6px;padding:12px 0;border-bottom:1px solid var(--line)}
-dialog.sheet .shsec .case:last-child{border-bottom:0}
-dialog.sheet .shsec .case .where{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
-dialog.sheet .shsec .case p{margin:0;font-size:15px}
-dialog.sheet .shargs{display:grid;gap:14px;margin-top:8px}
-dialog.sheet .shargs .k{font:600 12px/1.2 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-dialog.sheet .shargs p{margin:4px 0 0}
-dialog.sheet .chainline{margin-top:8px}
 @keyframes shup{from{transform:translateY(100%)}to{transform:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -1691,24 +1680,14 @@ function renderQuick5(){
 const CVD={a:"La política logró su objetivo donde se aplicó.",t:"Logró su objetivo, pero con efectos secundarios importantes.",p:"Dio los primeros pasos, pero no alcanzó el objetivo final.",c:"No logró su objetivo o empeoró las cosas.",x:"No hay resultados medidos."};
 const sheet=document.createElement("dialog");sheet.className="sheet";sheet.setAttribute("aria-labelledby","sheet-t");document.body.appendChild(sheet);
 const XSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
-function sheetHTML(d){const t=T[+d.t],m=t.m[+d.m],D=Object.assign({},X[m.t]||{},m.ch?m:{});const codes=CV[m.t]||"",kinds=CK[m.t]||"";
+function sheetHTML(d){const t=T[+d.t],m=t.m[+d.m],codes=CV[m.t]||"";
   const head=ey=>`<div class="shh"><div class="eyebrow">${ey}</div><button type="button" class="shx" data-close aria-label="Cerrar">${XSVG}</button></div>`;
-  const sec=(h,b)=>b?`<div class="shsec"><h4>${h}</h4>${b}</div>`:"";
-  const caseRow=ci=>{const c=m.cases[ci],v=CVL[codes[ci]];return `<div class="case"><div class="where"><span class="place">${c[0]}</span>${v?`<span class="pill cv t-${v[1]}">${v[0]}</span>`:""}</div><p>${c[1]}</p></div>`};
   const srcs=m.src&&m.src.length?`<p class="shs">Fuentes: ${m.src.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`).join(" · ")}</p>`:"";
   const more=`<a class="more" href="#${t.id}" data-close>Ver la medida completa en ${t.name.toLowerCase()} →</a>`;
   if(d.q5==="case"){const ci=+d.c,c=m.cases[ci],v=CVL[codes[ci]];
-    const others=(m.cases||[]).map((_,k)=>k).filter(k=>k!==ci&&kinds[k]!=="o"),opp=(m.cases||[]).map((_,k)=>k).filter(k=>kinds[k]==="o");
     return `${head(m.t)}<h3 id="sheet-t">${c[0]}</h3>${v?`<span class="pill cv t-${v[1]}">${v[0]}</span>${CVD[codes[ci]]?`<p class="cvm">${CVD[codes[ci]]}</p>`:""}`:""}<p>${c[1]}</p><p class="cvm">La etiqueta dice si esa política logró su propio objetivo allí, no si la medida es buena o mala. Que funcionara fuera no garantiza que funcione en España.</p>`
-     +sec("Otros lugares donde se probó",others.length?`<div class="cases">${others.map(caseRow).join("")}</div>`:"")
-     +sec("Dónde se hizo lo contrario",opp.length?`<p class="cvm">Si lo contrario salió mal, refuerza la medida; si salió bien, la debilita.</p><div class="cases">${opp.map(caseRow).join("")}</div>`:"")
-     +sec("Qué cabe esperar en España",`<p>${m.spain}</p>`)+srcs+more}
-  const ind=IND2[m.t]||(D.ind&&D.ind[0]);
++more}
   return `${head(m.t)}<h3 id="sheet-t">Qué cabe esperar en España</h3><div class="meters"><div class="meter"><span class="k">Experiencia previa</span>${pill("ev",m.ev)}</div><div class="meter"><span class="k">Resultado probable</span>${pill("out",m.out)}</div><div class="meter"><span class="k">Viabilidad</span>${pill("via",m.via)}</div></div><p>${m.spain}</p>${COST[m.t]?`<p><b>Coste para las cuentas públicas:</b> ${COST[m.t]}</p>`:""}`
-   +sec("Qué se promete",D.pr?`<p>${D.pr}</p>`:"")
-   +sec("Cómo tendría que funcionar",D.ch?`<p class="chainline">${D.ch.map((c,j)=>j===D.wk?`<b class="weak">${c}</b><span class="wk"> (suele fallar aquí)</span>`:`<span>${c}</span>`).join('<span class="arr" aria-hidden="true"> → </span>')}</p>`:"")
-   +sec("El mejor argumento de cada lado",D.pro?`<div class="shargs"><div><span class="k">A favor</span><p>${D.pro}</p></div><div><span class="k">En contra</span><p>${D.con}</p></div></div>`:"")
-   +sec("Cómo saber si funciona",ind?`<p>${ind}</p>${D.ind&&D.ind[1]?`<p class="cvm">Dato de partida: ${D.ind[1].replace(/^Hoy:\s*/,"")}</p>`:""}`:"")
    +srcs+more}
 let sheetPushed=false;
 function openSheet(btn){sheet.innerHTML=`<div class="shb">${sheetHTML(btn.dataset)}</div>`;sheet._from=btn;try{sheet.showModal()}catch(e){sheet.setAttribute("open","")}
