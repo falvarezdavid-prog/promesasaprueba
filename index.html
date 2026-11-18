@@ -983,7 +983,7 @@ const T=[
   FA:["Completar la regularización de 2026 y crear un procedimiento estable","Cerrar los centros de internamiento (CIE)","Derogar el rechazo en frontera","Voto municipal para residentes extranjeros"],
   POD:["Procedimiento permanente de regularización por arraigo social, familiar o comunitario","Cerrar todos los CIE","Nueva ley de extranjería que acabe con las devoluciones en caliente","Nacionalidad con un año de residencia en casos de arraigo","Voto y DNI para los residentes extranjeros","Derogar el Pacto Europeo de Migración y Asilo; vías legales y seguras"]},
  m:[
- {t:"Regularizar a quienes ya viven aquí",for:["FA","PSOE"],against:["PP","VOX"],ev:"alta",out:"fav",via:"alta",
+ {t:"Regularizar a quienes ya viven aquí",for:["FA","PSOE","POD"],against:["PP","VOX"],ev:"alta",out:"fav",via:"alta",
   cases:[["España, 2005","Regularizó a unas 570.000 personas con contrato. Aumentaron las cotizaciones y la recaudación; los estudios no hallan un efecto llamada relevante (Elias, Monras y Vázquez-Grenno)."],["Italia, varias desde 1986","Regularizaciones repetidas: mejoran ingresos y reducen delincuencia de los regularizados, pero su repetición puede animar a más llegadas irregulares."]],
   spain:"Esas personas ya están aquí y muchas trabajan en negro: regularizarlas añade cotizantes y reduce la explotación. El riesgo es que un procedimiento permanente (Frente Amplio) se lea como promesa de regularizaciones futuras. Prohibirlas (PP, Vox) no hace que se vayan.",
   src:[["Diari de Tarragona: real decreto de regularización 2026","https://www.diaridetarragona.com/espana/257246/boe-publica-real-decreto-aprueba-regularizacion-inmigrantes-requisitos-plazos.html"]]},
@@ -1354,7 +1354,7 @@ vivienda:["Faltará cerca de un millón de viviendas en 2028, y se terminan unas
 impuestos:["La deuda pública ronda el 100 % del PIB, el triple que en 2007, y la AIReF prevé un 123 % en 2050 si nada cambia.","PP y Vox bajan impuestos; PSOE, Frente Amplio y Podemos los suben a rentas altas, grandes fortunas y banca.","Los impuestos a grandes fortunas recaudan poco (623 M€ en 2023), y una rebaja general de impuestos casi nunca se paga sola; recortar gasto daña menos el crecimiento que subir impuestos, pero hay que decir qué se recorta."],
 empleo:["El salario mínimo es de 1.221 € al mes en 14 pagas; la mitad de los trabajadores gana menos de 24.497 € al año.","PSOE, Frente Amplio y Podemos suben el salario mínimo y reducen la jornada; PP y Vox rebajan cotizaciones a autónomos y nuevas contrataciones.","Las subidas moderadas del salario mínimo apenas afectan al empleo; el riesgo crece cuanto más se acerca al salario mediano."],
 pensiones:["Hoy se gasta el 13 % del PIB en pensiones, y en 2050 habrá unos 17 millones de pensiones.","PP, PSOE, Vox y Frente Amplio suben las pensiones con el IPC; Frente Amplio y Podemos bajan la edad de jubilación, y el PP fomenta la jubilación activa.","Subir con el IPC protege a los pensionistas pero eleva el gasto; bajar la edad de jubilación va en contra de lo que hacen otros países y es lo menos viable."],
-inmigracion:["Uno de cada cinco residentes nació en el extranjero; las llegadas irregulares son una parte pequeña de la inmigración.","Frente Amplio y PSOE regularizan y amplían vías legales; el PP propone cupos y devoluciones rápidas; Vox, expulsiones y «remigración».","Regularizar a quien ya vive aquí y los cupos laborales tienen mejores resultados; las expulsiones masivas son lo menos viable."],
+inmigracion:["Uno de cada cinco residentes nació en el extranjero; las llegadas irregulares son una parte pequeña de la inmigración.","Frente Amplio, PSOE y Podemos regularizan y amplían vías legales; el PP propone cupos y devoluciones rápidas; Vox, expulsiones y «remigración».","Regularizar a quien ya vive aquí y los cupos laborales tienen mejores resultados; las expulsiones masivas son lo menos viable."],
 sanidad:["Hay 853.740 personas esperando una operación, con una espera media de 122 días.","PSOE, Frente Amplio y Podemos piden más gasto y gestión pública; el PP, más médicos de familia; Vox, usar la sanidad privada.","Más médicos en Atención Primaria y una historia clínica única tienen mejor evidencia; más gasto no garantiza menos espera."],
 energia:["Una quinta parte de la electricidad es nuclear, y Almaraz cerraría en 2030.","PP y Vox alargan la vida de las nucleares; PSOE y Frente Amplio aceleran las renovables y mantienen el cierre.","Alargar las centrales existentes es viable; construir nuevas es caro y lento, y el 100 % renovable exige almacenamiento y redes."],
 territorio:["El sistema de financiación autonómica caducó en 2014, y el PSOE propone asumir 83.000 M€ de deuda de las comunidades.","El PP quiere que cada comunidad responda de su deuda; PSOE y Frente Amplio, condonar parte y dar más fondos; Vox, recentralizar.","Aquí pesan más los valores sobre el modelo de Estado que la evidencia; condonar deuda alivia a corto plazo, pero puede premiar a quien más se endeudó."],
@@ -1824,7 +1824,7 @@ vivienda:{o:[
  {k:"d",t:"Que alquilar tu piso sea seguro y rentable",d:"Para propietarios: cobrar, recuperar el piso, fijar el precio"},
  {k:"e",t:"Que la vivienda sea para vivir, no para invertir",d:"Menos peso de fondos, especulación y pisos vacíos",val:1},
  {k:"f",t:"Que las ayudas lleguen antes a quien lleva años aquí",d:"Prioridad por arraigo en vivienda protegida",val:1}],
- m:[{i:0,x:{FA:1.5,POD:1.5,PSOE:.5},e:{a:1,b:-1,d:-1}},{i:1,e:{a:-1,b:.5,d:1,e:-.5}},{i:2,x:{PP:1.5},e:{a:.5,b:1,c:1}},{i:3,x:{FA:1.5},e:{a:.5,b:1,e:1}},{i:4,x:{VOX:1.5},e:{b:-.5,c:.5}},{i:5,x:{FA:1.5,POD:1.5},e:{c:.5,e:1}},{i:6,x:{POD:1.5},e:{b:.5,e:.5}},{i:7,e:{d:1}},{i:8,e:{f:1}}]},
+ m:[{i:0,x:{FA:1.5,POD:1.5,PSOE:.5},e:{a:1,b:-1,d:-1}},{i:1,e:{a:-1,b:.5,d:1,e:-.5}},{i:2,x:{PP:1.5},e:{a:.5,b:1,c:1}},{i:3,x:{FA:1.5,POD:1.5},e:{a:.5,b:1,e:1}},{i:4,x:{VOX:1.5},e:{b:-.5,c:.5}},{i:5,x:{FA:1.5,POD:1.5},e:{c:.5,e:1}},{i:6,x:{POD:1.5},e:{b:.5,e:.5}},{i:7,e:{d:1}},{i:8,e:{f:1}}]},
 impuestos:{o:[
  {k:"a",t:"Reducir el déficit y la deuda",d:"Que las cuentas públicas cuadren a medio plazo"},
  {k:"b",t:"Que paguen más quienes más tienen",d:"Grandes rentas, patrimonios, banca y grandes empresas",val:1},
@@ -1853,7 +1853,7 @@ inmigracion:{o:[
  {k:"d",t:"Que los recién llegados se integren",d:"Idioma, normas y empleo"},
  {k:"e",t:"Proteger los derechos de los migrantes",d:"Garantías legales y trato igual",val:1},
  {k:"f",t:"Prioridad para los españoles en las ayudas",d:"Antes que para los extranjeros",val:1}],
- m:[{i:0,x:{FA:1.5},e:{a:-.5,b:1,c:.5,e:.5}},{i:1,e:{a:.5,b:-1,c:-1,e:-1}},{i:2,e:{c:1}},{i:3,e:{a:.5,e:-.5}},{i:4,x:{VOX:1.5},e:{d:.5,e:-.5,f:1}}]},
+ m:[{i:0,x:{FA:1.5,POD:1.5},e:{a:-.5,b:1,c:.5,e:.5}},{i:1,e:{a:.5,b:-1,c:-1,e:-1}},{i:2,e:{c:1}},{i:3,e:{a:.5,e:-.5}},{i:4,x:{VOX:1.5},e:{d:.5,e:-.5,f:1}}]},
 sanidad:{o:[
  {k:"a",t:"Que bajen ya las listas de espera",d:"Operarse y ver al especialista antes"},
  {k:"b",t:"Una sanidad pública fuerte a largo plazo",d:"Más plantillas y menos dependencia de la privada"},
@@ -1861,7 +1861,7 @@ sanidad:{o:[
  {k:"d",t:"Que la sanidad atienda a todos los residentes",d:"Incluidos los inmigrantes en situación irregular",val:1},
  {k:"e",t:"Garantizar el derecho a la eutanasia",d:"Decidir sobre el final de la propia vida",val:1},
  {k:"f",t:"Proteger la vida hasta la muerte natural",d:"Más cuidados paliativos en lugar de eutanasia",val:1}],
- m:[{i:0,e:{a:.5,b:-.5,c:.5}},{i:1,x:{FA:1.5},e:{a:.5,b:1,c:-.5}},{i:2,e:{a:.5,b:1}},{i:3,e:{c:.5}},{i:4,e:{c:-.5,d:-1}},{i:5,e:{e:1,f:-1}}]},
+ m:[{i:0,e:{a:.5,b:-.5,c:.5}},{i:1,x:{FA:1.5,POD:1.5},e:{a:.5,b:1,c:-.5}},{i:2,e:{a:.5,b:1}},{i:3,e:{c:.5}},{i:4,e:{c:-.5,d:-1}},{i:5,e:{e:1,f:-1}}]},
 energia:{o:[
  {k:"a",t:"Que la luz sea más barata ya",d:"Menos factura este año"},
  {k:"b",t:"Reducir emisiones y frenar el cambio climático",d:"Menos gas y carbón"},
@@ -1884,7 +1884,7 @@ educacion:{o:[
  {k:"c",t:"Libertad de las familias para elegir centro",d:"Pública, concertada o privada",val:1},
  {k:"d",t:"Una escuela pública fuerte",d:"Más recursos y plantillas en la pública",val:1},
  {k:"e",t:"Que las familias puedan conciliar",d:"Escuela infantil de 0 a 3 años"}],
- m:[{i:0,x:{FA:1.5},e:{a:.5,b:.5,d:.5}},{i:1,x:{FA:1.5},e:{b:.5,d:1}},{i:2,e:{b:-.5,c:1,d:-.5}},{i:3,e:{a:1,b:.5}},{i:4,e:{a:1,b:.5}},{i:5,e:{b:1,e:1}},
+ m:[{i:0,x:{FA:1.5,POD:1.5},e:{a:.5,b:.5,d:.5}},{i:1,x:{FA:1.5,POD:1.5},e:{b:.5,d:1}},{i:2,e:{b:-.5,c:1,d:-.5}},{i:3,e:{a:1,b:.5}},{i:4,e:{a:1,b:.5}},{i:5,e:{b:1,e:1}},
   {i:6,l:"Tope de alumnos extranjeros por aula",s:{VOX:1},e:{c:-.5}},
   {i:6,l:"Repartir a los alumnos con necesidades especiales",s:{FA:1},e:{b:.5,c:-.5}}]},
 seguridad:{o:[
@@ -1892,7 +1892,7 @@ seguridad:{o:[
  {k:"b",t:"Castigos más duros para los delitos graves",d:"Que la pena sea proporcional al daño",val:1},
  {k:"c",t:"Que quien delinque no vuelva a hacerlo",d:"Reinserción y menos reincidencia"},
  {k:"d",t:"Proteger la libertad de reunión y expresión",d:"Límites a las sanciones en protestas",val:1}],
- m:[{i:0,e:{b:1}},{i:1,e:{a:1,c:.5}},{i:2,x:{VOX:1.5,PP:.5},e:{a:-.5,b:1,c:-1}},{i:3,e:{a:1}},{i:4,x:{FA:1.5},e:{d:1}}]},
+ m:[{i:0,e:{b:1}},{i:1,e:{a:1,c:.5}},{i:2,x:{VOX:1.5,PP:.5},e:{a:-.5,b:1,c:-1}},{i:3,e:{a:1}},{i:4,x:{FA:1.5,POD:1.5},e:{d:1}}]},
 defensa:{o:[
  {k:"a",t:"Capacidad para defendernos y cumplir con los aliados",d:"Ante Rusia y un entorno más inestable",val:1},
  {k:"b",t:"Dedicar el dinero a servicios públicos, no a armas",d:"Sanidad, educación, vivienda",val:1},
@@ -1906,7 +1906,7 @@ transporte:{o:[
  {k:"c",t:"Más infraestructuras y conexiones nuevas",d:"Nuevas líneas y obras"},
  {k:"d",t:"Que el gasto público rinda",d:"Sin sobrecostes ni rescates"},
  {k:"e",t:"Un ferrocarril público gestionado por el Estado",d:"Sin operadores privados",val:1}],
- m:[{i:0,e:{a:1,c:-.5}},{i:1,e:{c:1,d:-.5}},{i:2,x:{FA:1.5},e:{a:-.5,b:1,d:-.5}},{i:3,e:{b:-1,e:1}}]}
+ m:[{i:0,e:{a:1,c:-.5}},{i:1,e:{c:1,d:-.5}},{i:2,x:{FA:1.5,POD:1.5},e:{a:-.5,b:1,d:-.5}},{i:3,e:{b:-1,e:1}}]}
 };
 const CONF={alta:1,media:.75,escasa:.5,nueva:.5};
 function affStances(t,am){const m=t.m[am.i];if(am.s)return am.s;const s={};m.for.forEach(k=>s[k]=1);m.against.forEach(k=>s[k]=-1);Object.assign(s,am.x||{});return s}
