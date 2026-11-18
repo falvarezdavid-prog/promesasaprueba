@@ -695,6 +695,15 @@ h3.tsh{margin:0;font-size:20px}
 .q5rest{border-top:1px dashed var(--line);margin-top:16px}
 .q5rest[hidden]{display:none}
 .q5exp.q5up{margin-top:20px;color:var(--muted)}
+.entry{display:grid;gap:8px;margin-top:18px;max-width:520px}
+.entry .q5link{margin-top:0;max-width:none}
+.q5link.q5main{grid-template-columns:auto 1fr auto;display:grid;gap:14px;padding:16px 18px;background:var(--accent);border-color:var(--accent);color:var(--bg);font-size:17px;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.q5link.q5main span.k{color:var(--bg);opacity:.85;font-size:13.5px}
+.q5link.q5main>svg{color:var(--bg)}
+.q5main .q5ic{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.18)}
+.q5main .q5ic svg{width:24px;height:24px;color:var(--bg)}
+.q5link.q5main:hover{filter:brightness(1.06)}
+.entry+nav.views{margin-top:14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -704,9 +713,11 @@ h3.tsh{margin:0;font-size:20px}
   <div class="eyebrow">Elecciones generales · 29 de noviembre de 2026</div>
   <h1 style="margin-top:10px"><a href="./" class="homelink" id="homelink">Promesas a prueba</a></h1>
   <p class="lead">Dos formas de mirar estas elecciones: qué propone cada partido en doce temas, con lo que ha pasado cuando medidas parecidas se aplicaron en otros países o en España; y qué ha hecho y dicho cada partido, comprobado con datos oficiales y resoluciones judiciales. Los mismos criterios para todos. No es una recomendación de voto.</p>
-  <nav class="views" aria-label="Vistas"><a href="#vivienda" id="v-temas">Propuestas por tema</a><a href="#partidos" id="v-partidos">Partidos a prueba</a></nav>
-  <a class="q5link" href="#5min"><span>¿Solo tienes 5 minutos?<span class="k">Lo esencial de cada tema: las medidas que más dividen y qué pasó donde se probaron</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+  <div class="entry">
+  <a class="q5link q5main" href="#5min"><span class="q5ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></span><span>¿Solo tienes 5 minutos?<span class="k">Lo esencial de cada tema: las medidas que más dividen y qué pasó donde se probaron</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
   <a class="q5link tlink" href="#test"><span>Test de afinidad<span class="k">Elige qué quieres conseguir en cada tema y mira qué partidos proponen lo que lo ha logrado</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+  </div>
+  <nav class="views" aria-label="Vistas"><a href="#vivienda" id="v-temas">Propuestas por tema</a><a href="#partidos" id="v-partidos">Partidos a prueba</a></nav>
   <p class="srclink"><a href="#fuentes">Todas las fuentes</a></p>
   <div class="howto2">
     <h2 class="hk">Cómo leer cada medida</h2>
