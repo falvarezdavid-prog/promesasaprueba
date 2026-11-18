@@ -627,6 +627,67 @@ dialog.sheet a.more{display:inline-block;margin-top:16px;font:600 14.5px/1.3 var
  dialog.sheet[open]{animation:shup .22s ease-out}
 }
 @keyframes shup{from{transform:translateY(100%)}to{transform:none}}
+/* Test de afinidad */
+.q5link.tlink{margin-top:8px;background:var(--surface)}
+.tw{display:grid;gap:18px;padding-bottom:96px}
+.tw h2:focus{outline:none}
+.tcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.tsteps{margin:0;padding-left:20px;display:grid;gap:10px;font-size:15.5px;line-height:1.45}
+.tnote{margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
+.tnote a{color:var(--accent)}
+.tprog{display:grid;gap:8px;font:500 12px/1.2 var(--f-data);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tprog b{color:var(--accent);font-weight:500}
+.tpb{display:block;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.tpb span{display:block;height:100%;background:var(--accent);transition:width .25s}
+.ttopic{display:flex;align-items:center;gap:8px;font:600 15px/1.2 var(--f-body);color:var(--accent)}
+.ttopic svg{width:22px;height:22px}
+h2.tq{margin:0;font-size:clamp(22px,5.4vw,28px);line-height:1.2}
+.thint{margin:-8px 0 0;font-size:14.5px;color:var(--muted)}
+.tval{margin:0;padding:10px 12px;border-radius:10px;background:var(--unk-soft);font-size:14px;color:var(--ink)}
+.topts{display:grid;gap:10px}
+.topt{all:unset;box-sizing:border-box;display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:center;min-height:64px;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.topt:hover{border-color:var(--accent)}
+.topt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.topt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.topt .tok{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line);font:700 13px/1 var(--f-body);color:var(--bg)}
+.topt[aria-pressed="true"] .tok{background:var(--accent);border-color:var(--accent)}
+.topt .tot{display:grid;gap:3px}
+.topt .tot b{font:600 16px/1.3 var(--f-body);color:var(--ink)}
+.topt .tot span{font-size:13.5px;line-height:1.35;color:var(--muted)}
+.tchips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tchip{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:8px;min-height:52px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);font:500 14.5px/1.25 var(--f-body);color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tchip svg{flex:none;width:20px;height:20px;color:var(--accent)}
+.tchip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.tchip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tcount{margin:0}
+.tmore{margin:0;font-size:13.5px;color:var(--muted)}
+.tmore a{color:var(--accent);font-weight:600}
+.tbarb{position:sticky;bottom:0;z-index:5;display:flex;gap:8px;margin:0 -16px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line)}
+.tbtn{all:unset;box-sizing:border-box;flex:1;display:grid;place-items:center;min-height:50px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font:600 15.5px/1.2 var(--f-body);color:var(--ink);text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tbtn.pri{flex:1.6;background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.tbtn[disabled]{opacity:.4;cursor:default}
+.tbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tov,.trows{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.tov li{display:grid;grid-template-columns:112px 1fr 30px 86px;gap:10px;align-items:center}
+.tov .pill{font-size:12px;white-space:nowrap;justify-self:start}
+.tpn{font:600 15px/1.2 var(--f-body);color:var(--ink)}
+.tsc{font:600 15px/1 var(--f-data);text-align:right;color:var(--ink)}
+.tbar{position:relative;display:block;height:10px;border-radius:5px;background:var(--band);overflow:hidden}
+.tbar span{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:5px}
+.tbar i{position:absolute;left:50%;top:-2px;bottom:-2px;width:1.5px;background:var(--muted);opacity:.5}
+h3.tsh{margin:0;font-size:20px}
+.ttr{display:grid;gap:10px;padding:18px 0;border-top:1px solid var(--line)}
+.ttr header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ttr h4{display:flex;align-items:center;gap:8px;margin:0;font:600 17px/1.25 var(--f-body)}
+.ttr h4 svg{width:22px;height:22px;color:var(--accent)}
+.tdbl{font:500 11px/1 var(--f-data);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.tpri{margin:0;font-size:14.5px}
+.trows li{display:grid;gap:4px}
+.trl{display:grid;grid-template-columns:112px 1fr 30px;gap:10px;align-items:center}
+.twhy{margin:0;font-size:13.5px;line-height:1.4;color:var(--muted)}
+.ttr a.more{font:600 14px/1.3 var(--f-body);color:var(--accent)}
+@media (max-width:380px){.tov li{grid-template-columns:104px 1fr 28px}.tov .pill{grid-column:2 / 4;justify-self:start}.tchips{grid-template-columns:1fr}}
+@media (min-width:700px){.tbarb{margin:0;border:1px solid var(--line);border-radius:14px;bottom:16px}.tw{padding-bottom:24px}.topts{grid-template-columns:1fr 1fr}.tchips{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -638,6 +699,7 @@ dialog.sheet a.more{display:inline-block;margin-top:16px;font:600 14.5px/1.3 var
   <p class="lead">Dos formas de mirar estas elecciones: qué propone cada partido en doce temas, con lo que ha pasado cuando medidas parecidas se aplicaron en otros países o en España; y qué ha hecho y dicho cada partido, comprobado con datos oficiales y resoluciones judiciales. Los mismos criterios para todos. No es una recomendación de voto.</p>
   <nav class="views" aria-label="Vistas"><a href="#vivienda" id="v-temas">Propuestas por tema</a><a href="#partidos" id="v-partidos">Partidos a prueba</a></nav>
   <a class="q5link" href="#5min"><span>¿Solo tienes 5 minutos?<span class="k">Lo esencial de cada tema: las medidas que más dividen y qué pasó donde se probaron</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+  <a class="q5link tlink" href="#test"><span>Test de afinidad<span class="k">Elige qué quieres conseguir en cada tema y mira qué partidos proponen lo que lo ha logrado</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
   <p class="srclink"><a href="#fuentes">Todas las fuentes</a></p>
   <div class="howto2">
     <h2 class="hk">Cómo leer cada medida</h2>
@@ -1699,11 +1761,185 @@ sheet.addEventListener("click",e=>{if(e.target===sheet){closeSheet();return}cons
 window.addEventListener("popstate",()=>{if(sheet.open)closeSheet(true)});
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-q5]");if(b)openSheet(b)});
 
+/* ===== Test de afinidad por objetivos =====
+   Cada tema: objetivos enfrentados (o), y para cada medida de T (i = índice) su efecto en cada objetivo (e: 1 favorece, .5 favorece poco o tarde, -.5 perjudica poco, -1 perjudica; lo no listado = no influye o no está claro).
+   Posturas: las de T (propone = 1, rechaza = -1); x cambia la intensidad de un partido (0,5 moderada, 1,5 fuerte; negativa = rechazo); s sustituye todas las posturas (medidas que la web agrupa y aquí se separan).
+   val: objetivo de valores; su efecto es por definición y no se pondera por la experiencia previa. */
+const AFF={
+vivienda:{o:[
+ {k:"a",t:"Que el alquiler baje ya para quien alquila",d:"Pagar menos este año, aunque cueste más encontrar piso"},
+ {k:"b",t:"Que haya más viviendas y los precios suban menos",d:"Resultado a medio plazo para quien busca piso"},
+ {k:"c",t:"Que sea más fácil comprar la primera vivienda",d:"Llegar a la entrada y a la hipoteca"},
+ {k:"d",t:"Que alquilar tu piso sea seguro y rentable",d:"Para propietarios: cobrar, recuperar el piso, fijar el precio"},
+ {k:"e",t:"Que la vivienda sea para vivir, no para invertir",d:"Menos peso de fondos, especulación y pisos vacíos",val:1},
+ {k:"f",t:"Que las ayudas lleguen antes a quien lleva años aquí",d:"Prioridad por arraigo en vivienda protegida",val:1}],
+ m:[{i:0,x:{FA:1.5,POD:1.5,PSOE:.5},e:{a:1,b:-1,d:-1}},{i:1,e:{a:-1,b:.5,d:1,e:-.5}},{i:2,x:{PP:1.5},e:{a:.5,b:1,c:1}},{i:3,x:{FA:1.5},e:{a:.5,b:1,e:1}},{i:4,x:{VOX:1.5},e:{b:-.5,c:.5}},{i:5,x:{FA:1.5,POD:1.5},e:{c:.5,e:1}},{i:6,x:{POD:1.5},e:{b:.5,e:.5}},{i:7,e:{d:1}},{i:8,e:{f:1}}]},
+impuestos:{o:[
+ {k:"a",t:"Reducir el déficit y la deuda",d:"Que las cuentas públicas cuadren a medio plazo"},
+ {k:"b",t:"Que paguen más quienes más tienen",d:"Grandes rentas, patrimonios, banca y grandes empresas",val:1},
+ {k:"c",t:"Pagar menos impuestos",d:"Más dinero en el bolsillo de familias y empresas"},
+ {k:"d",t:"Favorecer la inversión y el crecimiento",d:"Que las empresas inviertan y se cree actividad"},
+ {k:"e",t:"Abaratar lo básico para los hogares",d:"Alimentos y productos de primera necesidad"}],
+ m:[{i:0,e:{a:.5,b:1,d:-.5}},{i:1,x:{FA:1.5},e:{a:.5,b:.5,d:-.5}},{i:2,e:{a:.5,b:.5,c:-.5,d:-.5}},{i:3,e:{a:-1,c:1}},{i:4,e:{a:1}},{i:5,x:{PP:.5},e:{a:-.5,c:.5,e:.5}},{i:6,x:{POD:1.5,FA:1.5},e:{a:.5,b:.5,d:-.5}},{i:7,e:{b:.5,d:-.5}}]},
+empleo:{o:[
+ {k:"a",t:"Que suban los sueldos más bajos",d:"Salario mínimo y sueldos de entrada"},
+ {k:"b",t:"Que se cree más empleo y baje el paro",d:"Sobre todo para jóvenes y poco cualificados"},
+ {k:"c",t:"Más estabilidad y protección para quien ya trabaja",d:"Despido, contratos y derechos"},
+ {k:"d",t:"Trabajar menos horas",d:"Más tiempo libre con el mismo sueldo"},
+ {k:"e",t:"Facilitar emprender y contratar",d:"Menos costes para autónomos y pymes"}],
+ m:[{i:0,x:{POD:1.5},e:{a:1,b:-.5,e:-.5}},{i:1,x:{FA:1.5,POD:1.5},e:{d:1,e:-.5}},{i:2,e:{c:1,e:-.5}},{i:3,e:{b:.5,e:1}},{i:4,e:{c:-.5,e:.5}}]},
+pensiones:{o:[
+ {k:"a",t:"Que las pensiones de hoy no pierdan poder adquisitivo",d:"Subir cada año con el IPC"},
+ {k:"b",t:"Que el sistema aguante para quien se jubile en 2050",d:"Sostenibilidad a largo plazo"},
+ {k:"c",t:"Que ningún jubilado sea pobre",d:"Pensiones mínimas más altas"},
+ {k:"d",t:"Poder jubilarse antes",d:"Bajar la edad de jubilación"},
+ {k:"e",t:"Libertad para ahorrar por tu cuenta o seguir trabajando",d:"Planes privados y jubilación activa"}],
+ m:[{i:0,e:{a:1,b:-.5}},{i:1,x:{POD:1.5},e:{b:-1,d:1}},{i:2,e:{b:-.5,c:1}},{i:3,e:{b:.5,e:1}},{i:4,e:{a:.5}},{i:5,e:{b:.5}}]},
+inmigracion:{o:[
+ {k:"a",t:"Que haya menos inmigración irregular",d:"Control de fronteras y devoluciones"},
+ {k:"b",t:"Que quien ya vive aquí trabaje legalmente y cotice",d:"Menos economía sumergida y explotación"},
+ {k:"c",t:"Cubrir con inmigración legal los empleos que faltan",d:"Campo, cuidados, hostelería, construcción"},
+ {k:"d",t:"Que los recién llegados se integren",d:"Idioma, normas y empleo"},
+ {k:"e",t:"Proteger los derechos de los migrantes",d:"Garantías legales y trato igual",val:1},
+ {k:"f",t:"Prioridad para los españoles en las ayudas",d:"Antes que para los extranjeros",val:1}],
+ m:[{i:0,x:{FA:1.5},e:{a:-.5,b:1,c:.5,e:.5}},{i:1,e:{a:.5,b:-1,c:-1,e:-1}},{i:2,e:{c:1}},{i:3,e:{a:.5,e:-.5}},{i:4,x:{VOX:1.5},e:{d:.5,e:-.5,f:1}}]},
+sanidad:{o:[
+ {k:"a",t:"Que bajen ya las listas de espera",d:"Operarse y ver al especialista antes"},
+ {k:"b",t:"Una sanidad pública fuerte a largo plazo",d:"Más plantillas y menos dependencia de la privada"},
+ {k:"c",t:"Que el dinero sanitario rinda más",d:"Menos coste por paciente y menos duplicidades"},
+ {k:"d",t:"Que la sanidad atienda a todos los residentes",d:"Incluidos los inmigrantes en situación irregular",val:1},
+ {k:"e",t:"Garantizar el derecho a la eutanasia",d:"Decidir sobre el final de la propia vida",val:1},
+ {k:"f",t:"Proteger la vida hasta la muerte natural",d:"Más cuidados paliativos en lugar de eutanasia",val:1}],
+ m:[{i:0,e:{a:.5,b:-.5,c:.5}},{i:1,x:{FA:1.5},e:{a:.5,b:1,c:-.5}},{i:2,e:{a:.5,b:1}},{i:3,e:{c:.5}},{i:4,e:{c:-.5,d:-1}},{i:5,e:{e:1,f:-1}}]},
+energia:{o:[
+ {k:"a",t:"Que la luz sea más barata ya",d:"Menos factura este año"},
+ {k:"b",t:"Reducir emisiones y frenar el cambio climático",d:"Menos gas y carbón"},
+ {k:"c",t:"Un suministro seguro y estable",d:"Sin apagones y con menos dependencia del gas"},
+ {k:"d",t:"Que la transición no perjudique al campo, la industria ni al conductor",d:"Menos normas climáticas y menos plantas en suelo agrícola"},
+ {k:"e",t:"Más control público de la energía",d:"Empresa pública y reglas de precio",val:1}],
+ m:[{i:0,e:{a:.5,b:.5,c:1}},{i:1,e:{a:-.5,b:.5,c:.5}},{i:2,e:{a:.5,b:1,c:-.5,d:-.5}},{i:3,e:{a:1}},{i:4,e:{b:-1,d:.5}},{i:5,e:{a:.5,e:1}}]},
+territorio:{o:[
+ {k:"a",t:"Unidad del Estado y la ley igual en todo el territorio",d:"Menos concesiones a los independentistas",val:1},
+ {k:"b",t:"Más autogobierno y reconocimiento de las comunidades",d:"Modelo federal o plurinacional",val:1},
+ {k:"c",t:"Servicios y financiación similares en todas las comunidades",d:"Menos diferencias fiscales entre regiones"},
+ {k:"d",t:"Que cada comunidad responda de sus propias cuentas",d:"Sin premiar a quien más se endeudó"},
+ {k:"e",t:"Jueces más independientes de los partidos",d:"Cómo se elige el Consejo General del Poder Judicial"}],
+ m:[{i:0,e:{e:1}},{i:1,e:{b:.5,c:.5,d:-1}},{i:2,e:{b:-.5,c:1}},{i:3,e:{a:1,b:-.5}},
+  {i:4,l:"Referéndum o modelo federal",s:{FA:1,PP:-1,PSOE:-1,VOX:-1},e:{a:-1,b:1}},
+  {i:4,l:"Ilegalizar partidos contra la unidad de España",s:{VOX:1,PSOE:-1,FA:-1},e:{a:1,b:-1}}]},
+educacion:{o:[
+ {k:"a",t:"Que los alumnos aprendan más",d:"Mejores resultados en lectura, matemáticas y ciencias"},
+ {k:"b",t:"Igualdad de oportunidades para los alumnos desfavorecidos",d:"Que el origen pese menos"},
+ {k:"c",t:"Libertad de las familias para elegir centro",d:"Pública, concertada o privada",val:1},
+ {k:"d",t:"Una escuela pública fuerte",d:"Más recursos y plantillas en la pública",val:1},
+ {k:"e",t:"Que las familias puedan conciliar",d:"Escuela infantil de 0 a 3 años"}],
+ m:[{i:0,x:{FA:1.5},e:{a:.5,b:.5,d:.5}},{i:1,x:{FA:1.5},e:{b:.5,d:1}},{i:2,e:{b:-.5,c:1,d:-.5}},{i:3,e:{a:1,b:.5}},{i:4,e:{a:1,b:.5}},{i:5,e:{b:1,e:1}},
+  {i:6,l:"Tope de alumnos extranjeros por aula",s:{VOX:1},e:{c:-.5}},
+  {i:6,l:"Repartir a los alumnos con necesidades especiales",s:{FA:1},e:{b:.5,c:-.5}}]},
+seguridad:{o:[
+ {k:"a",t:"Que haya menos delitos",d:"Lo que más reduce la delincuencia"},
+ {k:"b",t:"Castigos más duros para los delitos graves",d:"Que la pena sea proporcional al daño",val:1},
+ {k:"c",t:"Que quien delinque no vuelva a hacerlo",d:"Reinserción y menos reincidencia"},
+ {k:"d",t:"Proteger la libertad de reunión y expresión",d:"Límites a las sanciones en protestas",val:1}],
+ m:[{i:0,e:{b:1}},{i:1,e:{a:1,c:.5}},{i:2,x:{VOX:1.5,PP:.5},e:{a:-.5,b:1,c:-1}},{i:3,e:{a:1}},{i:4,x:{FA:1.5},e:{d:1}}]},
+defensa:{o:[
+ {k:"a",t:"Capacidad para defendernos y cumplir con los aliados",d:"Ante Rusia y un entorno más inestable",val:1},
+ {k:"b",t:"Dedicar el dinero a servicios públicos, no a armas",d:"Sanidad, educación, vivienda",val:1},
+ {k:"c",t:"Empleo e industria en España",d:"Que el gasto se quede en empresas españolas"},
+ {k:"d",t:"Más integración europea",d:"Una UE con más poder común",val:1},
+ {k:"e",t:"Más soberanía nacional frente a Bruselas",d:"Menos normas europeas obligatorias",val:1}],
+ m:[{i:0,x:{PSOE:-.5,FA:-1.5,POD:-1.5},e:{a:1,b:-1,c:.5}},{i:2,e:{a:.5,c:1}},{i:3,e:{d:1,e:-1}}]},
+transporte:{o:[
+ {k:"a",t:"Trenes fiables y seguros",d:"Mantenimiento, puntualidad, menos averías"},
+ {k:"b",t:"Transporte más barato para el usuario",d:"Abonos y billetes"},
+ {k:"c",t:"Más infraestructuras y conexiones nuevas",d:"Nuevas líneas y obras"},
+ {k:"d",t:"Que el gasto público rinda",d:"Sin sobrecostes ni rescates"},
+ {k:"e",t:"Un ferrocarril público gestionado por el Estado",d:"Sin operadores privados",val:1}],
+ m:[{i:0,e:{a:1,c:-.5}},{i:1,e:{c:1,d:-.5}},{i:2,x:{FA:1.5},e:{a:-.5,b:1,d:-.5}},{i:3,e:{b:-1,e:1}}]}
+};
+const CONF={alta:1,media:.75,escasa:.5,nueva:.5};
+function affStances(t,am){const m=t.m[am.i];if(am.s)return am.s;const s={};m.for.forEach(k=>s[k]=1);m.against.forEach(k=>s[k]=-1);Object.assign(s,am.x||{});return s}
+/* w: {clave de objetivo: peso}. Devuelve {party:{score,items:[[contribución, medida, postura]]}} */
+function affTopic(id,w){const t=T.find(x=>x.id===id),A=AFF[id];const ob={};A.o.forEach(o=>ob[o.k]=o);const W=Object.values(w).reduce((a,b)=>a+b,0);
+  const res={};ORDER.forEach(p=>res[p]={num:0,den:0,items:[]});
+  A.m.forEach(am=>{const m=t.m[am.i];let v=0;for(const k in am.e){if(!w[k])continue;v+=w[k]*am.e[k]*(ob[k].val?1:(CONF[m.ev]||.75))}
+    const st=affStances(t,am);for(const p in st){if(!res[p])continue;const s=st[p];res[p].num+=s*v;res[p].den+=Math.abs(s)*Math.abs(v);if(v)res[p].items.push([s*v,am.l||m.t,s,am.i])}});
+  for(const p of ORDER){const r=res[p];r.score=Math.round(50+50*r.num/(r.den+W));r.items.sort((a,b)=>Math.abs(b[0])-Math.abs(a[0]))}
+  return res}
+
+/* Interfaz del test: 0 portada · 1 temas prioritarios · 2..13 un tema por pantalla · 14 resultado. Nada se guarda: el estado vive solo en esta página. */
+const TS={step:0,prio:[],ans:{}};
+const TN=()=>T.length,TRES=()=>T.length+2;
+const BAND=s=>s>=70?["Muy afín","good"]:s>=55?["Afín","mid"]:s>=45?["Neutral","unk"]:["Poco afín","bad"];
+function tGo(n,push){TS.step=Math.max(0,Math.min(TRES(),n));if(push!==false){try{history.pushState({test:TS.step},"","#test")}catch(e){}}renderTest();try{window.scrollTo(0,Math.max(0,main.getBoundingClientRect().top+window.scrollY-12));const h=main.querySelector("h2");h&&h.focus({preventScroll:true})}catch(e){}}
+function affOverall(){const tot={};ORDER.forEach(p=>tot[p]={s:0,w:0});const per=[];
+  T.forEach(t=>{const a=TS.ans[t.id];if(!a||!a.length||!AFF[t.id])return;const w={};w[a[0]]=2;if(a[1])w[a[1]]=1;const r=affTopic(t.id,w);const wt=TS.prio.includes(t.id)?2:1;
+    ORDER.forEach(p=>{tot[p].s+=r[p].score*wt;tot[p].w+=wt});per.push({t,a,r,wt})});
+  const ov=ORDER.map(p=>[p,tot[p].w?Math.round(tot[p].s/tot[p].w):50]).sort((x,y)=>y[1]-x[1]);return {ov,per}}
+function bar(s){return `<span class="tbar" aria-hidden="true"><span style="width:${s}%"></span><i></i></span>`}
+function why(it){const [c,name,s]=it;const verb=s>0?"Propone":"Rechaza";const eff=(c>0)===(s>0)?"que ayuda a lo que priorizas":"que va en contra de lo que priorizas";return `${verb} «${name}», ${eff}.`}
+function renderTest(){
+  const how=document.querySelector(".howto2");if(how)how.hidden=true;
+  const st=TS.step,n=TN();let h="";
+  if(st===0){
+    h=`<div class="hero"><div class="ill" style="color:var(--accent)"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></div><div><div class="eyebrow">Test de afinidad</div><h2 tabindex="-1">¿Qué partido se acerca a lo que quieres conseguir?</h2><p class="ex">No eliges medidas, eliges resultados. Nosotros miramos qué medidas los han conseguido donde se aplicaron y qué partidos las proponen.</p></div></div>
+    <section class="block sec tcard"><ol class="tsteps"><li><b>Elige hasta 3 temas</b> que te importen más. Contarán el doble.</li><li><b>En cada tema, elige qué priorizas</b> si no puedes tenerlo todo: uno y, si quieres, un segundo. Puedes saltar temas.</li><li><b>Ves tu afinidad con cada partido</b>, tema a tema y en conjunto, con los motivos.</li></ol>
+    <p class="tnote">Unos 4 minutos. No se guarda nada: tus respuestas solo existen en esta página y desaparecen al cerrarla. No es una recomendación de voto.</p></section>
+    <div class="tbarb"><button type="button" class="tbtn pri" data-t="next">Empezar</button></div>`;
+  }else if(st===1){
+    h=`<div class="tprog"><span>Paso 1 de ${n+1}</span><span class="tpb"><span style="width:${100/(n+2)}%"></span></span></div>
+    <h2 tabindex="-1" class="tq">¿Qué temas te importan más?</h2><p class="thint">Elige hasta 3. Contarán el doble en el resultado. Si no eliges ninguno, todos pesan igual.</p>
+    <div class="tchips" role="group" aria-label="Temas prioritarios">${T.map(t=>{const on=TS.prio.includes(t.id);return `<button type="button" class="tchip" aria-pressed="${on}" data-t="prio" data-id="${t.id}">${ICONS[t.id]||""}<span>${t.name}</span></button>`}).join("")}</div>
+    <p class="thint tcount">${TS.prio.length} de 3 elegidos</p>
+    <div class="tbarb"><button type="button" class="tbtn" data-t="back">Atrás</button><button type="button" class="tbtn pri" data-t="next">Siguiente</button></div>`;
+  }else if(st<TRES()){
+    const t=T[st-2],A=AFF[t.id],sel=TS.ans[t.id]||[];const vals=A.o.filter(o=>o.val).length>=A.o.length/2;const last=st===TRES()-1;
+    h=`<div class="tprog"><span>Tema ${st-1} de ${n}${TS.prio.includes(t.id)?' · <b>cuenta doble</b>':''}</span><span class="tpb"><span style="width:${100*st/(n+2)}%"></span></span></div>
+    <div class="ttopic">${ICONS[t.id]||""}<span>${t.name}</span></div>
+    <h2 tabindex="-1" class="tq">Si no puedes tenerlo todo, ¿qué es lo más importante para ti?</h2>
+    <p class="thint">Toca uno. Si quieres, toca un segundo: contará la mitad.</p>
+    ${vals?`<p class="tval">En este tema deciden sobre todo los valores. La evidencia solo dice qué medidas consiguen cada objetivo.</p>`:""}
+    <div class="topts" role="group" aria-label="Objetivos de ${t.name}">${A.o.map(o=>{const r=sel.indexOf(o.k);return `<button type="button" class="topt" aria-pressed="${r>=0}" data-t="opt" data-k="${o.k}"><span class="tok">${r===0?"1.º":r===1?"2.º":""}</span><span class="tot"><b>${o.t}</b><span>${o.d}</span></span></button>`}).join("")}</div>
+    <p class="tmore"><a href="#${t.id}">Ver las medidas de ${t.name.toLowerCase()}</a> · tus respuestas se mantienen</p>
+    <div class="tbarb"><button type="button" class="tbtn" data-t="back">Atrás</button><button type="button" class="tbtn" data-t="skip">Saltar</button><button type="button" class="tbtn pri" data-t="next"${sel.length?"":" disabled"}>${last?"Ver resultado":"Siguiente"}</button></div>`;
+  }else{
+    const {ov,per}=affOverall();
+    if(!per.length){h=`<h2 tabindex="-1" class="tq">No has respondido ningún tema</h2><p class="thint">Vuelve atrás y elige qué priorizas al menos en un tema.</p><div class="tbarb"><button type="button" class="tbtn pri" data-t="goto" data-n="2">Volver al primer tema</button></div>`}
+    else{
+    const tie=ov[0][1]-ov[1][1]<5;
+    h=`<div class="hero"><div class="ill" style="color:var(--accent)"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><div><div class="eyebrow">Tu resultado</div><h2 tabindex="-1">${tie?`${PARTIES[ov[0][0]].n} y ${PARTIES[ov[1][0]].n}, prácticamente empatados`:`${PARTIES[ov[0][0]].n} es el más afín a lo que priorizas`}</h2><p class="ex">Afinidad de 0 a 100 en los ${per.length} temas que has respondido${TS.prio.length?", con tus temas prioritarios contando el doble":""}. 50 es neutro: el partido no propone nada que ayude ni perjudique a lo que priorizas.</p></div></div>
+    <section class="block sec tcard"><ul class="tov">${ov.map(([p,s])=>{const b=BAND(s);return `<li><span class="tpn">${PARTIES[p].n}</span>${bar(s)}<span class="tsc">${s}</span><span class="pill t-${b[1]}">${b[0]}</span></li>`}).join("")}</ul>
+    ${tie?`<p class="tnote">Menos de 5 puntos de diferencia es un empate: con estos datos no se puede distinguir entre los dos.</p>`:""}
+    <p class="tnote"><b>Antes de decidir.</b> Podemos se valora por sus declaraciones: su programa todavía no está incorporado a la web. Lo que cada partido ha hecho donde gobierna no entra en el cálculo; está en <a href="#partidos">Partidos a prueba</a>. No es una recomendación de voto.</p></section>
+    <section class="block sec"><h3 class="tsh">Tema a tema</h3>${per.map(({t,a,r,wt})=>{const ob=AFF[t.id].o;const rows=ORDER.map(p=>[p,r[p]]).sort((x,y)=>y[1].score-x[1].score);const flat=rows[0][1].score-rows[rows.length-1][1].score<10;
+      return `<article class="ttr"><header><h4>${ICONS[t.id]||""}${t.name}</h4>${wt>1?'<span class="tdbl">Cuenta doble</span>':''}</header>
+      <p class="tpri">Priorizas: <b>${ob.find(o=>o.k===a[0]).t}</b>${a[1]?` y, después, <b>${ob.find(o=>o.k===a[1]).t.replace(/^./,c=>c.toLowerCase())}</b>`:""}.</p>
+      ${flat?`<p class="tnote">Aquí los partidos apenas se diferencian en lo que priorizas.</p>`:""}
+      <ul class="trows">${rows.map(([p,x])=>`<li><div class="trl"><span class="tpn">${PARTIES[p].n}</span>${bar(x.score)}<span class="tsc">${x.score}</span></div><p class="twhy">${x.items.length?why(x.items[0]):"No propone ni rechaza ninguna medida que influya en lo que priorizas."}</p></li>`).join("")}</ul>
+      <a class="more" href="#${t.id}">Ver las medidas de ${t.name.toLowerCase()} →</a></article>`}).join("")}</section>
+    <section class="block sec tcard"><h3 class="tsh">Cómo se calcula</h3>
+    <p class="tnote">Para cada medida de la web, una tabla dice si ayuda o perjudica a cada objetivo, según lo que pasó donde se aplicó. Pesa más si hay mucha experiencia previa (×1, alguna ×0,75, poca ×0,5), salvo en los objetivos de valores, que se cumplen por definición. Tu objetivo principal pesa 2 y el segundo 1.</p>
+    <p class="tnote">Cada partido suma si propone una medida que ayuda a lo que priorizas o rechaza una que lo perjudica, y resta en el caso contrario. Pesa ×1,5 si su propuesta es claramente más fuerte (por ejemplo, rebajar el alquiler un 40 % frente a congelarlo) y ×0,5 si es moderada. Se divide por todo lo que propone el partido sobre el tema: proponer de todo no suma, porque lo que ayuda y lo que perjudica se compensan.</p></section>
+    <div class="tbarb"><button type="button" class="tbtn" data-t="goto" data-n="2">Cambiar respuestas</button><button type="button" class="tbtn pri" data-t="reset">Empezar de nuevo</button></div>`;}
+  }
+  main.innerHTML=`<div class="tw">${h}</div>`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-t]");if(!b||!main.contains(b))return;const a=b.dataset.t,st=TS.step;
+  if(a==="next"){if(st>=2&&st<TRES()&&!(TS.ans[T[st-2].id]||[]).length)return;tGo(st+1)}
+  else if(a==="back")tGo(st-1);
+  else if(a==="skip"){delete TS.ans[T[st-2].id];tGo(st+1)}
+  else if(a==="goto")tGo(+b.dataset.n);
+  else if(a==="reset"){TS.prio=[];TS.ans={};tGo(0)}
+  else if(a==="prio"){const id=b.dataset.id,i=TS.prio.indexOf(id);if(i>=0)TS.prio.splice(i,1);else if(TS.prio.length<3)TS.prio.push(id);renderTest()}
+  else if(a==="opt"){const id=T[st-2].id,k=b.dataset.k;let s=(TS.ans[id]||[]).slice();const i=s.indexOf(k);if(i>=0)s.splice(i,1);else{if(s.length>=2)s=[s[0]];s.push(k)}TS.ans[id]=s;renderTest();const f=main.querySelector(`[data-k="${k}"]`);f&&f.focus({preventScroll:true})}
+});
+window.addEventListener("popstate",e=>{if((location.hash||"")!=="#test")return;const s=e.state&&e.state.test;if(typeof s==="number"&&s!==TS.step){TS.step=s;renderTest();try{window.scrollTo(0,Math.max(0,main.getBoundingClientRect().top+window.scrollY-12))}catch(err){}}});
+
 function setView(v){document.body.classList.toggle("vparty",v!=="temas");const a=document.getElementById("v-temas"),b=document.getElementById("v-partidos");if(a&&b){a.setAttribute("aria-current",v==="temas"?"page":"false");b.setAttribute("aria-current",v==="partidos"?"page":"false")}}
 let allOpen=false;
 function applyOpen(){document.querySelectorAll("main details.dmore").forEach(d=>d.open=allOpen);const b=document.getElementById("expandAll");if(b){b.setAttribute("aria-pressed",String(allOpen));b.textContent=allOpen?"Mostrar solo lo esencial":"Desplegar todos los detalles"}}
 document.addEventListener("click",e=>{if(e.target&&e.target.id==="expandAll"){allOpen=!allOpen;applyOpen()}});
-function route(){const id=(location.hash||"").slice(1);if(id==="partidos"||id==="credibilidad"){setView("partidos");renderCred();return}if(id==="fuentes"){setView("fuentes");renderSources();return}if(id==="5min"){setView("resumen");renderQuick5();return}setView("temas");render(T.some(t=>t.id===id)?id:"vivienda")}
+function route(){const id=(location.hash||"").slice(1);if(id==="partidos"||id==="credibilidad"){setView("partidos");renderCred();return}if(id==="fuentes"){setView("fuentes");renderSources();return}if(id==="5min"){setView("resumen");renderQuick5();return}if(id==="test"){setView("test");try{if(!(history.state&&typeof history.state.test==="number"))history.replaceState({test:TS.step},"")}catch(e){}renderTest();return}setView("temas");render(T.some(t=>t.id===id)?id:"vivienda")}
 function goTop(){try{const n=document.querySelector("nav.topics");const side=window.matchMedia("(min-width:1024px)").matches;const y=main.getBoundingClientRect().top+window.scrollY-(side?16:n.getBoundingClientRect().height+8);window.scrollTo({top:Math.max(0,y),behavior:"auto"})}catch(e){}}
 document.getElementById("homelink").addEventListener("click",e=>{e.preventDefault();try{history.replaceState(null,"",location.pathname+location.search)}catch(err){}route();try{window.scrollTo({top:0})}catch(err){}});
 window.addEventListener("hashchange",()=>{route();applyOpen();requestAnimationFrame(goTop)});
