@@ -598,6 +598,35 @@ section.credp[hidden],.howto2[hidden]{display:none!important}
 .q5m .cp.t-good b{color:var(--good,#1f7a4d)}.q5m .cp.t-mid b{color:var(--accent)}.q5m .cp.t-bad b{color:var(--bad,#b4382f)}
 .q5m p.sp{margin:0;font-size:14.5px}
 .q5t a.more{display:inline-block;margin-top:12px;font:600 14px/1.3 var(--f-body);color:var(--accent)}
+.q5m button.cp{border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.q5m button.cp:hover,.q5m button.pbtn:hover .pill{border-color:var(--accent)}
+.q5m button.cp::after,.q5m button.pbtn::after{content:"";width:6px;height:6px;border:solid var(--muted);border-width:0 1.6px 1.6px 0;transform:rotate(-45deg);margin-left:3px}
+.q5m button.pbtn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.q5m button.pbtn .pill{border:1px solid transparent}
+.q5m button.cp:focus-visible,.q5m button.pbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.q5hint{margin:8px 0 0;font-size:14px;color:var(--muted)}
+dialog.sheet{border:0;padding:0;width:min(560px,calc(100vw - 32px));max-height:min(80vh,720px);border-radius:16px;background:var(--surface,#fff);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog.sheet::backdrop{background:rgba(15,15,20,.45)}
+dialog.sheet .shb{padding:20px 22px 24px;overflow:auto;max-height:inherit;box-sizing:border-box}
+dialog.sheet .shh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+dialog.sheet .shh .eyebrow{margin:0}
+dialog.sheet h3{margin:6px 0 10px;font-size:20px;line-height:1.25}
+dialog.sheet p{margin:10px 0 0;font-size:15.5px;line-height:1.5}
+dialog.sheet .cvm{font-size:14px;color:var(--muted)}
+dialog.sheet .shx{all:unset;cursor:pointer;flex:none;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--sunk);margin:-6px -8px 0 0}
+dialog.sheet .shx:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+dialog.sheet .shx svg{width:18px;height:18px}
+dialog.sheet .meters{margin-top:12px}
+dialog.sheet .shs{margin-top:16px;font-size:13.5px;color:var(--muted)}
+dialog.sheet .shs a{color:var(--muted)}
+dialog.sheet a.more{display:inline-block;margin-top:16px;font:600 14.5px/1.3 var(--f-body);color:var(--accent)}
+@media (max-width:640px){
+ dialog.sheet{width:100%;max-width:100%;margin:auto 0 0;border-radius:18px 18px 0 0;max-height:85vh}
+ dialog.sheet .shb{padding:12px 16px calc(24px + env(safe-area-inset-bottom,0px))}
+ dialog.sheet .shb::before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px}
+ dialog.sheet[open]{animation:shup .22s ease-out}
+}
+@keyframes shup{from{transform:translateY(100%)}to{transform:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -1639,13 +1668,32 @@ function firstSentence(x){const m=(x||"").match(/^.+?[.!?](?=\s+[A-ZÁÉÍÓÚÑ
 function renderQuick5(){
   const how=document.querySelector(".howto2");if(how)how.hidden=true;
   let h=`<div class="hero"><div class="ill" style="color:var(--accent)"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></div><div><div class="eyebrow">En 5 minutos</div><h2>Lo esencial</h2><p class="ex">Dos medidas por tema, qué partido las propone y qué pasó donde se aplicaron. El detalle, los argumentos y las fuentes están en cada tema.</p></div></div>`;
-  h+=`<section class="block sec"><p class="q5rule"><b>Cómo se eligen.</b> En cada tema, las dos medidas que más dividen a los partidos: primero las que unos proponen y otros rechazan; a igualdad, las que más partidos mencionan y las que tienen más experiencia previa. La misma regla para todos los temas y partidos.</p><div class="mlegend" style="margin-top:12px"><span><span class="chip for">Partido</span> lo propone</span><span><span class="chip against">Partido</span> lo rechaza o propone lo contrario</span></div></section>`;
-  h+=`<section class="block sec">${T.map(t=>`<div class="q5t"><h3>${ICONS[t.id]||""}${t.name}</h3>${q5pick(t).map(({m})=>{
+  h+=`<section class="block sec"><p class="q5rule"><b>Cómo se eligen.</b> En cada tema, las dos medidas que más dividen a los partidos: primero las que unos proponen y otros rechazan; a igualdad, las que más partidos mencionan y las que tienen más experiencia previa. La misma regla para todos los temas y partidos.</p><div class="mlegend" style="margin-top:12px"><span><span class="chip for">Partido</span> lo propone</span><span><span class="chip against">Partido</span> lo rechaza o propone lo contrario</span></div><p class="q5hint">Toca un lugar o el resultado en España para ver más.</p></section>`;
+  h+=`<section class="block sec">${T.map((t,ti)=>`<div class="q5t"><h3>${ICONS[t.id]||""}${t.name}</h3>${q5pick(t).map(({m,i:mi})=>{
     const codes=CV[m.t]||"",kinds=CK[m.t]||"";const cps=[];
-    (m.cases||[]).forEach((c,ci)=>{if(kinds[ci]==="o")return;const v=CVL[codes[ci]];cps.push(`<span class="cp ${v?"t-"+v[1]:""}">${v?`<b>${v[0].split(" ")[0]}</b> `:""}${c[0]}</span>`)});
-    return `<div class="q5m"><h4>${m.t}</h4><div class="who">${m.for.map(k=>`<span class="chip for">${PARTIES[k].n}</span>`).join("")}${m.against.map(k=>`<span class="chip against" title="Lo rechaza o propone lo contrario">${PARTIES[k].n}</span>`).join("")}</div><div class="res"><span class="k">Dónde se probó</span>${cps.length?`<span class="cps">${cps.join("")}</span>`:`<span>Sin precedentes comparables</span>`}</div><div class="res"><span class="k">En España</span>${pill("out",m.out)}</div><p class="sp">${firstSentence(m.spain)}</p></div>`}).join("")}<a class="more" href="#${t.id}">Ver las ${t.m.length} medidas de ${t.name.toLowerCase()} →</a></div>`).join("")}</section>`;
+    (m.cases||[]).forEach((c,ci)=>{if(kinds[ci]==="o")return;const v=CVL[codes[ci]];cps.push(`<button type="button" class="cp ${v?"t-"+v[1]:""}" data-q5="case" data-t="${ti}" data-m="${mi}" data-c="${ci}" aria-haspopup="dialog">${v?`<b>${v[0].split(" ")[0]}</b> `:""}${c[0]}</button>`)});
+    return `<div class="q5m"><h4>${m.t}</h4><div class="who">${m.for.map(k=>`<span class="chip for">${PARTIES[k].n}</span>`).join("")}${m.against.map(k=>`<span class="chip against" title="Lo rechaza o propone lo contrario">${PARTIES[k].n}</span>`).join("")}</div><div class="res"><span class="k">Dónde se probó</span>${cps.length?`<span class="cps">${cps.join("")}</span>`:`<span>Sin precedentes comparables</span>`}</div><div class="res"><span class="k">En España</span><button type="button" class="pbtn" data-q5="spain" data-t="${ti}" data-m="${mi}" aria-haspopup="dialog">${pill("out",m.out)}</button></div><p class="sp">${firstSentence(m.spain)}</p></div>`}).join("")}<a class="more" href="#${t.id}">Ver las ${t.m.length} medidas de ${t.name.toLowerCase()} →</a></div>`).join("")}</section>`;
   main.innerHTML=h;window.scrollTo(0,0);
 }
+
+/* Hoja ampliable de la vista de 5 minutos: modal en escritorio, hoja inferior en móvil */
+const CVD={a:"La política logró su objetivo donde se aplicó.",t:"Logró su objetivo, pero con efectos secundarios importantes.",p:"Dio los primeros pasos, pero no alcanzó el objetivo final.",c:"No logró su objetivo o empeoró las cosas.",x:"No hay resultados medidos."};
+const sheet=document.createElement("dialog");sheet.className="sheet";sheet.setAttribute("aria-labelledby","sheet-t");document.body.appendChild(sheet);
+const XSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+function sheetHTML(d){const t=T[+d.t],m=t.m[+d.m];const head=(ey)=>`<div class="shh"><div class="eyebrow">${ey}</div><button type="button" class="shx" data-close aria-label="Cerrar">${XSVG}</button></div>`;
+  const more=`<a class="more" href="#${t.id}" data-close>Ver la medida completa en ${t.name.toLowerCase()} →</a>`;
+  if(d.q5==="case"){const ci=+d.c,c=m.cases[ci],v=CVL[(CV[m.t]||"")[ci]],code=(CV[m.t]||"")[ci];
+    return `${head(m.t)}<h3 id="sheet-t">${c[0]}</h3>${v?`<span class="pill cv t-${v[1]}">${v[0]}</span>${CVD[code]?`<p class="cvm">${CVD[code]}</p>`:""}`:""}<p>${c[1]}</p><p class="cvm">La etiqueta dice si esa política logró su propio objetivo allí, no si la medida es buena o mala. Que funcionara fuera no garantiza que funcione en España.</p>${more}`}
+  return `${head(m.t)}<h3 id="sheet-t">Qué cabe esperar en España</h3><div class="meters"><div class="meter"><span class="k">Experiencia previa</span>${pill("ev",m.ev)}</div><div class="meter"><span class="k">Resultado probable</span>${pill("out",m.out)}</div><div class="meter"><span class="k">Viabilidad</span>${pill("via",m.via)}</div></div><p>${m.spain}</p>${COST[m.t]?`<p><b>Coste para las cuentas públicas:</b> ${COST[m.t]}</p>`:""}${m.src&&m.src.length?`<p class="shs">Fuentes: ${m.src.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`).join(" · ")}</p>`:""}${more}`}
+let sheetPushed=false;
+function openSheet(btn){sheet.innerHTML=`<div class="shb">${sheetHTML(btn.dataset)}</div>`;sheet._from=btn;try{sheet.showModal()}catch(e){sheet.setAttribute("open","")}
+  try{history.pushState({sheet:1},"");sheetPushed=true}catch(e){}
+  const x=sheet.querySelector(".shx");x&&x.focus()}
+function closeSheet(fromPop){if(!sheet.open)return;sheet.close();if(sheetPushed&&!fromPop){sheetPushed=false;try{history.back()}catch(e){}}sheetPushed=false;const f=sheet._from;if(f&&document.body.contains(f))try{f.focus()}catch(e){}}
+sheet.addEventListener("cancel",e=>{e.preventDefault();closeSheet()});
+sheet.addEventListener("click",e=>{if(e.target===sheet){closeSheet();return}const c=e.target.closest("[data-close]");if(!c)return;if(c.tagName==="A"){e.preventDefault();const h=c.getAttribute("href");sheet.close();sheetPushed=false;location.replace(h);return}closeSheet()});
+window.addEventListener("popstate",()=>{if(sheet.open)closeSheet(true)});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-q5]");if(b)openSheet(b)});
 
 function setView(v){document.body.classList.toggle("vparty",v!=="temas");const a=document.getElementById("v-temas"),b=document.getElementById("v-partidos");if(a&&b){a.setAttribute("aria-current",v==="temas"?"page":"false");b.setAttribute("aria-current",v==="partidos"?"page":"false")}}
 let allOpen=false;
