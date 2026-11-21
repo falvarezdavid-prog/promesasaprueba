@@ -1452,7 +1452,7 @@ function render(id){
   main.querySelectorAll(".mindex button").forEach(b=>b.addEventListener("click",()=>{const el=document.getElementById("medida-"+b.dataset.mi);if(!el)return;try{const n=document.querySelector("nav.topics");const side=window.matchMedia("(min-width:1024px)").matches;window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-(side?16:n.getBoundingClientRect().height+12),behavior:"smooth"})}catch(e){}}));
 }
 /* ===== Sección Credibilidad ===== */
-const CRED_RATE=[["Pedro Sánchez (PSOE)",2.7],["Ada Colau (Frente Amplio)",2.5],["Irene Montero (Podemos)",2.3],["Alberto Núñez Feijóo (PP)",2.2],["Santiago Abascal (Vox)",1.7]];
+const CRED_RATE=[["Pedro Sánchez (PSOE)",3.2],["Alberto Núñez Feijóo (PP)",3.0],["Ada Colau (Frente Amplio)",2.6],["Irene Montero (Podemos)",2.6],["Santiago Abascal (Vox)",1.8]];
 const VER={F:["Falso","bad"],I:["Impreciso","mid"],C:["Falta contexto","unk"]};
 const DEP={
 PSOE:{t:"El deterioro del tren viene de los recortes anteriores; este Gobierno ha aumentado el mantenimiento",d:"Principios de nov. 2026 · mitin en Valencia (paráfrasis)",q:"Atribuye los problemas del tren a los recortes de legislaturas anteriores y defiende que su Gobierno ha aumentado el mantenimiento.",
